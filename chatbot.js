@@ -3,7 +3,7 @@
  * Direct <script> installation. NO iframe.
  *
  * Website embed:
- * <script src="https://cdn.jsdelivr.net/gh/mathews-marketing/plaza-dental-arts@main/chatbot.js?v=5" defer></script>
+ * <script src="https://cdn.jsdelivr.net/gh/mathews-marketing/plaza-dental-arts@main/chatbot.js" defer></script>
  */
 
 (function () {
@@ -62,9 +62,7 @@
             }
 
             const script =
-                document.createElement(
-                    'script'
-                );
+                document.createElement('script');
 
             script.id = id;
             script.src = src;
@@ -73,6 +71,7 @@
             script.addEventListener(
                 'load',
                 () => {
+
                     script.dataset.pdaLoaded =
                         'true';
 
@@ -87,9 +86,7 @@
                 { once: true }
             );
 
-            document.head.appendChild(
-                script
-            );
+            document.head.appendChild(script);
         });
     }
 
@@ -113,44 +110,56 @@
 
         style.textContent = `
 
-/* ==========================================================
-   PLAZA DENTAL ARTS — ZOEY
-   ========================================================== */
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
 
 @keyframes smoothSpringUp {
     0% {
         opacity: 0;
-        transform: translateY(20px) scale(0.98);
+        transform:
+            translateY(20px)
+            scale(0.98);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform:
+            translateY(0)
+            scale(1);
     }
 }
 
 @keyframes smoothSpringDown {
     0% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform:
+            translateY(0)
+            scale(1);
     }
 
     100% {
         opacity: 0;
-        transform: translateY(15px) scale(0.98);
-        visibility: hidden;
+        transform:
+            translateY(15px)
+            scale(0.98);
+
+        visibility:
+            hidden;
     }
 }
 
 @keyframes slideInUp {
     0% {
         opacity: 0;
-        transform: translateY(10px);
+        transform:
+            translateY(10px);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0);
+        transform:
+            translateY(0);
     }
 }
 
@@ -158,19 +167,34 @@
     0% {
         box-shadow:
             0 0 0 0
-            rgba(15, 87, 188, 0.6);
+            rgba(
+                15,
+                87,
+                188,
+                0.6
+            );
     }
 
     70% {
         box-shadow:
             0 0 0 6px
-            rgba(15, 87, 188, 0);
+            rgba(
+                15,
+                87,
+                188,
+                0
+            );
     }
 
     100% {
         box-shadow:
             0 0 0 0
-            rgba(15, 87, 188, 0);
+            rgba(
+                15,
+                87,
+                188,
+                0
+            );
     }
 }
 
@@ -215,44 +239,261 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
+   TYPING
+   ========================================================= */
+
+#pda-chatbot-widget
+.typing-dots {
+
+    display:
+        flex !important;
+
+    gap:
+        4px !important;
+
+    padding:
+        6px 4px !important;
+}
+
+#pda-chatbot-widget
+.typing-dots span {
+
+    width:
+        6px !important;
+
+    height:
+        6px !important;
+
+    background-color:
+        #94a3b8 !important;
+
+    border-radius:
+        50% !important;
+
+    animation:
+        typingBounce
+        1.4s
+        infinite
+        ease-in-out
+        both !important;
+}
+
+#pda-chatbot-widget
+.typing-dots span:nth-child(1) {
+
+    animation-delay:
+        -0.32s !important;
+}
+
+#pda-chatbot-widget
+.typing-dots span:nth-child(2) {
+
+    animation-delay:
+        -0.16s !important;
+}
+
+
+/* =========================================================
+   WIDGET ANIMATIONS
+   ========================================================= */
+
+#pda-chatbot-widget
+.widget-hidden {
+
+    pointer-events:
+        none !important;
+
+    animation:
+        smoothSpringDown
+        0.25s
+        cubic-bezier(
+            0.4,
+            0,
+            1,
+            1
+        )
+        forwards !important;
+}
+
+#pda-chatbot-widget
+.widget-visible {
+
+    pointer-events:
+        auto !important;
+
+    animation:
+        smoothSpringUp
+        0.5s
+        cubic-bezier(
+            0.16,
+            1,
+            0.3,
+            1
+        )
+        forwards !important;
+}
+
+#pda-chatbot-widget
+.animate-message {
+
+    animation:
+        slideInUp
+        0.35s
+        cubic-bezier(
+            0.16,
+            1,
+            0.3,
+            1
+        )
+        forwards !important;
+}
+
+#pda-chatbot-widget
+.status-dot {
+
+    animation:
+        pulse-dot
+        2s
+        infinite !important;
+}
+
+#pda-chatbot-widget
+.animate-attention {
+
+    animation:
+        bounceAttention
+        0.4s
+        ease-in-out
+        2 !important;
+}
+
+#pda-chatbot-widget
+.animate-gentle-bounce {
+
+    animation:
+        gentleBounce
+        1.5s
+        ease-in-out
+        infinite !important;
+}
+
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar {
+
+    width:
+        5px !important;
+
+    height:
+        5px !important;
+}
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar-track {
+
+    background:
+        transparent !important;
+}
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar-thumb {
+
+    background:
+        #e2e8f0 !important;
+
+    border-radius:
+        10px !important;
+}
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #cbd5e1 !important;
+}
+
+#pda-chatbot-widget
+.hide-scrollbar::-webkit-scrollbar {
+
+    display:
+        none !important;
+}
+
+#pda-chatbot-widget
+.hide-scrollbar {
+
+    -ms-overflow-style:
+        none !important;
+
+    scrollbar-width:
+        none !important;
+}
+
+
+/* =========================================================
    ROOT PROTECTION
-   ========================================================== */
+   ========================================================= */
 
 #pda-chatbot-widget {
-    position: fixed !important;
 
-    right: 16px !important;
-    bottom: 16px !important;
+    position:
+        fixed !important;
 
-    z-index: 2147483647 !important;
+    right:
+        16px !important;
 
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
+    bottom:
+        16px !important;
+
+    z-index:
+        2147483647 !important;
+
+    display:
+        flex !important;
+
+    flex-direction:
+        column !important;
+
+    align-items:
+        flex-end !important;
 
     font-family:
         "Plus Jakarta Sans",
         Arial,
         sans-serif !important;
 
-    font-size: 16px !important;
-    line-height: normal !important;
+    font-size:
+        16px !important;
 
-    color: #304454 !important;
+    line-height:
+        normal !important;
 
-    text-align: left !important;
+    color:
+        #304454 !important;
+
+    text-align:
+        left !important;
 }
 
-@media (min-width: 640px) {
+@media (
+    min-width:
+    640px
+) {
 
     #pda-chatbot-widget {
-        right: 24px !important;
-        bottom: 24px !important;
+
+        right:
+            24px !important;
+
+        bottom:
+            24px !important;
     }
-
 }
-
 
 #pda-chatbot-widget,
 #pda-chatbot-widget *,
@@ -262,7 +503,6 @@
     box-sizing:
         border-box !important;
 }
-
 
 #pda-chatbot-widget button,
 #pda-chatbot-widget input,
@@ -281,7 +521,6 @@
     letter-spacing:
         normal !important;
 }
-
 
 #pda-chatbot-widget button {
 
@@ -310,7 +549,6 @@
         none !important;
 }
 
-
 #pda-chatbot-widget input,
 #pda-chatbot-widget textarea,
 #pda-chatbot-widget select {
@@ -325,7 +563,6 @@
         none !important;
 }
 
-
 #pda-chatbot-widget a {
 
     text-decoration:
@@ -333,9 +570,9 @@
 }
 
 
-/* ==========================================================
-   MAIN PANEL
-   ========================================================== */
+/* =========================================================
+   PANEL
+   ========================================================= */
 
 #pda-chatbot-widget
 #widget-panel {
@@ -350,8 +587,10 @@
         hidden !important;
 }
 
-
-@media (max-width: 639px) {
+@media (
+    max-width:
+    639px
+) {
 
     #pda-chatbot-widget
     #widget-panel {
@@ -377,11 +616,12 @@
         box-shadow:
             none !important;
     }
-
 }
 
-
-@media (min-width: 640px) {
+@media (
+    min-width:
+    640px
+) {
 
     #pda-chatbot-widget
     #widget-panel {
@@ -399,26 +639,36 @@
             620px !important;
 
         border:
-            1px solid #e2e8f0 !important;
+            1px solid
+            #e2e8f0 !important;
 
         border-radius:
             24px !important;
 
         box-shadow:
-            0 30px 60px -15px rgba(0,0,0,.4),
-            0 10px 30px -5px rgba(0,0,0,.2)
+            0 30px 60px -15px
+            rgba(
+                0,
+                0,
+                0,
+                .4
+            ),
+
+            0 10px 30px -5px
+            rgba(
+                0,
+                0,
+                0,
+                .2
+            )
             !important;
     }
-
 }
 
 
-/* ==========================================================
-   CORRECT ZOEY MESSAGE AVATAR
-
-   THIS IS THE LITTLE IMAGE DIRECTLY BEFORE:
-   "Hi there! I'm Zoey..."
-   ========================================================== */
+/* =========================================================
+   SMALL MESSAGE AVATAR
+   ========================================================= */
 
 #pda-chatbot-widget
 .pda-message-avatar {
@@ -447,25 +697,23 @@
     background:
         #ffffff !important;
 
-    background-color:
+    border:
+        1.5px solid
         #ffffff !important;
 
-    /*
-     * 1.5 PX WHITE BORDER
-     */
-    border:
-        1.5px solid #ffffff !important;
-
-    /*
-     * Outer white ring makes the 1.5px
-     * border clearly visible.
-     */
     box-shadow:
-        0 0 0 1.5px #ffffff,
-        0 1px 2px rgba(15,23,42,.12)
+        0 0 0 1.5px
+        #ffffff,
+
+        0 1px 2px
+        rgba(
+            15,
+            23,
+            42,
+            .12
+        )
         !important;
 }
-
 
 #pda-chatbot-widget
 .pda-message-avatar img {
@@ -487,220 +735,9 @@
 }
 
 
-/* ==========================================================
-   TYPING
-   ========================================================== */
-
-#pda-chatbot-widget
-.typing-dots {
-
-    display:
-        flex !important;
-
-    gap:
-        4px !important;
-
-    padding:
-        6px 4px !important;
-}
-
-
-#pda-chatbot-widget
-.typing-dots span {
-
-    width:
-        6px !important;
-
-    height:
-        6px !important;
-
-    background-color:
-        #94a3b8 !important;
-
-    border-radius:
-        50% !important;
-
-    animation:
-        typingBounce
-        1.4s
-        infinite
-        ease-in-out
-        both !important;
-}
-
-
-#pda-chatbot-widget
-.typing-dots
-span:nth-child(1) {
-
-    animation-delay:
-        -0.32s !important;
-}
-
-
-#pda-chatbot-widget
-.typing-dots
-span:nth-child(2) {
-
-    animation-delay:
-        -0.16s !important;
-}
-
-
-/* ==========================================================
-   ANIMATIONS
-   ========================================================== */
-
-#pda-chatbot-widget
-.widget-hidden {
-
-    pointer-events:
-        none !important;
-
-    animation:
-        smoothSpringDown
-        0.25s
-        cubic-bezier(
-            0.4,
-            0,
-            1,
-            1
-        )
-        forwards !important;
-}
-
-
-#pda-chatbot-widget
-.widget-visible {
-
-    pointer-events:
-        auto !important;
-
-    animation:
-        smoothSpringUp
-        0.5s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        )
-        forwards !important;
-}
-
-
-#pda-chatbot-widget
-.animate-message {
-
-    animation:
-        slideInUp
-        0.35s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        )
-        forwards !important;
-}
-
-
-#pda-chatbot-widget
-.status-dot {
-
-    animation:
-        pulse-dot
-        2s
-        infinite !important;
-}
-
-
-#pda-chatbot-widget
-.animate-attention {
-
-    animation:
-        bounceAttention
-        0.4s
-        ease-in-out
-        2 !important;
-}
-
-
-#pda-chatbot-widget
-.animate-gentle-bounce {
-
-    animation:
-        gentleBounce
-        1.5s
-        ease-in-out
-        infinite !important;
-}
-
-
-/* ==========================================================
-   SCROLLBARS
-   ========================================================== */
-
-#pda-chatbot-widget
-.custom-scrollbar::-webkit-scrollbar {
-
-    width:
-        5px !important;
-
-    height:
-        5px !important;
-}
-
-
-#pda-chatbot-widget
-.custom-scrollbar::-webkit-scrollbar-track {
-
-    background:
-        transparent !important;
-}
-
-
-#pda-chatbot-widget
-.custom-scrollbar::-webkit-scrollbar-thumb {
-
-    background:
-        #e2e8f0 !important;
-
-    border-radius:
-        10px !important;
-}
-
-
-#pda-chatbot-widget
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-
-    background:
-        #cbd5e1 !important;
-}
-
-
-#pda-chatbot-widget
-.hide-scrollbar::-webkit-scrollbar {
-
-    display:
-        none !important;
-}
-
-
-#pda-chatbot-widget
-.hide-scrollbar {
-
-    -ms-overflow-style:
-        none !important;
-
-    scrollbar-width:
-        none !important;
-}
-
-
-/* ==========================================================
+/* =========================================================
    BACK BUTTON
-   ========================================================== */
+   ========================================================= */
 
 #pda-chatbot-widget
 #nav-back-btn {
@@ -763,7 +800,6 @@ span:nth-child(2) {
         20px !important;
 }
 
-
 #pda-chatbot-widget
 #nav-back-btn svg {
 
@@ -780,14 +816,10 @@ span:nth-child(2) {
         #64748b !important;
 }
 
-
 #pda-chatbot-widget
 #nav-back-btn:hover {
 
     background:
-        transparent !important;
-
-    background-color:
         transparent !important;
 
     color:
@@ -795,9 +827,9 @@ span:nth-child(2) {
 }
 
 
-/* ==========================================================
-   INPUTS
-   ========================================================== */
+/* =========================================================
+   FORM INPUTS
+   ========================================================= */
 
 #pda-chatbot-widget
 .chat-input-field {
@@ -824,7 +856,8 @@ span:nth-child(2) {
         12px 16px !important;
 
     border:
-        1px solid #e2e8f0 !important;
+        1px solid
+        #e2e8f0 !important;
 
     border-radius:
         10px !important;
@@ -854,7 +887,6 @@ span:nth-child(2) {
         20px !important;
 }
 
-
 #pda-chatbot-widget
 textarea.chat-input-field {
 
@@ -864,7 +896,6 @@ textarea.chat-input-field {
     resize:
         none !important;
 }
-
 
 #pda-chatbot-widget
 .chat-input-field::placeholder {
@@ -876,14 +907,10 @@ textarea.chat-input-field {
         1 !important;
 }
 
-
 #pda-chatbot-widget
 .chat-input-field:focus {
 
     background:
-        #ffffff !important;
-
-    background-color:
         #ffffff !important;
 
     border-color:
@@ -891,14 +918,19 @@ textarea.chat-input-field {
 
     box-shadow:
         0 0 0 3px
-        rgba(15,87,188,.15)
+        rgba(
+            15,
+            87,
+            188,
+            .15
+        )
         !important;
 }
 
 
-/* ==========================================================
-   PRIMARY BUTTON
-   ========================================================== */
+/* =========================================================
+   MAIN CTA
+   ========================================================= */
 
 #pda-chatbot-widget
 button.primary-cta-btn {
@@ -927,31 +959,21 @@ button.primary-cta-btn {
     background:
         #0f57bc !important;
 
-    background-color:
-        #0f57bc !important;
-
-    background-image:
-        none !important;
-
     color:
         #ffffff !important;
 }
-
 
 #pda-chatbot-widget
 button.primary-cta-btn:hover {
 
     background:
         #0d4a9f !important;
-
-    background-color:
-        #0d4a9f !important;
 }
 
 
-/* ==========================================================
+/* =========================================================
    GRID BUTTONS
-   ========================================================== */
+   ========================================================= */
 
 #pda-chatbot-widget
 #bento-view
@@ -970,7 +992,8 @@ button.primary-cta-btn:hover {
         14px 12px !important;
 
     border:
-        1px solid #e2e8f0 !important;
+        1px solid
+        #e2e8f0 !important;
 
     border-radius:
         12px !important;
@@ -978,16 +1001,9 @@ button.primary-cta-btn:hover {
     background:
         #ffffff !important;
 
-    background-color:
-        #ffffff !important;
-
-    background-image:
-        none !important;
-
     color:
         #334155 !important;
 }
-
 
 #pda-chatbot-widget
 #bento-view
@@ -995,11 +1011,7 @@ button.primary-cta-btn:hover {
 
     background:
         #f8fafc !important;
-
-    background-color:
-        #f8fafc !important;
 }
-
 
 #pda-chatbot-widget
 #bento-view
@@ -1014,9 +1026,9 @@ button.primary-cta-btn:hover {
 }
 
 
-/* ==========================================================
-   LIVE SEND BUTTON
-   ========================================================== */
+/* =========================================================
+   CHAT SEND
+   ========================================================= */
 
 #pda-chatbot-widget
 #live-chat-submit {
@@ -1048,31 +1060,21 @@ button.primary-cta-btn:hover {
     background:
         #0f57bc !important;
 
-    background-color:
-        #0f57bc !important;
-
     color:
         #ffffff !important;
 }
-
 
 #pda-chatbot-widget
 #live-chat-submit:hover {
 
     background:
         #0d4a9f !important;
-
-    background-color:
-        #0d4a9f !important;
-
-    color:
-        #ffffff !important;
 }
 
 
-/* ==========================================================
+/* =========================================================
    TRIGGER
-   ========================================================== */
+   ========================================================= */
 
 #pda-chatbot-widget
 #trigger-btn {
@@ -1103,19 +1105,11 @@ button.primary-cta-btn:hover {
 
     background:
         transparent !important;
-
-    background-color:
-        transparent !important;
-
-    background-image:
-        none !important;
 }
 
         `;
 
-        document.head.appendChild(
-            style
-        );
+        document.head.appendChild(style);
     }
 
 
@@ -1125,6 +1119,7 @@ button.primary-cta-btn:hover {
             document.createElement(
                 'div'
             );
+
 
         holder.innerHTML = `
 
@@ -1151,9 +1146,7 @@ button.primary-cta-btn:hover {
 >
 
 
-    <!-- ==================================================
-         WIDGET PANEL
-         ================================================== -->
+    <!-- WIDGET PANEL -->
 
     <div
         class="
@@ -1186,9 +1179,7 @@ button.primary-cta-btn:hover {
     >
 
 
-        <!-- ==============================================
-             MAIN MENU
-             ============================================== -->
+        <!-- MAIN MENU -->
 
         <div
             class="
@@ -1208,7 +1199,10 @@ button.primary-cta-btn:hover {
         >
 
 
-            <!-- HEADER -->
+            <!-- ==================================================
+                 MAIN BLUE HEADER
+                 CORRECT 1.5PX WHITE RING ON LARGE ZOEY IMAGE
+                 ================================================== -->
 
             <div
                 class="
@@ -1242,20 +1236,50 @@ button.primary-cta-btn:hover {
                         "
                     >
 
+                        <!--
+                            THIS IS THE IMAGE YOU CIRCLED.
+                            1.5px white padding creates
+                            the visible white ring.
+                        -->
+
                         <div
                             class="
                                 w-14
                                 h-14
                                 rounded-full
-                                overflow-hidden
-                                border-2
-                                border-white
                                 shadow-md
                                 bg-white
                             "
                             style="
+                                width:
+                                56px !important;
+
+                                height:
+                                56px !important;
+
+                                min-width:
+                                56px !important;
+
+                                min-height:
+                                56px !important;
+
+                                padding:
+                                1.5px !important;
+
+                                background:
+                                #ffffff !important;
+
                                 background-color:
-                                white !important;
+                                #ffffff !important;
+
+                                border-radius:
+                                50% !important;
+
+                                overflow:
+                                hidden !important;
+
+                                box-sizing:
+                                border-box !important;
                             "
                         >
 
@@ -1267,9 +1291,26 @@ button.primary-cta-btn:hover {
                                     object-cover
                                 "
                                 src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
+                                style="
+                                    display:
+                                    block !important;
+
+                                    width:
+                                    100% !important;
+
+                                    height:
+                                    100% !important;
+
+                                    object-fit:
+                                    cover !important;
+
+                                    border-radius:
+                                    50% !important;
+                                "
                             >
 
                         </div>
+
 
                         <span
                             class="
@@ -1377,7 +1418,6 @@ button.primary-cta-btn:hover {
                     custom-scrollbar
                 "
             >
-
 
                 <div
                     class="
@@ -1491,7 +1531,6 @@ button.primary-cta-btn:hover {
                                     block
                                     font-bold
                                     text-[14.5px]
-                                    mb-0
                                     tracking-tight
                                     text-white
                                     leading-none
@@ -1580,7 +1619,8 @@ button.primary-cta-btn:hover {
                     "
                     style="
                         border:
-                        1px solid #ffdede !important;
+                        1px solid
+                        #ffdede !important;
                     "
                 >
 
@@ -1872,6 +1912,8 @@ button.primary-cta-btn:hover {
             </div>
 
 
+            <!-- FOOTER -->
+
             <div
                 class="
                     bg-white
@@ -1883,6 +1925,7 @@ button.primary-cta-btn:hover {
                     justify-center
                     gap-2
                     shrink-0
+                    m-0
                 "
             >
 
@@ -1912,9 +1955,9 @@ button.primary-cta-btn:hover {
         </div>
 
 
-        <!-- ==============================================
+        <!-- ==================================================
              CHAT VIEW
-             ============================================== -->
+             ================================================== -->
 
         <div
             class="
@@ -1936,7 +1979,7 @@ button.primary-cta-btn:hover {
         >
 
 
-            <!-- HEADER -->
+            <!-- SECOND BLUE HEADER -->
 
             <div
                 class="
@@ -1950,6 +1993,7 @@ button.primary-cta-btn:hover {
                     z-10
                     overflow-hidden
                     shrink-0
+                    m-0
                 "
             >
 
@@ -1958,6 +2002,8 @@ button.primary-cta-btn:hover {
                         flex
                         items-center
                         gap-4
+                        relative
+                        z-10
                     "
                 >
 
@@ -1968,20 +2014,49 @@ button.primary-cta-btn:hover {
                         "
                     >
 
+                        <!--
+                            SAME 1.5PX WHITE RING
+                            ON SECOND HEADER
+                        -->
+
                         <div
                             class="
                                 w-14
                                 h-14
                                 rounded-full
-                                overflow-hidden
-                                border-2
-                                border-white
                                 shadow-md
                                 bg-white
                             "
                             style="
+                                width:
+                                56px !important;
+
+                                height:
+                                56px !important;
+
+                                min-width:
+                                56px !important;
+
+                                min-height:
+                                56px !important;
+
+                                padding:
+                                1.5px !important;
+
+                                background:
+                                #ffffff !important;
+
                                 background-color:
-                                white !important;
+                                #ffffff !important;
+
+                                border-radius:
+                                50% !important;
+
+                                overflow:
+                                hidden !important;
+
+                                box-sizing:
+                                border-box !important;
                             "
                         >
 
@@ -1993,6 +2068,22 @@ button.primary-cta-btn:hover {
                                     object-cover
                                 "
                                 src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
+                                style="
+                                    display:
+                                    block !important;
+
+                                    width:
+                                    100% !important;
+
+                                    height:
+                                    100% !important;
+
+                                    object-fit:
+                                    cover !important;
+
+                                    border-radius:
+                                    50% !important;
+                                "
                             >
 
                         </div>
@@ -2037,6 +2128,8 @@ button.primary-cta-btn:hover {
                                 text-[12.5px]
                                 text-white/80
                                 font-medium
+                                leading-none
+                                block
                             "
                         >
                             Online • Ready to help
@@ -2048,15 +2141,18 @@ button.primary-cta-btn:hover {
 
 
                 <button
-                    onclick="
-                        window.toggleWidget()
-                    "
                     class="
                         text-white/70
+                        hover:text-white
+                        transition-colors
                         p-1.5
                         rounded-lg
+                        hover:bg-white/10
                         bg-transparent
                         m-0
+                    "
+                    onclick="
+                        window.toggleWidget()
                     "
                     style="
                         border:
@@ -2077,7 +2173,7 @@ button.primary-cta-btn:hover {
             </div>
 
 
-            <!-- BACK NAV -->
+            <!-- NAV -->
 
             <div
                 class="
@@ -2091,6 +2187,7 @@ button.primary-cta-btn:hover {
                     shrink-0
                     border-b
                     border-slate-100/50
+                    m-0
                 "
                 id="chat-nav"
             >
@@ -2100,6 +2197,13 @@ button.primary-cta-btn:hover {
                     onclick="
                         window.appBot
                         .goBack()
+                    "
+                    style="
+                        border:
+                        none !important;
+
+                        background:
+                        transparent !important;
                     "
                 >
 
@@ -2152,10 +2256,13 @@ button.primary-cta-btn:hover {
                     custom-scrollbar
                     pb-6
                     relative
+                    m-0
                 "
                 id="chat-history"
             ></div>
 
+
+            <!-- SCROLL DOWN -->
 
             <button
                 class="
@@ -2212,7 +2319,7 @@ button.primary-cta-btn:hover {
             </button>
 
 
-            <!-- INPUT AREA -->
+            <!-- CHAT INPUT -->
 
             <div
                 class="
@@ -2223,6 +2330,7 @@ button.primary-cta-btn:hover {
                     shrink-0
                     flex-col
                     gap-2
+                    m-0
                 "
                 id="chat-input-area"
                 style="
@@ -2271,6 +2379,8 @@ button.primary-cta-btn:hover {
                         relative
                         flex
                         items-center
+                        m-0
+                        p-0
                         mt-1
                     "
                     onsubmit="
@@ -2283,9 +2393,6 @@ button.primary-cta-btn:hover {
 
                     <input
                         autocomplete="off"
-                        id="live-chat-input"
-                        placeholder="Type your message..."
-                        type="text"
                         class="
                             w-full
                             bg-slate-50
@@ -2297,7 +2404,11 @@ button.primary-cta-btn:hover {
                             pl-4
                             pr-12
                             text-slate-700
+                            placeholder-slate-400
                         "
+                        id="live-chat-input"
+                        placeholder="Type your message..."
+                        type="text"
                     >
 
 
@@ -2312,9 +2423,14 @@ button.primary-cta-btn:hover {
                             flex
                             items-center
                             justify-center
+                            m-0
                         "
                         id="live-chat-submit"
                         type="submit"
+                        style="
+                            border:
+                            none !important;
+                        "
                     >
 
                         <i
@@ -2342,6 +2458,7 @@ button.primary-cta-btn:hover {
                     border-slate-100
                     text-center
                     shrink-0
+                    m-0
                 "
                 id="hipaa-footer"
             >
@@ -2380,9 +2497,7 @@ button.primary-cta-btn:hover {
     </div>
 
 
-    <!-- ==================================================
-         FLOATING TRIGGER
-         ================================================== -->
+    <!-- FLOATING TRIGGER -->
 
     <div
         class="
@@ -2447,7 +2562,6 @@ button.primary-cta-btn:hover {
             onclick="
                 window.toggleWidget()
             "
-            type="button"
             style="
                 position:
                 relative;
@@ -2461,6 +2575,7 @@ button.primary-cta-btn:hover {
                     0.25
                 );
             "
+            type="button"
         >
 
             <div
@@ -2554,6 +2669,10 @@ button.primary-cta-btn:hover {
 
                     justify-content:
                     center;
+
+                    border:
+                    2px solid
+                    #0f57bc;
                 "
             >
 
@@ -2688,8 +2807,10 @@ button.primary-cta-btn:hover {
                         '#pda-chatbot-widget',
 
                     corePlugins: {
+
                         preflight:
                             false
+
                     },
 
                     theme: {
@@ -2699,9 +2820,13 @@ button.primary-cta-btn:hover {
                             fontFamily: {
 
                                 sans: [
+
                                     '"Plus Jakarta Sans"',
+
                                     'Arial',
+
                                     'sans-serif'
+
                                 ]
 
                             },
@@ -2798,9 +2923,9 @@ button.primary-cta-btn:hover {
             (function () {
 
 
-                /* ==========================================
-                   STATE
-                   ========================================== */
+                /* ==================================================
+                   GLOBAL STATE
+                   ================================================== */
 
                 window.pdaBotState = {
 
@@ -2839,9 +2964,9 @@ button.primary-cta-btn:hover {
                 };
 
 
-                /* ==========================================
-                   WEBHOOKS
-                   ========================================== */
+                /* ==================================================
+                   CONSTANTS
+                   ================================================== */
 
                 const WEBHOOK_URL =
                     'https://api.mikemathewscmo.com/webhook/pda-website-chatbot';
@@ -2857,6 +2982,15 @@ button.primary-cta-btn:hover {
 
                 const MESSAGE_SOUND_URL =
                     'https://assets.cdn.filesafe.space/pavIFdgrv0CTos4BgVKm/media/6a3ec3a6d50c4ff184ddb813.mp3';
+
+
+                /*
+                 * PLAZA DENTAL ARTS
+                 * (718) 218-1060
+                 */
+
+                const PDA_OFFICE_PHONE =
+                    '7182181060';
 
 
                 const wait =
@@ -2895,27 +3029,35 @@ button.primary-cta-btn:hover {
                     );
 
 
-                /* ==========================================
+                /* ==================================================
                    TRACKING
-                   ========================================== */
+                   ================================================== */
 
                 function createTrackingId(
                     prefix
                 ) {
 
                     return (
+
                         prefix +
                         '-' +
+
                         (
                             typeof crypto !==
                                 'undefined'
                             &&
                             crypto.randomUUID
+
                                 ?
+
                                 crypto.randomUUID()
+
                                 :
-                                Date.now() +
-                                '-' +
+
+                                Date.now()
+                                +
+                                '-'
+                                +
                                 Math.random()
                                     .toString(36)
                                     .substr(
@@ -2923,6 +3065,7 @@ button.primary-cta-btn:hover {
                                         9
                                     )
                         )
+
                     );
 
                 }
@@ -2998,6 +3141,7 @@ button.primary-cta-btn:hover {
 
 
                     if (!name) {
+
                         return null;
                     }
 
@@ -3008,12 +3152,18 @@ button.primary-cta-btn:hover {
 
 
                     return (
+
                         first
                             .charAt(0)
                             .toUpperCase()
+
                         +
-                        first.slice(1)
+
+                        first
+                            .slice(1)
+
                     );
+
                 }
 
 
@@ -3022,22 +3172,29 @@ button.primary-cta-btn:hover {
                     return {
 
                         pageUrl:
+
                             window
                                 .location
                                 .href
                             || '',
 
+
                         pageTitle:
+
                             document
                                 .title
                             || '',
 
+
                         referrer:
+
                             document
                                 .referrer
                             || '',
 
+
                         userAgent:
+
                             navigator
                                 .userAgent
                             || ''
@@ -3047,9 +3204,9 @@ button.primary-cta-btn:hover {
                 }
 
 
-                /* ==========================================
+                /* ==================================================
                    INIT
-                   ========================================== */
+                   ================================================== */
 
                 function initPDAWidget() {
 
@@ -3165,7 +3322,9 @@ button.primary-cta-btn:hover {
 
                     if (savedName) {
 
-                        if (triggerText) {
+                        if (
+                            triggerText
+                        ) {
 
                             triggerText.innerHTML =
                                 `Welcome back, ${savedName}! We're online to help.`;
@@ -3180,7 +3339,9 @@ button.primary-cta-btn:hover {
                                 );
 
 
-                        if (welcomeBubble) {
+                        if (
+                            welcomeBubble
+                        ) {
 
                             welcomeBubble.innerHTML =
                                 `Welcome back, ${savedName}! Welcome to Plaza Dental Arts. I'm here to help you get scheduled, answer questions, or connect you with our team.`;
@@ -3190,9 +3351,9 @@ button.primary-cta-btn:hover {
                     }
 
 
-                    /* ======================================
+                    /* ==============================================
                        SOUND
-                       ====================================== */
+                       ============================================== */
 
                     function playMessageSound() {
 
@@ -3215,21 +3376,23 @@ button.primary-cta-btn:hover {
 
                     function attemptDing() {
 
-                        if (hasPlayedSound) {
+                        if (
+                            hasPlayedSound
+                        ) {
                             return;
                         }
 
 
-                        const playPromise =
+                        const promise =
                             dingAudio.play();
 
 
                         if (
-                            playPromise !==
+                            promise !==
                             undefined
                         ) {
 
-                            playPromise
+                            promise
 
                                 .then(
                                     () => {
@@ -3388,15 +3551,16 @@ button.primary-cta-btn:hover {
                                 'scroll',
                                 'mousemove',
                                 'wheel'
-                            ].forEach(
-                                eventName =>
+                            ]
+                                .forEach(
+                                    eventName =>
 
-                                    document
-                                        .removeEventListener(
-                                            eventName,
-                                            unlockAudio
-                                        )
-                            );
+                                        document
+                                            .removeEventListener(
+                                                eventName,
+                                                unlockAudio
+                                            )
+                                );
 
                         };
 
@@ -3408,24 +3572,25 @@ button.primary-cta-btn:hover {
                         'scroll',
                         'mousemove',
                         'wheel'
-                    ].forEach(
-                        eventName =>
+                    ]
+                        .forEach(
+                            eventName =>
 
-                            document
-                                .addEventListener(
-                                    eventName,
-                                    unlockAudio,
-                                    {
-                                        passive:
-                                            true
-                                    }
-                                )
-                    );
+                                document
+                                    .addEventListener(
+                                        eventName,
+                                        unlockAudio,
+                                        {
+                                            passive:
+                                                true
+                                        }
+                                    )
+                        );
 
 
-                    /* ======================================
+                    /* ==============================================
                        OPEN / CLOSE
-                       ====================================== */
+                       ============================================== */
 
                     window.toggleWidget =
                         function () {
@@ -3505,6 +3670,14 @@ button.primary-cta-btn:hover {
                                     );
 
 
+                                notificationBadge
+                                    .classList
+                                    .remove(
+                                        'opacity-100',
+                                        'scale-100'
+                                    );
+
+
                             } else {
 
                                 panel
@@ -3524,9 +3697,7 @@ button.primary-cta-btn:hover {
                                 setTimeout(
                                     () => {
 
-                                        panel
-                                            .style
-                                            .display =
+                                        panel.style.display =
                                             'none';
 
 
@@ -3589,9 +3760,7 @@ button.primary-cta-btn:hover {
                                 );
 
 
-                                triggerBubble
-                                    .style
-                                    .display =
+                                triggerBubble.style.display =
                                     'block';
 
 
@@ -3605,30 +3774,28 @@ button.primary-cta-btn:hover {
                                     );
 
 
-                                triggerText
-                                    .innerHTML =
+                                triggerText.innerHTML =
+
                                     savedName
+
                                         ?
+
                                         `Welcome back, ${savedName}! We're online to help.`
+
                                         :
+
                                         "Have questions? We’re online and happy to help";
 
 
-                                iconActive
-                                    .style
-                                    .display =
+                                iconActive.style.display =
                                     'none';
 
 
-                                iconDefault
-                                    .style
-                                    .display =
+                                iconDefault.style.display =
                                     'block';
 
 
-                                triggerDot
-                                    .style
-                                    .display =
+                                triggerDot.style.display =
                                     'block';
 
                             }
@@ -3636,48 +3803,37 @@ button.primary-cta-btn:hover {
                         };
 
 
-                    /* ======================================
-                       THIS IS THE CORRECT SMALL ZOEY AVATAR
-                       ====================================== */
+                    /* ==============================================
+                       SMALL CHAT AVATAR
+                       ============================================== */
 
                     const getBotAvatarHTML =
                         () => `
 
                         <div
-        class="pda-message-avatar shrink-0 mt-1"
-        style="
-            width: 31px !important;
-            height: 31px !important;
-            min-width: 31px !important;
-            min-height: 31px !important;
+                            class="
+                                pda-message-avatar
+                                w-7
+                                h-7
+                                rounded-full
+                                overflow-hidden
+                                shrink-0
+                                mt-1
+                                bg-white
+                            "
+                        >
 
-            padding: 1.5px !important;
+                            <img
+                                src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
+                                alt="Zoey"
+                                class="
+                                    w-full
+                                    h-full
+                                    object-cover
+                                "
+                            >
 
-            background: #ffffff !important;
-            background-color: #ffffff !important;
-
-            border-radius: 50% !important;
-
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18) !important;
-
-            overflow: hidden !important;
-        "
-    >
-        <img
-            src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
-            alt="Zoey"
-            style="
-                display: block !important;
-
-                width: 100% !important;
-                height: 100% !important;
-
-                object-fit: cover !important;
-
-                border-radius: 50% !important;
-            "
-        >
-    </div>
+                        </div>
 
                         `;
 
@@ -4049,15 +4205,16 @@ button.primary-cta-btn:hover {
                         .addEventListener(
                             'scroll',
                             () =>
+
                                 window
                                     .appBot
                                     .updateScrollArrow()
                         );
 
 
-                    /* ======================================
-                       APP
-                       ====================================== */
+                    /* ==================================================
+                       APP BOT
+                       ================================================== */
 
                     window.appBot = {
 
@@ -4092,14 +4249,19 @@ button.primary-cta-btn:hover {
 
 
                                 const show =
+
                                     history.scrollHeight >
                                         history.clientHeight
+
                                     &&
+
                                     Math.ceil(
                                         history.scrollHeight -
                                         history.scrollTop
                                     )
+
                                     >
+
                                     history.clientHeight +
                                     15;
 
@@ -4111,9 +4273,13 @@ button.primary-cta-btn:hover {
                                         'display',
 
                                         show
+
                                             ?
+
                                             'flex'
+
                                             :
+
                                             'none',
 
                                         'important'
@@ -4255,8 +4421,7 @@ button.primary-cta-btn:hover {
                                     );
 
 
-                                chatHistory
-                                    .innerHTML =
+                                chatHistory.innerHTML =
                                     '';
 
 
@@ -4332,20 +4497,18 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            SCHEDULE
-                           ================================== */
+                           ================================================== */
 
                         showScheduleStep1:
                             async function () {
 
-                                chatHeaderTitle
-                                    .innerText =
+                                chatHeaderTitle.innerText =
                                     'Schedule Appointment';
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 1 of 4';
 
 
@@ -4361,8 +4524,11 @@ button.primary-cta-btn:hover {
 
 
                                 const options = [
+
                                     'New Patient',
+
                                     'Returning Patient'
+
                                 ];
 
 
@@ -4385,6 +4551,7 @@ button.primary-cta-btn:hover {
 
                                         ${
                                             options
+
                                                 .map(
                                                     option => `
 
@@ -4416,6 +4583,7 @@ button.primary-cta-btn:hover {
 
                                                     `
                                                 )
+
                                                 .join('')
                                         }
 
@@ -4443,14 +4611,20 @@ button.primary-cta-btn:hover {
 
                                     field ===
                                         'patient_type'
+
                                         ?
+
                                         'schedule-opts-1'
+
                                         :
 
                                     field ===
                                         'reason'
+
                                         ?
+
                                         'schedule-opts-2'
+
                                         :
 
                                         'schedule-opts-3';
@@ -4463,7 +4637,9 @@ button.primary-cta-btn:hover {
                                         );
 
 
-                                if (container) {
+                                if (
+                                    container
+                                ) {
 
                                     container.remove();
                                 }
@@ -4523,8 +4699,7 @@ button.primary-cta-btn:hover {
                         showScheduleStep2:
                             async function () {
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 2 of 4';
 
 
@@ -4739,20 +4914,21 @@ button.primary-cta-btn:hover {
                                 form
                             ) {
 
-                                const formData =
+                                const data =
                                     new FormData(
                                         form
                                     );
 
 
                                 const reason =
-                                    formData
-                                        .get(
-                                            'other_reason'
-                                        );
+                                    data.get(
+                                        'other_reason'
+                                    );
 
 
-                                if (!reason) {
+                                if (
+                                    !reason
+                                ) {
                                     return;
                                 }
 
@@ -4778,7 +4954,9 @@ button.primary-cta-btn:hover {
                                         );
 
 
-                                if (container) {
+                                if (
+                                    container
+                                ) {
 
                                     container.remove();
                                 }
@@ -4803,8 +4981,7 @@ button.primary-cta-btn:hover {
                         showScheduleStep3:
                             async function () {
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 3 of 4';
 
 
@@ -4849,6 +5026,7 @@ button.primary-cta-btn:hover {
 
                                         ${
                                             options
+
                                                 .map(
                                                     option => `
 
@@ -4880,6 +5058,7 @@ button.primary-cta-btn:hover {
 
                                                     `
                                                 )
+
                                                 .join('')
                                         }
 
@@ -4894,8 +5073,7 @@ button.primary-cta-btn:hover {
                         showScheduleStep4:
                             async function () {
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 4 of 4';
 
 
@@ -5014,20 +5192,18 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            EMERGENCY
-                           ================================== */
+                           ================================================== */
 
                         showEmergencyStep1:
                             async function () {
 
-                                chatHeaderTitle
-                                    .innerText =
+                                chatHeaderTitle.innerText =
                                     'Dental Emergency';
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 1 of 2';
 
 
@@ -5074,6 +5250,7 @@ button.primary-cta-btn:hover {
 
                                         ${
                                             options
+
                                                 .map(
                                                     option => `
 
@@ -5103,6 +5280,7 @@ button.primary-cta-btn:hover {
 
                                                     `
                                                 )
+
                                                 .join('')
                                         }
 
@@ -5133,7 +5311,9 @@ button.primary-cta-btn:hover {
                                         );
 
 
-                                if (options) {
+                                if (
+                                    options
+                                ) {
 
                                     options.remove();
                                 }
@@ -5149,8 +5329,7 @@ button.primary-cta-btn:hover {
                                 );
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 2 of 2';
 
 
@@ -5259,20 +5438,18 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            RESCHEDULE
-                           ================================== */
+                           ================================================== */
 
                         showRescheduleFlow:
                             async function () {
 
-                                chatHeaderTitle
-                                    .innerText =
+                                chatHeaderTitle.innerText =
                                     'Reschedule';
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 1 of 1';
 
 
@@ -5391,15 +5568,14 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            CALL
-                           ================================== */
+                           ================================================== */
 
                         showCallFlow:
                             async function () {
 
-                                chatHeaderTitle
-                                    .innerText =
+                                chatHeaderTitle.innerText =
                                     'Call Us';
 
 
@@ -5421,11 +5597,6 @@ button.primary-cta-btn:hover {
                                 );
 
 
-                                /*
-                                 * PLAZA DENTAL ARTS PHONE:
-                                 * (718) 218-1060
-                                 */
-
                                 appendOptions(
 
                                     'call-opts',
@@ -5433,7 +5604,7 @@ button.primary-cta-btn:hover {
                                     `
 
                                     <a
-                                        href="tel:7182181060"
+                                        href="tel:${PDA_OFFICE_PHONE}"
                                         class="
                                             w-full
                                             bg-accent-500
@@ -5474,15 +5645,14 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            LIVE CHAT
-                           ================================== */
+                           ================================================== */
 
                         showQuestionForm:
                             async function () {
 
-                                chatHeaderTitle
-                                    .innerText =
+                                chatHeaderTitle.innerText =
                                     'Live Chat';
 
 
@@ -5514,12 +5684,6 @@ button.primary-cta-btn:hover {
                                     );
 
 
-                                /*
-                                 * The small circular Zoey image
-                                 * before this message is generated
-                                 * by getBotAvatarHTML() above.
-                                 */
-
                                 await appendBotMessageWithTyping(
                                     "Hi there! I'm Zoey, the AI assistant for the practice. What questions can I answer for you today?",
                                     1200
@@ -5527,15 +5691,14 @@ button.primary-cta-btn:hover {
 
 
                                 setTimeout(
-                                    () => {
+                                    () =>
 
                                         document
                                             .getElementById(
                                                 'live-chat-input'
                                             )
-                                            .focus();
+                                            .focus(),
 
-                                    },
                                     100
                                 );
 
@@ -5565,7 +5728,9 @@ button.primary-cta-btn:hover {
                                         .trim();
 
 
-                                if (!message) {
+                                if (
+                                    !message
+                                ) {
                                     return;
                                 }
 
@@ -5600,8 +5765,10 @@ button.primary-cta-btn:hover {
                                     const timeoutId =
                                         setTimeout(
                                             () =>
+
                                                 controller
                                                     .abort(),
+
                                             15000
                                         );
 
@@ -5619,17 +5786,21 @@ button.primary-cta-btn:hover {
                                                     'POST',
 
                                                 headers: {
+
                                                     'Content-Type':
                                                         'application/json'
+
                                                 },
 
                                                 body:
+
                                                     JSON.stringify({
 
                                                         message:
                                                             message,
 
                                                         name:
+
                                                             localStorage
                                                                 .getItem(
                                                                     'pdaBotName'
@@ -5643,42 +5814,52 @@ button.primary-cta-btn:hover {
                                                             '',
 
                                                         visitorId:
+
                                                             getChatVisitorId(),
 
                                                         sessionId:
+
                                                             getChatSessionId(),
 
                                                         eventId:
+
                                                             createTrackingId(
                                                                 'question'
                                                             ),
 
                                                         source:
+
                                                             'Website Chatbot - Ask a Question',
 
                                                         pageUrl:
+
                                                             context
                                                                 .pageUrl,
 
                                                         pageTitle:
+
                                                             context
                                                                 .pageTitle,
 
                                                         referrer:
+
                                                             context
                                                                 .referrer,
 
                                                         userAgent:
+
                                                             context
                                                                 .userAgent,
 
                                                         timestamp:
+
                                                             new Date()
                                                                 .toISOString()
 
                                                     }),
 
                                                 signal:
+
                                                     controller
                                                         .signal
 
@@ -5721,8 +5902,10 @@ button.primary-cta-btn:hover {
                                     ) {
 
                                         data = {
+
                                             reply:
                                                 rawText
+
                                         };
 
                                     }
@@ -5745,22 +5928,32 @@ button.primary-cta-btn:hover {
                                         reply =
                                             data;
 
+
                                     } else if (
                                         Array.isArray(
                                             data
                                         )
                                         &&
-                                        data.length
+                                        data.length >
+                                        0
                                     ) {
 
                                         reply =
+
                                             data[0].reply
+
                                             ||
+
                                             data[0].message
+
                                             ||
+
                                             data[0].text
+
                                             ||
+
                                             data[0].output;
+
 
                                     } else if (
                                         data
@@ -5770,22 +5963,35 @@ button.primary-cta-btn:hover {
                                     ) {
 
                                         reply =
+
                                             data.reply
+
                                             ||
+
                                             data.message
+
                                             ||
+
                                             data.text
+
                                             ||
+
                                             data.response
+
                                             ||
+
                                             data.output
+
                                             ||
+
                                             data.answer;
 
                                     }
 
 
-                                    if (reply) {
+                                    if (
+                                        reply
+                                    ) {
 
                                         appendBotMessage(
 
@@ -5804,6 +6010,7 @@ button.primary-cta-btn:hover {
                                                 )
 
                                         );
+
 
                                     } else {
 
@@ -5862,15 +6069,14 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            REVIEWS
-                           ================================== */
+                           ================================================== */
 
                         showReviewsFlow:
                             async function () {
 
-                                chatHeaderTitle
-                                    .innerText =
+                                chatHeaderTitle.innerText =
                                     'Patient Reviews';
 
 
@@ -6007,11 +6213,10 @@ button.primary-cta-btn:hover {
                                 `;
 
 
-                                reviews
-                                    .forEach(
-                                        review => {
+                                reviews.forEach(
+                                    review => {
 
-                                            html += `
+                                        html += `
 
                                             <div
                                                 class="
@@ -6066,9 +6271,23 @@ button.primary-cta-btn:hover {
 
                                                     </div>
 
+
+                                                    <img
+                                                        src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                                                        alt="Google"
+                                                        class="
+                                                            w-4
+                                                            h-4
+                                                            object-contain
+                                                            shrink-0
+                                                        "
+                                                    >
+
                                                 </div>
 
+
                                                 ${stars}
+
 
                                                 <p
                                                     class="
@@ -6085,15 +6304,18 @@ button.primary-cta-btn:hover {
 
                                             </div>
 
-                                            `;
+                                        `;
 
-                                        }
-                                    );
+                                    }
+                                );
 
 
                                 html += `
+
                                         </div>
+
                                     </div>
+
                                 `;
 
 
@@ -6147,9 +6369,9 @@ button.primary-cta-btn:hover {
                             },
 
 
-                        /* ==================================
+                        /* ==================================================
                            PAYLOAD
-                           ================================== */
+                           ================================================== */
 
                         getBasePayload:
                             function (
@@ -6190,33 +6412,41 @@ button.primary-cta-btn:hover {
                                         '',
 
                                     visitorId:
+
                                         getChatVisitorId(),
 
                                     sessionId:
+
                                         getChatSessionId(),
 
                                     submissionId:
+
                                         createTrackingId(
                                             'submission'
                                         ),
 
                                     pageUrl:
+
                                         context
                                             .pageUrl,
 
                                     pageTitle:
+
                                         context
                                             .pageTitle,
 
                                     referrer:
+
                                         context
                                             .referrer,
 
                                     userAgent:
+
                                         context
                                             .userAgent,
 
                                     timestamp:
+
                                         new Date()
                                             .toISOString()
 
@@ -6250,20 +6480,27 @@ button.primary-cta-btn:hover {
 
 
                                 payload.patient_type =
-                                    state.patient_type;
+                                    state
+                                        .patient_type;
 
 
                                 payload.reason =
+
                                     state.reason ===
                                         'Other'
+
                                         ?
+
                                         `Other: ${state.other_reason}`
+
                                         :
+
                                         state.reason;
 
 
                                 payload.best_time =
-                                    state.best_time;
+                                    state
+                                        .best_time;
 
 
                                 payload.name =
@@ -6338,6 +6575,7 @@ button.primary-cta-btn:hover {
 
 
                                 payload.emergency_symptom =
+
                                     window
                                         .pdaBotState
                                         .emergency
@@ -6467,8 +6705,7 @@ button.primary-cta-btn:hover {
                                 type
                             ) {
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Sending...';
 
 
@@ -6491,11 +6728,14 @@ button.primary-cta-btn:hover {
                                                     'POST',
 
                                                 headers: {
+
                                                     'Content-Type':
                                                         'application/json'
+
                                                 },
 
                                                 body:
+
                                                     JSON.stringify(
                                                         payload
                                                     )
@@ -6514,8 +6754,7 @@ button.primary-cta-btn:hover {
                                     }
 
 
-                                    stepIndicator
-                                        .innerText =
+                                    stepIndicator.innerText =
                                         'Done';
 
 
@@ -6535,8 +6774,7 @@ button.primary-cta-btn:hover {
                                     );
 
 
-                                    stepIndicator
-                                        .innerText =
+                                    stepIndicator.innerText =
                                         'Demo Mode';
 
 
@@ -6634,6 +6872,7 @@ button.primary-cta-btn:hover {
 
                                                             </div>
 
+
                                                             <h4
                                                                 class="
                                                                     font-bold
@@ -6709,12 +6948,14 @@ button.primary-cta-btn:hover {
 
                                             },
 
+
                                             emergency: {
 
                                                 symptom:
                                                     ''
 
                                             },
+
 
                                             reschedule: {
 

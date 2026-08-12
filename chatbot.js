@@ -1,16 +1,14 @@
-/*
- * Plaza Dental Arts — Zoey Website Chatbot
- * Direct <script> installation. NO iframe.
+/* Plaza Dental Arts — Zoey Website Chatbot
+ * Direct script install. No iframe.
  */
-
 (function () {
     'use strict';
 
     const PDA_ROOT_ID = 'pda-chatbot-widget';
+    const PDA_STYLE_ID = 'pda-chatbot-protected-styles';
     const PDA_FONT_ID = 'pda-chatbot-font';
     const PDA_TAILWIND_ID = 'pda-chatbot-tailwind';
     const PDA_LUCIDE_ID = 'pda-chatbot-lucide';
-    const PDA_STYLE_ID = 'pda-chatbot-styles';
 
     if (document.getElementById(PDA_ROOT_ID)) return;
 
@@ -18,6 +16,7 @@
         if (document.getElementById(PDA_FONT_ID)) return;
 
         const link = document.createElement('link');
+
         link.id = PDA_FONT_ID;
         link.rel = 'stylesheet';
         link.href =
@@ -26,283 +25,267 @@
         document.head.appendChild(link);
     }
 
-    function loadExternalScript(id, src) {
-        return new Promise((resolve, reject) => {
-            const existing = document.getElementById(id);
 
-            if (existing) {
-                if (existing.dataset.pdaLoaded === 'true') {
+    function loadScript(
+        id,
+        src,
+        globalCheck
+    ) {
+
+        return new Promise(
+            (resolve, reject) => {
+
+                if (
+                    globalCheck &&
+                    globalCheck()
+                ) {
                     resolve();
                     return;
                 }
 
-                existing.addEventListener('load', resolve, {
-                    once: true
-                });
 
-                existing.addEventListener('error', reject, {
-                    once: true
-                });
+                const existing =
+                    document.getElementById(
+                        id
+                    );
 
-                return;
-            }
 
-            const script = document.createElement('script');
+                if (existing) {
 
-            script.id = id;
-            script.src = src;
-            script.async = true;
+                    existing.addEventListener(
+                        'load',
+                        resolve,
+                        {
+                            once: true
+                        }
+                    );
 
-            script.addEventListener(
-                'load',
-                () => {
-                    script.dataset.pdaLoaded = 'true';
-                    resolve();
-                },
-                {
-                    once: true
+
+                    existing.addEventListener(
+                        'error',
+                        reject,
+                        {
+                            once: true
+                        }
+                    );
+
+
+                    return;
                 }
-            );
 
-            script.addEventListener('error', reject, {
-                once: true
-            });
 
-            document.head.appendChild(script);
-        });
+                const script =
+                    document.createElement(
+                        'script'
+                    );
+
+
+                script.id = id;
+                script.src = src;
+                script.async = true;
+
+
+                script.addEventListener(
+                    'load',
+                    resolve,
+                    {
+                        once: true
+                    }
+                );
+
+
+                script.addEventListener(
+                    'error',
+                    reject,
+                    {
+                        once: true
+                    }
+                );
+
+
+                document.head.appendChild(
+                    script
+                );
+            }
+        );
     }
 
-    function addStyles() {
-        if (document.getElementById(PDA_STYLE_ID)) return;
 
-        const style = document.createElement('style');
+    function installStyles() {
 
-        style.id = PDA_STYLE_ID;
+        if (
+            document.getElementById(
+                PDA_STYLE_ID
+            )
+        ) {
+            return;
+        }
 
-        style.textContent = `
+
+        const el =
+            document.createElement(
+                'style'
+            );
+
+
+        el.id =
+            PDA_STYLE_ID;
+
+
+        el.textContent =
+            String.raw`
 
 /* =========================================================
    ANIMATIONS
    ========================================================= */
 
 @keyframes smoothSpringUp {
+
     0% {
         opacity: 0;
-        transform: translateY(20px) scale(0.98);
+        transform:
+            translateY(20px)
+            scale(0.98);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform:
+            translateY(0)
+            scale(1);
     }
 }
+
 
 @keyframes smoothSpringDown {
+
     0% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform:
+            translateY(0)
+            scale(1);
     }
 
     100% {
         opacity: 0;
-        transform: translateY(15px) scale(0.98);
-        visibility: hidden;
+
+        transform:
+            translateY(15px)
+            scale(0.98);
+
+        visibility:
+            hidden;
     }
 }
+
 
 @keyframes slideInUp {
+
     0% {
         opacity: 0;
-        transform: translateY(10px);
+
+        transform:
+            translateY(10px);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
     }
 }
 
+
 @keyframes pulse-dot {
+
     0% {
-        box-shadow: 0 0 0 0 rgba(15,87,188,.6);
+
+        box-shadow:
+            0 0 0 0
+            rgba(
+                15,
+                87,
+                188,
+                0.6
+            );
     }
 
     70% {
-        box-shadow: 0 0 0 6px rgba(15,87,188,0);
+
+        box-shadow:
+            0 0 0 6px
+            rgba(
+                15,
+                87,
+                188,
+                0
+            );
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(15,87,188,0);
+
+        box-shadow:
+            0 0 0 0
+            rgba(
+                15,
+                87,
+                188,
+                0
+            );
     }
 }
+
 
 @keyframes bounceAttention {
-    0%, 100% {
-        transform: translateY(0);
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
     }
 
     50% {
-        transform: translateY(-12px);
+
+        transform:
+            translateY(-12px);
     }
 }
+
 
 @keyframes gentleBounce {
-    0%, 100% {
-        transform: translateY(0);
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
     }
 
     50% {
-        transform: translateY(-4px);
+
+        transform:
+            translateY(-4px);
     }
 }
 
+
 @keyframes typingBounce {
-    0%, 80%, 100% {
-        transform: scale(0);
+
+    0%,
+    80%,
+    100% {
+
+        transform:
+            scale(0);
     }
 
     40% {
-        transform: scale(1);
+
+        transform:
+            scale(1);
     }
-}
-
-
-/* =========================================================
-   ROOT PROTECTION
-   ========================================================= */
-
-#pda-chatbot-widget {
-    position: fixed !important;
-    right: 16px !important;
-    bottom: 16px !important;
-    z-index: 2147483647 !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
-
-    font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
-    font-size: 16px !important;
-    line-height: normal !important;
-    color: #304454 !important;
-    text-align: left !important;
-}
-
-@media (min-width: 640px) {
-    #pda-chatbot-widget {
-        right: 24px !important;
-        bottom: 24px !important;
-    }
-}
-
-#pda-chatbot-widget,
-#pda-chatbot-widget *,
-#pda-chatbot-widget *::before,
-#pda-chatbot-widget *::after {
-    box-sizing: border-box !important;
-}
-
-#pda-chatbot-widget button,
-#pda-chatbot-widget input,
-#pda-chatbot-widget textarea,
-#pda-chatbot-widget select,
-#pda-chatbot-widget a {
-    font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
-    text-transform: none !important;
-    letter-spacing: normal !important;
-}
-
-#pda-chatbot-widget button {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    max-width: 100% !important;
-    cursor: pointer !important;
-    outline: none !important;
-    text-decoration: none !important;
-}
-
-#pda-chatbot-widget input,
-#pda-chatbot-widget textarea,
-#pda-chatbot-widget select {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    outline: none !important;
-}
-
-#pda-chatbot-widget a {
-    text-decoration: none !important;
-}
-
-
-/* =========================================================
-   PANEL
-   ========================================================= */
-
-#pda-chatbot-widget #widget-panel {
-    background-color: #ffffff !important;
-    color: #304454 !important;
-    overflow: hidden !important;
-}
-
-@media (max-width: 639px) {
-    #pda-chatbot-widget #widget-panel {
-        position: fixed !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100dvh !important;
-        border: 0 !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-    }
-}
-
-@media (min-width: 640px) {
-    #pda-chatbot-widget #widget-panel {
-        position: relative !important;
-        inset: auto !important;
-        width: 360px !important;
-        height: 620px !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 24px !important;
-
-        box-shadow:
-            0 30px 60px -15px rgba(0,0,0,.4),
-            0 10px 30px -5px rgba(0,0,0,.2) !important;
-    }
-}
-
-
-/* =========================================================
-   SMALL BOT MESSAGE AVATAR
-   ========================================================= */
-
-#pda-chatbot-widget .pda-message-avatar {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
-    flex: 0 0 28px !important;
-
-    overflow: hidden !important;
-    border-radius: 50% !important;
-
-    background: #ffffff !important;
-
-    border: 1.5px solid #ffffff !important;
-
-    box-shadow:
-        0 0 0 1.5px #ffffff,
-        0 1px 2px rgba(15,23,42,.12) !important;
-}
-
-#pda-chatbot-widget .pda-message-avatar img {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 50% !important;
 }
 
 
@@ -310,18 +293,34 @@
    TYPING
    ========================================================= */
 
-#pda-chatbot-widget .typing-dots {
-    display: flex !important;
-    gap: 4px !important;
-    padding: 6px 4px !important;
+#pda-chatbot-widget
+.typing-dots {
+
+    display:
+        flex !important;
+
+    gap:
+        4px !important;
+
+    padding:
+        6px 4px !important;
 }
 
-#pda-chatbot-widget .typing-dots span {
-    width: 6px !important;
-    height: 6px !important;
 
-    background-color: #94a3b8 !important;
-    border-radius: 50% !important;
+#pda-chatbot-widget
+.typing-dots span {
+
+    width:
+        6px !important;
+
+    height:
+        6px !important;
+
+    background-color:
+        #94a3b8 !important;
+
+    border-radius:
+        50% !important;
 
     animation:
         typingBounce
@@ -331,12 +330,20 @@
         both !important;
 }
 
-#pda-chatbot-widget .typing-dots span:nth-child(1) {
-    animation-delay: -0.32s !important;
+
+#pda-chatbot-widget
+.typing-dots span:nth-child(1) {
+
+    animation-delay:
+        -0.32s !important;
 }
 
-#pda-chatbot-widget .typing-dots span:nth-child(2) {
-    animation-delay: -0.16s !important;
+
+#pda-chatbot-widget
+.typing-dots span:nth-child(2) {
+
+    animation-delay:
+        -0.16s !important;
 }
 
 
@@ -344,76 +351,563 @@
    WIDGET ANIMATIONS
    ========================================================= */
 
-#pda-chatbot-widget .widget-hidden {
-    pointer-events: none !important;
+#pda-chatbot-widget
+.widget-hidden {
+
+    pointer-events:
+        none !important;
 
     animation:
         smoothSpringDown
-        .25s
-        cubic-bezier(.4,0,1,1)
+        0.25s
+        cubic-bezier(
+            0.4,
+            0,
+            1,
+            1
+        )
         forwards !important;
 }
 
-#pda-chatbot-widget .widget-visible {
-    pointer-events: auto !important;
+
+#pda-chatbot-widget
+.widget-visible {
+
+    pointer-events:
+        auto !important;
 
     animation:
         smoothSpringUp
-        .5s
-        cubic-bezier(.16,1,.3,1)
+        0.5s
+        cubic-bezier(
+            0.16,
+            1,
+            0.3,
+            1
+        )
         forwards !important;
 }
 
-#pda-chatbot-widget .animate-message {
+
+#pda-chatbot-widget
+.animate-message {
+
     animation:
         slideInUp
-        .35s
-        cubic-bezier(.16,1,.3,1)
+        0.35s
+        cubic-bezier(
+            0.16,
+            1,
+            0.3,
+            1
+        )
         forwards !important;
 }
 
-#pda-chatbot-widget .status-dot {
-    animation: pulse-dot 2s infinite !important;
+
+#pda-chatbot-widget
+.status-dot {
+
+    animation:
+        pulse-dot
+        2s
+        infinite !important;
 }
 
-#pda-chatbot-widget .animate-attention {
-    animation: bounceAttention .4s ease-in-out 2 !important;
+
+#pda-chatbot-widget
+.animate-attention {
+
+    animation:
+        bounceAttention
+        0.4s
+        ease-in-out
+        2 !important;
 }
 
-#pda-chatbot-widget .animate-gentle-bounce {
-    animation: gentleBounce 1.5s ease-in-out infinite !important;
+
+#pda-chatbot-widget
+.animate-gentle-bounce {
+
+    animation:
+        gentleBounce
+        1.5s
+        ease-in-out
+        infinite !important;
 }
 
 
 /* =========================================================
-   SCROLLBAR
+   SCROLLBARS
    ========================================================= */
 
-#pda-chatbot-widget .custom-scrollbar::-webkit-scrollbar {
-    width: 5px !important;
-    height: 5px !important;
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar {
+
+    width:
+        5px !important;
+
+    height:
+        5px !important;
 }
 
-#pda-chatbot-widget .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent !important;
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar-track {
+
+    background:
+        transparent !important;
 }
 
-#pda-chatbot-widget .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #e2e8f0 !important;
-    border-radius: 10px !important;
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar-thumb {
+
+    background:
+        #e2e8f0 !important;
+
+    border-radius:
+        10px !important;
 }
 
-#pda-chatbot-widget .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #cbd5e1 !important;
+
+#pda-chatbot-widget
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #cbd5e1 !important;
 }
 
-#pda-chatbot-widget .hide-scrollbar::-webkit-scrollbar {
-    display: none !important;
+
+#pda-chatbot-widget
+.hide-scrollbar::-webkit-scrollbar {
+
+    display:
+        none !important;
 }
 
-#pda-chatbot-widget .hide-scrollbar {
-    -ms-overflow-style: none !important;
-    scrollbar-width: none !important;
+
+#pda-chatbot-widget
+.hide-scrollbar {
+
+    -ms-overflow-style:
+        none !important;
+
+    scrollbar-width:
+        none !important;
+}
+
+
+/* =========================================================
+   ROOT PROTECTION
+   ========================================================= */
+
+#pda-chatbot-widget {
+
+    position:
+        fixed !important;
+
+    right:
+        16px !important;
+
+    bottom:
+        16px !important;
+
+    z-index:
+        2147483647 !important;
+
+    display:
+        flex !important;
+
+    flex-direction:
+        column !important;
+
+    align-items:
+        flex-end !important;
+
+    font-family:
+        "Plus Jakarta Sans",
+        Arial,
+        sans-serif !important;
+
+    font-size:
+        16px !important;
+
+    line-height:
+        normal !important;
+
+    color:
+        #304454 !important;
+
+    text-align:
+        left !important;
+}
+
+
+@media (
+    min-width:
+    640px
+) {
+
+    #pda-chatbot-widget {
+
+        right:
+            24px !important;
+
+        bottom:
+            24px !important;
+    }
+}
+
+
+#pda-chatbot-widget,
+#pda-chatbot-widget *,
+#pda-chatbot-widget *::before,
+#pda-chatbot-widget *::after {
+
+    box-sizing:
+        border-box !important;
+}
+
+
+#pda-chatbot-widget button,
+#pda-chatbot-widget input,
+#pda-chatbot-widget textarea,
+#pda-chatbot-widget select,
+#pda-chatbot-widget a {
+
+    font-family:
+        "Plus Jakarta Sans",
+        Arial,
+        sans-serif !important;
+
+    text-transform:
+        none !important;
+
+    letter-spacing:
+        normal !important;
+}
+
+
+#pda-chatbot-widget button {
+
+    -webkit-appearance:
+        none !important;
+
+    appearance:
+        none !important;
+
+    min-width:
+        0 !important;
+
+    min-height:
+        0 !important;
+
+    max-width:
+        100% !important;
+
+    outline:
+        none !important;
+
+    cursor:
+        pointer !important;
+}
+
+
+#pda-chatbot-widget input,
+#pda-chatbot-widget textarea {
+
+    -webkit-appearance:
+        none !important;
+
+    appearance:
+        none !important;
+}
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+#pda-chatbot-widget
+#widget-panel {
+
+    background-color:
+        #ffffff !important;
+
+    color:
+        #304454 !important;
+
+    overflow:
+        hidden !important;
+}
+
+
+@media (
+    max-width:
+    639px
+) {
+
+    #pda-chatbot-widget
+    #widget-panel {
+
+        position:
+            fixed !important;
+
+        inset:
+            0 !important;
+
+        width:
+            100% !important;
+
+        height:
+            100dvh !important;
+
+        border:
+            0 !important;
+
+        border-radius:
+            0 !important;
+
+        box-shadow:
+            none !important;
+    }
+}
+
+
+@media (
+    min-width:
+    640px
+) {
+
+    #pda-chatbot-widget
+    #widget-panel {
+
+        position:
+            relative !important;
+
+        inset:
+            auto !important;
+
+        width:
+            360px !important;
+
+        height:
+            620px !important;
+
+        border:
+            1px solid
+            #e2e8f0 !important;
+
+        border-radius:
+            24px !important;
+
+        box-shadow:
+            0 30px 60px -15px
+            rgba(
+                0,
+                0,
+                0,
+                .4
+            ),
+
+            0 10px 30px -5px
+            rgba(
+                0,
+                0,
+                0,
+                .2
+            )
+            !important;
+    }
+}
+
+
+/* =========================================================
+   LARGE HEADER ZOEY AVATAR
+   1.5PX WHITE RING
+   ========================================================= */
+
+#pda-chatbot-widget
+.pda-header-avatar {
+
+    width:
+        56px !important;
+
+    height:
+        56px !important;
+
+    min-width:
+        56px !important;
+
+    min-height:
+        56px !important;
+
+    padding:
+        1.5px !important;
+
+    background:
+        #ffffff !important;
+
+    background-color:
+        #ffffff !important;
+
+    border:
+        0 !important;
+
+    border-radius:
+        50% !important;
+
+    overflow:
+        hidden !important;
+
+    box-sizing:
+        border-box !important;
+}
+
+
+#pda-chatbot-widget
+.pda-header-avatar img {
+
+    display:
+        block !important;
+
+    width:
+        100% !important;
+
+    height:
+        100% !important;
+
+    object-fit:
+        cover !important;
+
+    border-radius:
+        50% !important;
+}
+
+
+/* =========================================================
+   SMALL CHAT AVATAR
+   ========================================================= */
+
+#pda-chatbot-widget
+.pda-message-avatar {
+
+    width:
+        28px !important;
+
+    height:
+        28px !important;
+
+    min-width:
+        28px !important;
+
+    min-height:
+        28px !important;
+
+    border-radius:
+        50% !important;
+
+    overflow:
+        hidden !important;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+#pda-chatbot-widget
+.chat-input-field {
+
+    display:
+        block !important;
+
+    width:
+        100% !important;
+
+    max-width:
+        100% !important;
+
+    min-width:
+        0 !important;
+
+    height:
+        auto !important;
+
+    margin:
+        0 0 12px 0 !important;
+
+    padding:
+        12px 16px !important;
+
+    border:
+        1px solid
+        #e2e8f0 !important;
+
+    border-radius:
+        10px !important;
+
+    background:
+        #f8fafc !important;
+
+    color:
+        #304454 !important;
+
+    font-size:
+        14px !important;
+
+    line-height:
+        20px !important;
+
+    box-shadow:
+        none !important;
+
+    outline:
+        none !important;
+}
+
+
+#pda-chatbot-widget
+textarea.chat-input-field {
+
+    min-height:
+        80px !important;
+
+    resize:
+        none !important;
+}
+
+
+#pda-chatbot-widget
+.chat-input-field::placeholder {
+
+    color:
+        #94a3b8 !important;
+
+    opacity:
+        1 !important;
+}
+
+
+#pda-chatbot-widget
+.chat-input-field:focus {
+
+    background:
+        #ffffff !important;
+
+    border-color:
+        #0f57bc !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            15,
+            87,
+            188,
+            .15
+        )
+        !important;
 }
 
 
@@ -421,122 +915,37 @@
    BACK BUTTON
    ========================================================= */
 
-#pda-chatbot-widget #nav-back-btn {
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
+#pda-chatbot-widget
+#nav-back-btn {
 
-    width: auto !important;
-    height: auto !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
+    background:
+        transparent !important;
 
-    margin: 0 !important;
-    padding: 0 !important;
+    border:
+        0 !important;
 
-    border: 0 !important;
-    border-radius: 0 !important;
+    color:
+        #64748b !important;
 
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
+    padding:
+        0 !important;
 
-    color: #64748b !important;
+    width:
+        auto !important;
 
-    box-shadow: none !important;
-
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    line-height: 20px !important;
-}
-
-#pda-chatbot-widget #nav-back-btn svg {
-    width: 16px !important;
-    height: 16px !important;
-
-    color: #64748b !important;
-    stroke: #64748b !important;
-}
-
-#pda-chatbot-widget #nav-back-btn:hover {
-    background: transparent !important;
-    color: #0f57bc !important;
+    height:
+        auto !important;
 }
 
 
-/* =========================================================
-   FORM INPUTS
-   ========================================================= */
+#pda-chatbot-widget
+#nav-back-btn:hover {
 
-#pda-chatbot-widget .chat-input-field {
-    display: block !important;
+    background:
+        transparent !important;
 
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-
-    height: auto !important;
-
-    margin: 0 0 12px 0 !important;
-    padding: 12px 16px !important;
-
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 10px !important;
-
-    background: #f8fafc !important;
-    background-color: #f8fafc !important;
-    background-image: none !important;
-
-    color: #304454 !important;
-
-    box-shadow: none !important;
-
-    font-size: 14px !important;
-    font-weight: 400 !important;
-    line-height: 20px !important;
-}
-
-#pda-chatbot-widget textarea.chat-input-field {
-    min-height: 80px !important;
-    resize: none !important;
-}
-
-#pda-chatbot-widget .chat-input-field::placeholder {
-    color: #94a3b8 !important;
-    opacity: 1 !important;
-}
-
-#pda-chatbot-widget .chat-input-field:focus {
-    background: #ffffff !important;
-    border-color: #0f57bc !important;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(15,87,188,.15) !important;
-}
-
-
-/* =========================================================
-   PRIMARY CTA
-   ========================================================= */
-
-#pda-chatbot-widget button.primary-cta-btn {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-
-    margin: 0 !important;
-    padding: 14px !important;
-
-    border: 0 !important;
-    border-radius: 14px !important;
-
-    background: #0f57bc !important;
-    color: #ffffff !important;
-}
-
-#pda-chatbot-widget button.primary-cta-btn:hover {
-    background: #0d4a9f !important;
+    color:
+        #0f57bc !important;
 }
 
 
@@ -544,86 +953,199 @@
    GRID BUTTONS
    ========================================================= */
 
-#pda-chatbot-widget #bento-view .grid button {
-    height: auto !important;
-    min-height: 0 !important;
+#pda-chatbot-widget
+#bento-view
+.grid button {
 
-    margin: 0 !important;
-    padding: 14px 12px !important;
+    height:
+        auto !important;
 
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 12px !important;
+    min-height:
+        0 !important;
 
-    background: #ffffff !important;
-    color: #334155 !important;
+    margin:
+        0 !important;
+
+    padding:
+        14px 12px !important;
+
+    border:
+        1px solid
+        #e2e8f0 !important;
+
+    border-radius:
+        12px !important;
+
+    background:
+        #ffffff !important;
+
+    color:
+        #334155 !important;
 }
 
-#pda-chatbot-widget #bento-view .grid button:hover {
-    background: #f8fafc !important;
+
+#pda-chatbot-widget
+#bento-view
+.grid button:hover {
+
+    background:
+        #f8fafc !important;
 }
 
-#pda-chatbot-widget #bento-view .grid button:hover span,
-#pda-chatbot-widget #bento-view .grid button:hover i {
-    color: #0f57bc !important;
+
+#pda-chatbot-widget
+#bento-view
+.grid button:hover span,
+
+#pda-chatbot-widget
+#bento-view
+.grid button:hover i {
+
+    color:
+        #0f57bc !important;
 }
 
 
 /* =========================================================
-   LIVE SEND
+   BUTTON PROTECTION
    ========================================================= */
 
-#pda-chatbot-widget #live-chat-submit {
-    width: 32px !important;
-    min-width: 32px !important;
+#pda-chatbot-widget
+button.primary-cta-btn {
 
-    height: 32px !important;
-    min-height: 32px !important;
+    width:
+        100% !important;
 
-    padding: 8px !important;
-    margin: 0 !important;
+    height:
+        auto !important;
 
-    border: 0 !important;
-    border-radius: 9999px !important;
+    min-height:
+        0 !important;
 
-    background: #0f57bc !important;
-    color: #ffffff !important;
+    margin:
+        0 !important;
+
+    padding:
+        14px !important;
+
+    border:
+        0 !important;
+
+    border-radius:
+        14px !important;
+
+    background:
+        #0f57bc !important;
+
+    color:
+        #ffffff !important;
 }
 
-#pda-chatbot-widget #live-chat-submit:hover {
-    background: #0d4a9f !important;
+
+#pda-chatbot-widget
+button.primary-cta-btn:hover {
+
+    background:
+        #0d4a9f !important;
 }
 
 
-/* =========================================================
-   FLOATING TRIGGER
-   ========================================================= */
+#pda-chatbot-widget
+button.bg-accent-500:hover {
 
-#pda-chatbot-widget #trigger-btn {
-    width: 54px !important;
-    min-width: 54px !important;
+    background-color:
+        #0d4a9f !important;
 
-    height: 54px !important;
-    min-height: 54px !important;
+    color:
+        #ffffff !important;
+}
 
-    margin: 0 !important;
-    padding: 0 !important;
 
-    border: 0 !important;
-    border-radius: 50% !important;
+#pda-chatbot-widget
+#live-chat-submit {
 
-    background: transparent !important;
+    width:
+        32px !important;
+
+    min-width:
+        32px !important;
+
+    height:
+        32px !important;
+
+    min-height:
+        32px !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        8px !important;
+
+    border:
+        0 !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        #0f57bc !important;
+
+    color:
+        #ffffff !important;
+}
+
+
+#pda-chatbot-widget
+#trigger-btn {
+
+    width:
+        54px !important;
+
+    min-width:
+        54px !important;
+
+    height:
+        54px !important;
+
+    min-height:
+        54px !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+
+    border:
+        0 !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        transparent !important;
 }
 
         `;
 
-        document.head.appendChild(style);
+
+        document.head.appendChild(
+            el
+        );
     }
 
 
-    function addMarkup() {
-        const holder = document.createElement('div');
+    function installMarkup() {
 
-        holder.innerHTML = `
+        const holder =
+            document.createElement(
+                'div'
+            );
+
+
+        holder.innerHTML =
+            String.raw`
 
 <div
     id="pda-chatbot-widget"
@@ -647,9 +1169,10 @@
     "
 >
 
-    <!-- =====================================================
-         WIDGET PANEL
-         ===================================================== -->
+
+    <!-- ==================================================
+         PANEL
+         ================================================== -->
 
     <div
         id="widget-panel"
@@ -675,12 +1198,16 @@
             text-[#304454]
             z-[100]
         "
-        style="display:none;"
+        style="
+            display:
+            none;
+        "
     >
 
-        <!-- =================================================
+
+        <!-- ==================================================
              MAIN MENU
-             ================================================= -->
+             ================================================== -->
 
         <div
             id="bento-view"
@@ -699,7 +1226,8 @@
             "
         >
 
-            <!-- BLUE HEADER -->
+
+            <!-- HEADER -->
 
             <div
                 class="
@@ -726,15 +1254,22 @@
                     "
                 >
 
-                    <div class="relative shrink-0">
+                    <div
+                        class="
+                            relative
+                            shrink-0
+                        "
+                    >
+
 
                         <!--
-                            LARGE HEADER ZOEY IMAGE
-                            1.5PX PHYSICAL WHITE RING
+                            LARGE ZOEY HEADER IMAGE
+                            1.5PX WHITE RING
                         -->
 
                         <div
                             class="
+                                pda-header-avatar
                                 w-14
                                 h-14
                                 rounded-full
@@ -742,37 +1277,63 @@
                                 bg-white
                             "
                             style="
-                                width:56px !important;
-                                height:56px !important;
+                                width:
+                                56px !important;
 
-                                min-width:56px !important;
-                                min-height:56px !important;
+                                height:
+                                56px !important;
 
-                                padding:1.5px !important;
+                                min-width:
+                                56px !important;
 
-                                background:#ffffff !important;
-                                background-color:#ffffff !important;
+                                min-height:
+                                56px !important;
 
-                                border-radius:50% !important;
-                                overflow:hidden !important;
+                                padding:
+                                1.5px !important;
 
-                                box-sizing:border-box !important;
+                                background:
+                                #ffffff !important;
+
+                                border-radius:
+                                50% !important;
+
+                                overflow:
+                                hidden !important;
+
+                                box-sizing:
+                                border-box !important;
                             "
                         >
 
                             <img
                                 src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
                                 alt="Zoey - AI Assistant"
+                                class="
+                                    w-full
+                                    h-full
+                                    object-cover
+                                "
                                 style="
-                                    display:block !important;
-                                    width:100% !important;
-                                    height:100% !important;
-                                    object-fit:cover !important;
-                                    border-radius:50% !important;
+                                    display:
+                                    block !important;
+
+                                    width:
+                                    100% !important;
+
+                                    height:
+                                    100% !important;
+
+                                    object-fit:
+                                    cover !important;
+
+                                    border-radius:
+                                    50% !important;
                                 "
                             >
 
                         </div>
+
 
                         <span
                             class="
@@ -808,6 +1369,7 @@
                             Plaza Dental Arts
                         </h3>
 
+
                         <p
                             class="
                                 text-white/80
@@ -827,7 +1389,9 @@
 
                 <button
                     type="button"
-                    onclick="window.toggleWidget()"
+                    onclick="
+                        window.toggleWidget()
+                    "
                     class="
                         text-white/70
                         hover:text-white
@@ -840,12 +1404,18 @@
                         bg-transparent
                         m-0
                     "
-                    style="border:none !important;"
+                    style="
+                        border:
+                        none !important;
+                    "
                 >
 
                     <i
                         data-lucide="x"
-                        class="w-5 h-5"
+                        class="
+                            w-5
+                            h-5
+                        "
                     ></i>
 
                 </button>
@@ -896,6 +1466,12 @@
 
                 <button
                     type="button"
+                    onclick="
+                        window.appBot
+                        .startFlow(
+                            'schedule'
+                        )
+                    "
                     class="
                         primary-cta-btn
                         w-full
@@ -916,11 +1492,10 @@
                         text-left
                         cursor-pointer
                     "
-                    onclick="
-                        window.appBot
-                        .startFlow('schedule')
+                    style="
+                        border:
+                        none !important;
                     "
-                    style="border:none !important;"
                 >
 
                     <div
@@ -950,7 +1525,10 @@
 
                             <i
                                 data-lucide="calendar"
-                                class="w-[18px] h-[18px]"
+                                class="
+                                    w-[18px]
+                                    h-[18px]
+                                "
                             ></i>
 
                         </div>
@@ -981,6 +1559,7 @@
                                 Schedule Appointment
                             </span>
 
+
                             <span
                                 class="
                                     block
@@ -993,7 +1572,8 @@
                                     truncate
                                 "
                             >
-                                New & existing patients • Takes 60s
+                                New & existing patients
+                                • Takes 60s
                             </span>
 
                         </div>
@@ -1016,7 +1596,11 @@
 
                         <i
                             data-lucide="chevron-right"
-                            class="w-3.5 h-3.5 text-white"
+                            class="
+                                w-3.5
+                                h-3.5
+                                text-white
+                            "
                         ></i>
 
                     </div>
@@ -1028,6 +1612,12 @@
 
                 <button
                     type="button"
+                    onclick="
+                        window.appBot
+                        .startFlow(
+                            'emergency'
+                        )
+                    "
                     class="
                         w-full
                         bg-[#fff4f4]
@@ -1048,13 +1638,10 @@
                         cursor-pointer
                         mt-1
                     "
-                    onclick="
-                        window.appBot
-                        .startFlow('emergency')
-                    "
                     style="
                         border:
-                        1px solid #ffdede !important;
+                        1px solid
+                        #ffdede !important;
                     "
                 >
 
@@ -1086,7 +1673,10 @@
 
                             <i
                                 data-lucide="shield-alert"
-                                class="w-[18px] h-[18px]"
+                                class="
+                                    w-[18px]
+                                    h-[18px]
+                                "
                             ></i>
 
                         </div>
@@ -1116,6 +1706,7 @@
                                 Dental Emergency
                             </span>
 
+
                             <span
                                 class="
                                     block
@@ -1126,7 +1717,8 @@
                                     truncate
                                 "
                             >
-                                Call us immediately • We're here to help
+                                Call us immediately
+                                • We're here to help
                             </span>
 
                         </div>
@@ -1146,7 +1738,7 @@
                 </button>
 
 
-                <!-- GRID -->
+                <!-- FOUR GRID BUTTONS -->
 
                 <div
                     class="
@@ -1160,6 +1752,12 @@
 
                     <button
                         type="button"
+                        onclick="
+                            window.appBot
+                            .startFlow(
+                                'reschedule'
+                            )
+                        "
                         class="
                             flex
                             items-center
@@ -1174,15 +1772,15 @@
                             m-0
                             text-left
                         "
-                        onclick="
-                            window.appBot
-                            .startFlow('reschedule')
-                        "
                     >
 
                         <i
                             data-lucide="calendar-clock"
-                            class="w-4 h-4 text-slate-400"
+                            class="
+                                w-4
+                                h-4
+                                text-slate-400
+                            "
                         ></i>
 
                         <span
@@ -1200,6 +1798,12 @@
 
                     <button
                         type="button"
+                        onclick="
+                            window.appBot
+                            .startFlow(
+                                'question'
+                            )
+                        "
                         class="
                             flex
                             items-center
@@ -1214,15 +1818,15 @@
                             m-0
                             text-left
                         "
-                        onclick="
-                            window.appBot
-                            .startFlow('question')
-                        "
                     >
 
                         <i
                             data-lucide="message-circle"
-                            class="w-4 h-4 text-slate-400"
+                            class="
+                                w-4
+                                h-4
+                                text-slate-400
+                            "
                         ></i>
 
                         <span
@@ -1240,6 +1844,12 @@
 
                     <button
                         type="button"
+                        onclick="
+                            window.appBot
+                            .startFlow(
+                                'call'
+                            )
+                        "
                         class="
                             flex
                             items-center
@@ -1254,15 +1864,15 @@
                             m-0
                             text-left
                         "
-                        onclick="
-                            window.appBot
-                            .startFlow('call')
-                        "
                     >
 
                         <i
                             data-lucide="phone"
-                            class="w-4 h-4 text-slate-400"
+                            class="
+                                w-4
+                                h-4
+                                text-slate-400
+                            "
                         ></i>
 
                         <span
@@ -1280,6 +1890,12 @@
 
                     <button
                         type="button"
+                        onclick="
+                            window.appBot
+                            .startFlow(
+                                'reviews'
+                            )
+                        "
                         class="
                             flex
                             items-center
@@ -1294,15 +1910,15 @@
                             m-0
                             text-left
                         "
-                        onclick="
-                            window.appBot
-                            .startFlow('reviews')
-                        "
                     >
 
                         <i
                             data-lucide="star"
-                            class="w-4 h-4 text-slate-400"
+                            class="
+                                w-4
+                                h-4
+                                text-slate-400
+                            "
                         ></i>
 
                         <span
@@ -1341,7 +1957,11 @@
 
                 <i
                     data-lucide="smile"
-                    class="w-4 h-4 text-accent-500"
+                    class="
+                        w-4
+                        h-4
+                        text-accent-500
+                    "
                 ></i>
 
                 <span
@@ -1361,9 +1981,9 @@
         </div>
 
 
-        <!-- =================================================
+        <!-- ==================================================
              CHAT VIEW
-             ================================================= -->
+             ================================================== -->
 
         <div
             id="chat-view"
@@ -1384,7 +2004,8 @@
             "
         >
 
-            <!-- SECOND BLUE HEADER -->
+
+            <!-- CHAT HEADER -->
 
             <div
                 class="
@@ -1412,12 +2033,17 @@
                     "
                 >
 
-                    <div class="relative shrink-0">
+                    <div
+                        class="
+                            relative
+                            shrink-0
+                        "
+                    >
 
-                        <!-- SAME LARGE HEADER WHITE RING -->
 
                         <div
                             class="
+                                pda-header-avatar
                                 w-14
                                 h-14
                                 rounded-full
@@ -1425,33 +2051,58 @@
                                 bg-white
                             "
                             style="
-                                width:56px !important;
-                                height:56px !important;
+                                width:
+                                56px !important;
 
-                                min-width:56px !important;
-                                min-height:56px !important;
+                                height:
+                                56px !important;
 
-                                padding:1.5px !important;
+                                min-width:
+                                56px !important;
 
-                                background:#ffffff !important;
-                                background-color:#ffffff !important;
+                                min-height:
+                                56px !important;
 
-                                border-radius:50% !important;
-                                overflow:hidden !important;
+                                padding:
+                                1.5px !important;
 
-                                box-sizing:border-box !important;
+                                background:
+                                #ffffff !important;
+
+                                border-radius:
+                                50% !important;
+
+                                overflow:
+                                hidden !important;
+
+                                box-sizing:
+                                border-box !important;
                             "
                         >
 
                             <img
                                 src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
                                 alt="Zoey"
+                                class="
+                                    w-full
+                                    h-full
+                                    object-cover
+                                "
                                 style="
-                                    display:block !important;
-                                    width:100% !important;
-                                    height:100% !important;
-                                    object-fit:cover !important;
-                                    border-radius:50% !important;
+                                    display:
+                                    block !important;
+
+                                    width:
+                                    100% !important;
+
+                                    height:
+                                    100% !important;
+
+                                    object-fit:
+                                    cover !important;
+
+                                    border-radius:
+                                    50% !important;
                                 "
                             >
 
@@ -1492,6 +2143,7 @@
                             Plaza Dental Arts
                         </h4>
 
+
                         <span
                             class="
                                 text-[12.5px]
@@ -1511,7 +2163,9 @@
 
                 <button
                     type="button"
-                    onclick="window.toggleWidget()"
+                    onclick="
+                        window.toggleWidget()
+                    "
                     class="
                         text-white/70
                         hover:text-white
@@ -1522,12 +2176,18 @@
                         bg-transparent
                         m-0
                     "
-                    style="border:none !important;"
+                    style="
+                        border:
+                        none !important;
+                    "
                 >
 
                     <i
                         data-lucide="x"
-                        class="w-5 h-5"
+                        class="
+                            w-5
+                            h-5
+                        "
                     ></i>
 
                 </button>
@@ -1535,7 +2195,7 @@
             </div>
 
 
-            <!-- NAV -->
+            <!-- CHAT NAV -->
 
             <div
                 id="chat-nav"
@@ -1558,17 +2218,17 @@
                     type="button"
                     id="nav-back-btn"
                     onclick="
-                        window.appBot.goBack()
-                    "
-                    style="
-                        border:none !important;
-                        background:transparent !important;
+                        window.appBot
+                        .goBack()
                     "
                 >
 
                     <i
                         data-lucide="arrow-left"
-                        class="w-4 h-4"
+                        class="
+                            w-4
+                            h-4
+                        "
                     ></i>
 
                     Back
@@ -1618,11 +2278,28 @@
             ></div>
 
 
-            <!-- SCROLL BUTTON -->
+            <!-- SCROLL DOWN -->
 
             <button
                 type="button"
                 id="scroll-down-btn"
+                onclick="
+                    document
+                    .getElementById(
+                        'chat-history'
+                    )
+                    .scrollTo({
+                        top:
+                            document
+                            .getElementById(
+                                'chat-history'
+                            )
+                            .scrollHeight,
+
+                        behavior:
+                            'smooth'
+                    })
+                "
                 class="
                     absolute
                     bottom-[90px]
@@ -1639,28 +2316,21 @@
                     items-center
                     justify-center
                 "
-                onclick="
-                    document
-                    .getElementById('chat-history')
-                    .scrollTo({
-                        top:
-                            document
-                            .getElementById('chat-history')
-                            .scrollHeight,
-
-                        behavior:
-                            'smooth'
-                    })
-                "
                 style="
-                    display:none !important;
-                    border:none !important;
+                    display:
+                    none !important;
+
+                    border:
+                    none !important;
                 "
             >
 
                 <i
                     data-lucide="arrow-down"
-                    class="w-4 h-4"
+                    class="
+                        w-4
+                        h-4
+                    "
                 ></i>
 
             </button>
@@ -1680,11 +2350,20 @@
                     gap-2
                     m-0
                 "
-                style="display:none !important;"
+                style="
+                    display:
+                    none !important;
+                "
             >
 
                 <button
                     type="button"
+                    onclick="
+                        window.appBot
+                        .startFlow(
+                            'schedule'
+                        )
+                    "
                     class="
                         w-full
                         bg-[#0f57bc]
@@ -1698,15 +2377,14 @@
                         justify-center
                         gap-2
                     "
-                    onclick="
-                        window.appBot
-                        .startFlow('schedule')
-                    "
                 >
 
                     <i
                         data-lucide="calendar-plus"
-                        class="w-4 h-4"
+                        class="
+                            w-4
+                            h-4
+                        "
                     ></i>
 
                     Schedule Appointment
@@ -1715,6 +2393,12 @@
 
 
                 <form
+                    onsubmit="
+                        event.preventDefault();
+
+                        window.appBot
+                        .handleChatSend();
+                    "
                     class="
                         relative
                         flex
@@ -1723,17 +2407,13 @@
                         p-0
                         mt-1
                     "
-                    onsubmit="
-                        event.preventDefault();
-                        window.appBot.handleChatSend();
-                    "
                 >
 
                     <input
-                        id="live-chat-input"
                         type="text"
-                        autocomplete="off"
+                        id="live-chat-input"
                         placeholder="Type your message..."
+                        autocomplete="off"
                         class="
                             w-full
                             bg-slate-50
@@ -1765,12 +2445,18 @@
                             justify-center
                             m-0
                         "
-                        style="border:none !important;"
+                        style="
+                            border:
+                            none !important;
+                        "
                     >
 
                         <i
                             data-lucide="send"
-                            class="w-4 h-4"
+                            class="
+                                w-4
+                                h-4
+                            "
                         ></i>
 
                     </button>
@@ -1780,7 +2466,7 @@
             </div>
 
 
-            <!-- HIPAA FOOTER -->
+            <!-- HIPAA -->
 
             <div
                 id="hipaa-footer"
@@ -1812,7 +2498,10 @@
 
                     <i
                         data-lucide="lock"
-                        class="w-3 h-3"
+                        class="
+                            w-3
+                            h-3
+                        "
                     ></i>
 
                     HIPAA Compliant Portal
@@ -1826,9 +2515,9 @@
     </div>
 
 
-    <!-- =====================================================
-         FLOATING TRIGGER
-         ===================================================== -->
+    <!-- ==================================================
+         TRIGGER
+         ================================================== -->
 
     <div
         class="
@@ -1841,7 +2530,9 @@
 
         <div
             id="trigger-bubble"
-            onclick="window.toggleWidget()"
+            onclick="
+                window.toggleWidget()
+            "
             class="
                 opacity-0
                 scale-95
@@ -1861,7 +2552,10 @@
                 relative
                 max-w-[180px]
             "
-            style="display:none;"
+            style="
+                display:
+                none;
+            "
         >
 
             <span
@@ -1884,36 +2578,58 @@
 
 
         <button
-            id="trigger-btn"
             type="button"
-            onclick="window.toggleWidget()"
+            id="trigger-btn"
+            onclick="
+                window.toggleWidget()
+            "
             style="
-                position:relative;
+                position:
+                relative;
 
                 box-shadow:
-                    0 15px 35px -5px
-                    rgba(15,87,188,.25);
+                0px 15px 35px -5px
+                rgba(
+                    15,
+                    87,
+                    188,
+                    0.25
+                );
             "
         >
 
             <div
                 id="icon-default"
                 style="
-                    width:54px;
-                    height:54px;
+                    width:
+                    54px;
 
-                    border-radius:50%;
-                    overflow:hidden;
+                    height:
+                    54px;
 
-                    border:3px solid white;
+                    border-radius:
+                    50%;
 
-                    background-color:white;
+                    overflow:
+                    hidden;
 
-                    position:absolute;
-                    top:0;
-                    left:0;
+                    border:
+                    3px solid white;
 
-                    display:block;
+                    background-color:
+                    white;
+
+                    position:
+                    absolute;
+
+                    top:
+                    0;
+
+                    left:
+                    0;
+
+                    display:
+                    block;
                 "
             >
 
@@ -1921,14 +2637,20 @@
                     src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
                     alt="Chat with us"
                     style="
-                        width:100%;
-                        height:100%;
+                        width:
+                        100%;
 
-                        object-fit:cover;
+                        height:
+                        100%;
 
-                        display:block;
+                        object-fit:
+                        cover;
 
-                        border-radius:50%;
+                        display:
+                        block;
+
+                        border-radius:
+                        50%;
                     "
                 >
 
@@ -1938,32 +2660,49 @@
             <div
                 id="icon-active"
                 style="
-                    display:none;
+                    display:
+                    none;
 
-                    width:54px;
-                    height:54px;
+                    width:
+                    54px;
 
-                    border-radius:50%;
+                    height:
+                    54px;
 
-                    background-color:#0f57bc !important;
+                    border-radius:
+                    50%;
 
-                    position:absolute;
-                    top:0;
-                    left:0;
+                    background-color:
+                    #0f57bc !important;
 
-                    align-items:center;
-                    justify-content:center;
+                    position:
+                    absolute;
 
-                    border:2px solid #0f57bc;
+                    top:
+                    0;
+
+                    left:
+                    0;
+
+                    align-items:
+                    center;
+
+                    justify-content:
+                    center;
                 "
             >
 
                 <i
                     data-lucide="x"
                     style="
-                        width:24px;
-                        height:24px;
-                        color:white;
+                        width:
+                        24px;
+
+                        height:
+                        24px;
+
+                        color:
+                        white;
                     "
                 ></i>
 
@@ -2012,7 +2751,10 @@
                     border
                     border-white
                 "
-                style="display:none;"
+                style="
+                    display:
+                    none;
+                "
             >
                 1
             </span>
@@ -2023,7 +2765,7 @@
 
 </div>
 
-        `.trim();
+        `;
 
 
         const root =
@@ -2037,66 +2779,115 @@
         );
 
 
-        document.body.appendChild(root);
+        document.body.appendChild(
+            root
+        );
+
 
         return root;
     }
 
 
-    async function bootPDAChatbot() {
+    async function boot() {
+
         if (!document.body) {
-            requestAnimationFrame(bootPDAChatbot);
+
+            requestAnimationFrame(
+                boot
+            );
+
             return;
         }
 
-        addFont();
 
-        const root = addMarkup();
+        addFont();
+        installStyles();
+
 
         try {
-            await loadExternalScript(
+
+            await loadScript(
                 PDA_TAILWIND_ID,
-                'https://cdn.tailwindcss.com'
+                'https://cdn.tailwindcss.com',
+                () =>
+                    !!window.tailwind
             );
 
 
-            if (window.tailwind) {
+            if (
+                window.tailwind
+            ) {
+
                 window.tailwind.config = {
+
                     important:
                         '#pda-chatbot-widget',
 
                     corePlugins: {
-                        preflight: false
+
+                        preflight:
+                            false
+
                     },
 
                     theme: {
+
                         extend: {
+
                             fontFamily: {
+
                                 sans: [
                                     '"Plus Jakarta Sans"',
                                     'Arial',
                                     'sans-serif'
                                 ]
+
                             },
+
 
                             colors: {
+
                                 premium: {
-                                    50: '#f8fafc',
-                                    100: '#f1f5f9',
-                                    200: '#e2e8f0',
-                                    800: '#23323e',
-                                    900: '#304454',
-                                    950: '#1b2731'
+
+                                    50:
+                                        '#f8fafc',
+
+                                    100:
+                                        '#f1f5f9',
+
+                                    200:
+                                        '#e2e8f0',
+
+                                    800:
+                                        '#23323e',
+
+                                    900:
+                                        '#304454',
+
+                                    950:
+                                        '#1b2731'
+
                                 },
 
+
                                 accent: {
-                                    400: '#3273d1',
-                                    500: '#0f57bc',
-                                    600: '#0d4a9f'
+
+                                    400:
+                                        '#3273d1',
+
+                                    500:
+                                        '#0f57bc',
+
+                                    600:
+                                        '#0d4a9f'
+
                                 }
+
                             },
 
+
                             boxShadow: {
+
                                 elegant:
                                     '0px 30px 60px -15px rgba(0,0,0,.4), 0px 10px 30px -5px rgba(0,0,0,.2)',
 
@@ -2105,61 +2896,81 @@
 
                                 card:
                                     '0px 4px 20px -2px rgba(0,0,0,.05)'
+
                             }
+
                         }
+
                     }
+
                 };
+
             }
 
 
-            await loadExternalScript(
+            const root =
+                installMarkup();
+
+
+            await loadScript(
                 PDA_LUCIDE_ID,
-                'https://unpkg.com/lucide@latest'
+                'https://unpkg.com/lucide@latest',
+                () =>
+                    !!window.lucide
             );
 
 
-            addStyles();
-
-
-            await new Promise(
-                resolve =>
-                    requestAnimationFrame(
-                        () =>
-                            requestAnimationFrame(resolve)
-                    )
-            );
-
-
-            root.style.removeProperty('visibility');
-
+            /* ==================================================
+               CHATBOT LOGIC
+               ================================================== */
 
             (function () {
 
-                /* ==================================================
-                   GLOBAL STATE
-                   ================================================== */
+
+                /* ==============================================
+                   STATE
+                   ============================================== */
 
                 window.pdaBotState = {
+
                     schedule: {
-                        patient_type: '',
-                        reason: '',
-                        other_reason: '',
-                        best_time: ''
+
+                        patient_type:
+                            '',
+
+                        reason:
+                            '',
+
+                        other_reason:
+                            '',
+
+                        best_time:
+                            ''
+
                     },
+
 
                     emergency: {
-                        symptom: ''
+
+                        symptom:
+                            ''
+
                     },
 
+
                     reschedule: {
-                        current_time: ''
+
+                        current_time:
+                            ''
+
                     }
+
                 };
 
 
-                /* ==================================================
-                   CONSTANTS
-                   ================================================== */
+                /* ==============================================
+                   EXACT WEBHOOKS
+                   ============================================== */
 
                 const WEBHOOK_URL =
                     'https://api.mikemathewscmo.com/webhook/pda-website-chatbot';
@@ -2185,14 +2996,24 @@
                     ms =>
                         new Promise(
                             resolve =>
-                                setTimeout(resolve, ms)
+                                setTimeout(
+                                    resolve,
+                                    ms
+                                )
                         );
 
 
-                let isWidgetOpen = false;
-                let hasPlayedSound = false;
-                let badgeVisible = false;
-                let audioUnlocked = false;
+                let isWidgetOpen =
+                    false;
+
+                let hasPlayedSound =
+                    false;
+
+                let badgeVisible =
+                    false;
+
+                let audioUnlocked =
+                    false;
 
 
                 const dingAudio =
@@ -2207,52 +3028,71 @@
                     );
 
 
-                /* ==================================================
+                /* ==============================================
                    TRACKING
-                   ================================================== */
+                   ============================================== */
 
                 function createTrackingId(
                     prefix
                 ) {
+
                     return (
-                        prefix +
-                        '-' +
+
+                        prefix
+                        +
+                        '-'
+                        +
                         (
                             typeof crypto !==
                                 'undefined'
                             &&
                             crypto.randomUUID
+
                                 ?
+
                                 crypto.randomUUID()
+
                                 :
-                                Date.now() +
-                                '-' +
+
+                                Date.now()
+                                +
+                                '-'
+                                +
                                 Math.random()
                                     .toString(36)
-                                    .substr(2, 9)
+                                    .substr(
+                                        2,
+                                        9
+                                    )
                         )
                     );
+
                 }
 
 
                 function getChatVisitorId() {
+
                     let id =
-                        localStorage.getItem(
-                            'pdaChatVisitorId'
-                        );
+                        localStorage
+                            .getItem(
+                                'pdaChatVisitorId'
+                            );
 
 
                     if (!id) {
+
                         id =
                             createTrackingId(
                                 'visitor'
                             );
 
 
-                        localStorage.setItem(
-                            'pdaChatVisitorId',
-                            id
-                        );
+                        localStorage
+                            .setItem(
+                                'pdaChatVisitorId',
+                                id
+                            );
+
                     }
 
 
@@ -2261,23 +3101,28 @@
 
 
                 function getChatSessionId() {
+
                     let id =
-                        localStorage.getItem(
-                            'pdaChatSessionId'
-                        );
+                        localStorage
+                            .getItem(
+                                'chatSessionId'
+                            );
 
 
                     if (!id) {
+
                         id =
                             createTrackingId(
                                 'sid'
                             );
 
 
-                        localStorage.setItem(
-                            'pdaChatSessionId',
-                            id
-                        );
+                        localStorage
+                            .setItem(
+                                'chatSessionId',
+                                id
+                            );
+
                     }
 
 
@@ -2286,63 +3131,54 @@
 
 
                 function getSavedFirstName() {
+
                     const name =
-                        localStorage.getItem(
-                            'pdaBotName'
-                        );
+                        localStorage
+                            .getItem(
+                                'pdaBotName'
+                            );
 
 
                     if (!name) {
+
                         return null;
                     }
 
 
                     const first =
-                        name.split(' ')[0];
+                        name
+                            .split(' ')[0];
 
 
                     return (
+
                         first
                             .charAt(0)
                             .toUpperCase()
+
                         +
-                        first.slice(1)
+
+                        first
+                            .slice(1)
+
                     );
+
                 }
 
 
-                function getHostPageContext() {
-                    return {
-                        pageUrl:
-                            window.location.href
-                            || '',
+                /* ==============================================
+                   INITIALIZATION
+                   ============================================== */
 
-                        pageTitle:
-                            document.title
-                            || '',
+                function initArchieWidget() {
 
-                        referrer:
-                            document.referrer
-                            || '',
-
-                        userAgent:
-                            navigator.userAgent
-                            || ''
-                    };
-                }
-
-
-                /* ==================================================
-                   INIT
-                   ================================================== */
-
-                function initPDAWidget() {
                     if (
                         typeof lucide !==
                             'undefined'
                         &&
                         lucide.createIcons
                     ) {
+
                         lucide.createIcons();
                     }
 
@@ -2352,149 +3188,143 @@
 
 
                     const panel =
-                        document.getElementById(
-                            'widget-panel'
-                        );
+                        document
+                            .getElementById(
+                                'widget-panel'
+                            );
 
 
                     const triggerBubble =
-                        document.getElementById(
-                            'trigger-bubble'
-                        );
+                        document
+                            .getElementById(
+                                'trigger-bubble'
+                            );
 
 
                     const bentoView =
-                        document.getElementById(
-                            'bento-view'
-                        );
+                        document
+                            .getElementById(
+                                'bento-view'
+                            );
 
 
                     const chatView =
-                        document.getElementById(
-                            'chat-view'
-                        );
+                        document
+                            .getElementById(
+                                'chat-view'
+                            );
 
 
                     const chatHistory =
-                        document.getElementById(
-                            'chat-history'
-                        );
+                        document
+                            .getElementById(
+                                'chat-history'
+                            );
 
 
                     const triggerText =
-                        document.getElementById(
-                            'trigger-text'
-                        );
+                        document
+                            .getElementById(
+                                'trigger-text'
+                            );
 
 
                     const iconDefault =
-                        document.getElementById(
-                            'icon-default'
-                        );
+                        document
+                            .getElementById(
+                                'icon-default'
+                            );
 
 
                     const iconActive =
-                        document.getElementById(
-                            'icon-active'
-                        );
+                        document
+                            .getElementById(
+                                'icon-active'
+                            );
 
 
                     const triggerDot =
-                        document.getElementById(
-                            'trigger-dot'
-                        );
+                        document
+                            .getElementById(
+                                'trigger-dot'
+                            );
 
 
                     const notificationBadge =
-                        document.getElementById(
-                            'notification-badge'
-                        );
+                        document
+                            .getElementById(
+                                'notification-badge'
+                            );
 
 
                     const chatHeaderTitle =
-                        document.getElementById(
-                            'chat-header-title'
-                        );
+                        document
+                            .getElementById(
+                                'chat-header-title'
+                            );
 
 
                     const stepIndicator =
-                        document.getElementById(
-                            'step-indicator'
-                        );
+                        document
+                            .getElementById(
+                                'step-indicator'
+                            );
 
 
                     const navBackBtn =
-                        document.getElementById(
-                            'nav-back-btn'
-                        );
+                        document
+                            .getElementById(
+                                'nav-back-btn'
+                            );
 
 
                     const savedName =
                         getSavedFirstName();
 
 
-                    if (savedName) {
-                        if (triggerText) {
+                    if (
+                        savedName
+                    ) {
+
+                        if (
+                            triggerText
+                        ) {
+
                             triggerText.innerHTML =
                                 `Welcome back, ${savedName}! We're online to help.`;
+
                         }
 
 
-                        const welcomeBubble =
-                            document.getElementById(
-                                'welcome-bubble'
-                            );
+                        const wb =
+                            document
+                                .getElementById(
+                                    'welcome-bubble'
+                                );
 
 
-                        if (welcomeBubble) {
-                            welcomeBubble.innerHTML =
+                        if (wb) {
+
+                            wb.innerHTML =
                                 `Welcome back, ${savedName}! Welcome to Plaza Dental Arts. I'm here to help you get scheduled, answer questions, or connect you with our team.`;
+
                         }
+
                     }
 
 
-                    /* ==============================================
-                       SCROLL HELPER
-                       ============================================== */
-
-                    function autoScrollToBottom(
-                        delay = 1200
-                    ) {
-                        setTimeout(
-                            () => {
-                                chatHistory.scrollTo({
-                                    top:
-                                        chatHistory
-                                            .scrollHeight,
-
-                                    behavior:
-                                        'smooth'
-                                });
-
-
-                                if (
-                                    window.appBot
-                                ) {
-                                    window
-                                        .appBot
-                                        .updateScrollArrow();
-                                }
-                            },
-                            delay
-                        );
-                    }
-
-
-                    /* ==============================================
+                    /* ==========================================
                        SOUND
-                       ============================================== */
+                       ========================================== */
 
                     function playMessageSound() {
+
                         const sound =
                             msgAudio.cloneNode();
 
 
-                        sound.volume = 0.4;
+                        sound.volume =
+                            0.4;
 
 
                         sound
@@ -2502,11 +3332,16 @@
                             .catch(
                                 () => {}
                             );
+
                     }
 
 
                     function attemptDing() {
-                        if (hasPlayedSound) {
+
+                        if (
+                            hasPlayedSound
+                        ) {
+
                             return;
                         }
 
@@ -2519,28 +3354,35 @@
                             promise !==
                             undefined
                         ) {
+
                             promise
 
                                 .then(
                                     () => {
+
                                         hasPlayedSound =
                                             true;
+
                                     }
                                 )
 
                                 .catch(
                                     () => {}
                                 );
+
                         }
+
                     }
 
 
                     function triggerNotification() {
+
                         if (
                             isWidgetOpen
                             ||
                             badgeVisible
                         ) {
+
                             return;
                         }
 
@@ -2552,14 +3394,14 @@
                         if (
                             notificationBadge
                         ) {
-                            notificationBadge
-                                .style
-                                .display =
+
+                            notificationBadge.style.display =
                                 'flex';
 
 
                             setTimeout(
                                 () => {
+
                                     notificationBadge
                                         .classList
                                         .remove(
@@ -2574,23 +3416,25 @@
                                             'opacity-100',
                                             'scale-100'
                                         );
+
                                 },
                                 10
                             );
+
                         }
 
 
                         if (
                             triggerBubble
                         ) {
-                            triggerBubble
-                                .style
-                                .display =
+
+                            triggerBubble.style.display =
                                 'block';
 
 
                             setTimeout(
                                 () => {
+
                                     triggerBubble
                                         .classList
                                         .remove(
@@ -2610,16 +3454,20 @@
 
                                     setTimeout(
                                         () =>
+
                                             triggerBubble
                                                 .classList
                                                 .remove(
                                                     'animate-attention'
                                                 ),
+
                                         1000
                                     );
+
                                 },
                                 10
                             );
+
                         }
 
 
@@ -2635,9 +3483,11 @@
 
                     const unlockAudio =
                         () => {
+
                             if (
                                 audioUnlocked
                             ) {
+
                                 return;
                             }
 
@@ -2651,6 +3501,7 @@
                                 &&
                                 badgeVisible
                             ) {
+
                                 attemptDing();
                             }
 
@@ -2662,14 +3513,17 @@
                                 'scroll',
                                 'mousemove',
                                 'wheel'
-                            ].forEach(
-                                eventName =>
-                                    document
-                                        .removeEventListener(
-                                            eventName,
-                                            unlockAudio
-                                        )
-                            );
+                            ]
+                                .forEach(
+                                    eventName =>
+
+                                        document
+                                            .removeEventListener(
+                                                eventName,
+                                                unlockAudio
+                                            )
+                                );
+
                         };
 
 
@@ -2680,25 +3534,29 @@
                         'scroll',
                         'mousemove',
                         'wheel'
-                    ].forEach(
-                        eventName =>
-                            document
-                                .addEventListener(
-                                    eventName,
-                                    unlockAudio,
-                                    {
-                                        passive: true
-                                    }
-                                )
-                    );
+                    ]
+                        .forEach(
+                            eventName =>
+
+                                document
+                                    .addEventListener(
+                                        eventName,
+                                        unlockAudio,
+                                        {
+                                            passive:
+                                                true
+                                        }
+                                    )
+                        );
 
 
-                    /* ==============================================
+                    /* ==========================================
                        OPEN / CLOSE
-                       ============================================== */
+                       ========================================== */
 
                     window.toggleWidget =
                         function () {
+
                             isWidgetOpen =
                                 !isWidgetOpen;
 
@@ -2708,6 +3566,7 @@
                                 &&
                                 !hasPlayedSound
                             ) {
+
                                 attemptDing();
                             }
 
@@ -2715,12 +3574,14 @@
                             if (
                                 isWidgetOpen
                             ) {
+
                                 panel.style.display =
                                     'flex';
 
 
                                 setTimeout(
                                     () => {
+
                                         panel
                                             .classList
                                             .remove(
@@ -2733,32 +3594,25 @@
                                             .add(
                                                 'widget-visible'
                                             );
+
                                     },
                                     10
                                 );
 
 
-                                triggerBubble
-                                    .style
-                                    .display =
+                                triggerBubble.style.display =
                                     'none';
 
 
-                                iconDefault
-                                    .style
-                                    .display =
+                                iconDefault.style.display =
                                     'none';
 
 
-                                iconActive
-                                    .style
-                                    .display =
+                                iconActive.style.display =
                                     'flex';
 
 
-                                triggerDot
-                                    .style
-                                    .display =
+                                triggerDot.style.display =
                                     'none';
 
 
@@ -2776,7 +3630,10 @@
                                         'opacity-100',
                                         'scale-100'
                                     );
+
+
                             } else {
+
                                 panel
                                     .classList
                                     .remove(
@@ -2793,9 +3650,8 @@
 
                                 setTimeout(
                                     () => {
-                                        panel
-                                            .style
-                                            .display =
+
+                                        panel.style.display =
                                             'none';
 
 
@@ -2852,14 +3708,13 @@
                                                 'none',
                                                 'important'
                                             );
+
                                     },
                                     250
                                 );
 
 
-                                triggerBubble
-                                    .style
-                                    .display =
+                                triggerBubble.style.display =
                                     'block';
 
 
@@ -2874,36 +3729,37 @@
 
 
                                 triggerText.innerHTML =
+
                                     savedName
+
                                         ?
+
                                         `Welcome back, ${savedName}! We're online to help.`
+
                                         :
+
                                         "Have questions? We’re online and happy to help";
 
 
-                                iconActive
-                                    .style
-                                    .display =
+                                iconActive.style.display =
                                     'none';
 
 
-                                iconDefault
-                                    .style
-                                    .display =
+                                iconDefault.style.display =
                                     'block';
 
 
-                                triggerDot
-                                    .style
-                                    .display =
+                                triggerDot.style.display =
                                     'block';
+
                             }
+
                         };
 
 
-                    /* ==============================================
-                       SMALL BOT AVATAR
-                       ============================================== */
+                    /* ==========================================
+                       CHAT HELPERS
+                       ========================================== */
 
                     const getBotAvatarHTML =
                         () => `
@@ -2917,7 +3773,14 @@
                                 overflow-hidden
                                 shrink-0
                                 mt-1
+                                shadow-sm
                                 bg-white
+                                border
+                                border-slate-100
+                            "
+                            style="
+                                background-color:
+                                white !important;
                             "
                         >
 
@@ -2939,9 +3802,11 @@
                     function appendBotMessage(
                         text
                     ) {
+
                         if (
                             isWidgetOpen
                         ) {
+
                             playMessageSound();
                         }
 
@@ -2963,6 +3828,7 @@
                                 >
 
                                     ${getBotAvatarHTML()}
+
 
                                     <div
                                         class="
@@ -2990,28 +3856,34 @@
 
                         setTimeout(
                             () => {
+
                                 chatHistory.scrollTo({
+
                                     top:
                                         chatHistory
                                             .scrollHeight,
 
                                     behavior:
                                         'smooth'
+
                                 });
 
 
                                 window
                                     .appBot
                                     .updateScrollArrow();
+
                             },
                             150
                         );
+
                     }
 
 
                     function appendUserMessage(
                         text
                     ) {
+
                         chatHistory
                             .insertAdjacentHTML(
                                 'beforeend',
@@ -3054,26 +3926,32 @@
 
                         setTimeout(
                             () => {
+
                                 chatHistory.scrollTo({
+
                                     top:
                                         chatHistory
                                             .scrollHeight,
 
                                     behavior:
                                         'smooth'
+
                                 });
 
 
                                 window
                                     .appBot
                                     .updateScrollArrow();
+
                             },
                             150
                         );
+
                     }
 
 
                     function showTypingIndicator() {
+
                         const typingId =
                             'typing-' +
                             Date.now();
@@ -3098,6 +3976,7 @@
 
                                     ${getBotAvatarHTML()}
 
+
                                     <div
                                         class="
                                             bg-white
@@ -3113,7 +3992,11 @@
                                         "
                                     >
 
-                                        <div class="typing-dots">
+                                        <div
+                                            class="
+                                                typing-dots
+                                            "
+                                        >
                                             <span></span>
                                             <span></span>
                                             <span></span>
@@ -3129,19 +4012,23 @@
 
                         setTimeout(
                             () => {
+
                                 chatHistory.scrollTo({
+
                                     top:
                                         chatHistory
                                             .scrollHeight,
 
                                     behavior:
                                         'smooth'
+
                                 });
 
 
                                 window
                                     .appBot
                                     .updateScrollArrow();
+
                             },
                             150
                         );
@@ -3154,17 +4041,21 @@
                     function removeTypingIndicator(
                         id
                     ) {
+
                         const element =
-                            document.getElementById(
-                                id
-                            );
+                            document
+                                .getElementById(
+                                    id
+                                );
 
 
                         if (
                             element
                         ) {
+
                             element.remove();
                         }
+
                     }
 
 
@@ -3172,14 +4063,17 @@
                         text,
                         delayMs = 1200
                     ) {
+
                         const typingId =
                             showTypingIndicator();
 
 
                         return new Promise(
                             resolve => {
+
                                 setTimeout(
                                     () => {
+
                                         removeTypingIndicator(
                                             typingId
                                         );
@@ -3191,11 +4085,14 @@
 
 
                                         resolve();
+
                                     },
                                     delayMs
                                 );
+
                             }
                         );
+
                     }
 
 
@@ -3203,6 +4100,7 @@
                         id,
                         html
                     ) {
+
                         chatHistory
                             .insertAdjacentHTML(
                                 'beforeend',
@@ -3233,44 +4131,57 @@
                             &&
                             lucide.createIcons
                         ) {
+
                             lucide.createIcons();
                         }
 
 
                         setTimeout(
                             () => {
+
                                 chatHistory.scrollTo({
+
                                     top:
                                         chatHistory
                                             .scrollHeight,
 
                                     behavior:
                                         'smooth'
+
                                 });
 
 
                                 window
                                     .appBot
                                     .updateScrollArrow();
+
                             },
                             150
                         );
+
                     }
 
 
-                    chatHistory
-                        .addEventListener(
-                            'scroll',
-                            () =>
-                                window
-                                    .appBot
-                                    .updateScrollArrow()
-                        );
+                    if (
+                        chatHistory
+                    ) {
+
+                        chatHistory
+                            .addEventListener(
+                                'scroll',
+                                () =>
+
+                                    window
+                                        .appBot
+                                        .updateScrollArrow()
+                            );
+
+                    }
 
 
-                    /* ==================================================
+                    /* ==========================================
                        APP BOT
-                       ================================================== */
+                       ========================================== */
 
                     window.appBot = {
 
@@ -3280,16 +4191,19 @@
 
                         updateScrollArrow:
                             function () {
+
                                 const button =
-                                    document.getElementById(
-                                        'scroll-down-btn'
-                                    );
+                                    document
+                                        .getElementById(
+                                            'scroll-down-btn'
+                                        );
 
 
                                 const history =
-                                    document.getElementById(
-                                        'chat-history'
-                                    );
+                                    document
+                                        .getElementById(
+                                            'chat-history'
+                                        );
 
 
                                 if (
@@ -3297,37 +4211,57 @@
                                     ||
                                     !history
                                 ) {
+
                                     return;
                                 }
 
 
-                                const show =
+                                if (
+
                                     history.scrollHeight >
                                         history.clientHeight
+
                                     &&
+
                                     Math.ceil(
-                                        history.scrollHeight -
+                                        history.scrollHeight
+                                        -
                                         history.scrollTop
                                     )
+
                                     >
-                                    history.clientHeight +
-                                    15;
 
+                                    history.clientHeight
+                                    +
+                                    15
+                                ) {
 
-                                button.style.setProperty(
-                                    'display',
-                                    show
-                                        ?
-                                        'flex'
-                                        :
-                                        'none',
-                                    'important'
-                                );
+                                    button
+                                        .style
+                                        .setProperty(
+                                            'display',
+                                            'flex',
+                                            'important'
+                                        );
+
+                                } else {
+
+                                    button
+                                        .style
+                                        .setProperty(
+                                            'display',
+                                            'none',
+                                            'important'
+                                        );
+
+                                }
+
                             },
 
 
                         goBack:
                             function () {
+
                                 document
                                     .getElementById(
                                         'hipaa-footer'
@@ -3381,6 +4315,7 @@
                                         'opacity-100',
                                         'translate-x-0'
                                     );
+
                             },
 
 
@@ -3388,6 +4323,7 @@
                             async function (
                                 flowType
                             ) {
+
                                 document
                                     .getElementById(
                                         'chat-input-area'
@@ -3474,6 +4410,13 @@
                                     );
 
 
+                                navBackBtn
+                                    .setAttribute(
+                                        'onclick',
+                                        'window.appBot.goBack()'
+                                    );
+
+
                                 this.currentFlow =
                                     flowType;
 
@@ -3482,65 +4425,67 @@
                                     flowType ===
                                     'schedule'
                                 ) {
+
                                     await this
                                         .showScheduleStep1();
-                                }
 
-                                else if (
+                                } else if (
                                     flowType ===
                                     'emergency'
                                 ) {
+
                                     await this
                                         .showEmergencyStep1();
-                                }
 
-                                else if (
+                                } else if (
                                     flowType ===
                                     'reschedule'
                                 ) {
+
                                     await this
                                         .showRescheduleFlow();
-                                }
 
-                                else if (
+                                } else if (
                                     flowType ===
                                     'call'
                                 ) {
+
                                     await this
                                         .showCallFlow();
-                                }
 
-                                else if (
+                                } else if (
                                     flowType ===
                                     'question'
                                 ) {
+
                                     await this
                                         .showQuestionForm();
-                                }
 
-                                else if (
+                                } else if (
                                     flowType ===
                                     'reviews'
                                 ) {
+
                                     await this
                                         .showReviewsFlow();
+
                                 }
+
                             },
 
 
-                        /* ==================================================
+                        /* ======================================
                            SCHEDULE
-                           ================================================== */
+                           ====================================== */
 
                         showScheduleStep1:
                             async function () {
-                                chatHeaderTitle
-                                    .innerText =
+
+                                chatHeaderTitle.innerText =
                                     'Schedule Appointment';
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 1 of 4';
 
 
@@ -3550,16 +4495,22 @@
                                 );
 
 
-                                await wait(400);
+                                await wait(
+                                    400
+                                );
 
 
                                 const options = [
+
                                     'New Patient',
+
                                     'Returning Patient'
+
                                 ];
 
 
                                 appendOptions(
+
                                     'schedule-opts-1',
 
                                     `
@@ -3615,6 +4566,7 @@
 
                                     `
                                 );
+
                             },
 
 
@@ -3623,6 +4575,7 @@
                                 field,
                                 value
                             ) {
+
                                 window
                                     .pdaBotState
                                     .schedule[field] =
@@ -3630,16 +4583,25 @@
 
 
                                 const containerId =
+
                                     field ===
                                         'patient_type'
+
                                         ?
+
                                         'schedule-opts-1'
+
                                         :
+
                                     field ===
                                         'reason'
+
                                         ?
+
                                         'schedule-opts-2'
+
                                         :
+
                                         'schedule-opts-3';
 
 
@@ -3653,6 +4615,7 @@
                                 if (
                                     container
                                 ) {
+
                                     container.remove();
                                 }
 
@@ -3662,47 +4625,56 @@
                                 );
 
 
-                                await wait(400);
+                                await wait(
+                                    400
+                                );
 
 
                                 if (
                                     field ===
                                     'patient_type'
                                 ) {
+
                                     await this
                                         .showScheduleStep2();
-                                }
 
-                                else if (
+                                } else if (
                                     field ===
                                     'reason'
                                 ) {
+
                                     if (
                                         value ===
                                         'Other'
                                     ) {
+
                                         await this
                                             .askForOtherReason();
+
                                     } else {
+
                                         await this
                                             .showScheduleStep3();
-                                    }
-                                }
 
-                                else if (
+                                    }
+
+                                } else if (
                                     field ===
                                     'best_time'
                                 ) {
+
                                     await this
                                         .showScheduleStep4();
+
                                 }
+
                             },
 
 
                         showScheduleStep2:
                             async function () {
-                                stepIndicator
-                                    .innerText =
+
+                                stepIndicator.innerText =
                                     'Step 2 of 4';
 
 
@@ -3712,16 +4684,25 @@
                                 );
 
 
-                                await wait(600);
+                                await wait(
+                                    600
+                                );
 
 
                                 const procedures = [
+
                                     'Checkup & Cleaning',
+
                                     'Tooth Pain / Emergency',
+
                                     'Teeth Whitening',
+
                                     'Invisalign',
+
                                     'Cosmetic Consultation',
+
                                     'Other'
+
                                 ];
 
 
@@ -3743,6 +4724,7 @@
 
                                 procedures.forEach(
                                     option => {
+
                                         html += `
 
                                         <button
@@ -3772,6 +4754,7 @@
                                         </button>
 
                                         `;
+
                                     }
                                 );
 
@@ -3785,24 +4768,25 @@
                                     'schedule-opts-2',
                                     html
                                 );
+
                             },
 
 
                         askForOtherReason:
                             async function () {
+
                                 await appendBotMessageWithTyping(
                                     'Could you briefly describe the reason for your visit?',
                                     1000
                                 );
 
 
-                                await wait(600);
+                                await wait(
+                                    600
+                                );
 
 
-                                appendOptions(
-                                    'schedule-opts-other-container',
-
-                                    `
+                                const html = `
 
                                     <div
                                         class="
@@ -3850,6 +4834,7 @@
                                                     pr-12
                                                     text-slate-700
                                                     shadow-sm
+                                                    m-0
                                                 "
                                             >
 
@@ -3868,6 +4853,7 @@
                                                     flex
                                                     items-center
                                                     justify-center
+                                                    m-0
                                                 "
                                                 style="
                                                     border:
@@ -3877,7 +4863,10 @@
 
                                                 <i
                                                     data-lucide="arrow-right"
-                                                    class="w-3.5 h-3.5"
+                                                    class="
+                                                        w-3.5
+                                                        h-3.5
+                                                    "
                                                 ></i>
 
                                             </button>
@@ -3886,8 +4875,14 @@
 
                                     </div>
 
-                                    `
+                                `;
+
+
+                                appendOptions(
+                                    'schedule-opts-other-container',
+                                    html
                                 );
+
                             },
 
 
@@ -3895,21 +4890,26 @@
                             async function (
                                 form
                             ) {
-                                const data =
+
+                                const formData =
                                     new FormData(
                                         form
                                     );
 
 
                                 const reason =
-                                    data.get(
-                                        'other_reason'
-                                    );
+                                    String(
+                                        formData
+                                            .get(
+                                                'other_reason'
+                                            )
+                                        ||
+                                        ''
+                                    ).trim();
 
 
-                                if (
-                                    !reason
-                                ) {
+                                if (!reason) {
+
                                     return;
                                 }
 
@@ -3938,6 +4938,7 @@
                                 if (
                                     container
                                 ) {
+
                                     container.remove();
                                 }
 
@@ -3947,18 +4948,21 @@
                                 );
 
 
-                                await wait(400);
+                                await wait(
+                                    400
+                                );
 
 
                                 await this
                                     .showScheduleStep3();
+
                             },
 
 
                         showScheduleStep3:
                             async function () {
-                                stepIndicator
-                                    .innerText =
+
+                                stepIndicator.innerText =
                                     'Step 3 of 4';
 
 
@@ -3968,17 +4972,24 @@
                                 );
 
 
-                                await wait(600);
+                                await wait(
+                                    600
+                                );
 
 
                                 const options = [
+
                                     'Morning',
+
                                     'Afternoon',
+
                                     'Next Available'
+
                                 ];
 
 
                                 appendOptions(
+
                                     'schedule-opts-3',
 
                                     `
@@ -4034,18 +5045,19 @@
 
                                     `
                                 );
+
                             },
 
 
-                        /* ==================================================
-                           UPDATED:
-                           SCHEDULE FORM + DELAYED AUTO SCROLL
-                           ================================================== */
+                        /* ======================================
+                           SCHEDULE FINAL FORM
+                           AUTO SCROLL RESTORED
+                           ====================================== */
 
                         showScheduleStep4:
                             async function () {
-                                stepIndicator
-                                    .innerText =
+
+                                stepIndicator.innerText =
                                     'Step 4 of 4';
 
 
@@ -4055,7 +5067,9 @@
                                 );
 
 
-                                await wait(800);
+                                await wait(
+                                    800
+                                );
 
 
                                 chatHistory
@@ -4157,35 +5171,71 @@
                                     );
 
 
+                                if (
+                                    typeof lucide !==
+                                        'undefined'
+                                    &&
+                                    lucide.createIcons
+                                ) {
+
+                                    lucide.createIcons();
+                                }
+
+
                                 this.updateScrollArrow();
 
 
-                                /*
-                                 * IMPORTANT:
-                                 * After a short pause,
-                                 * automatically reveal
-                                 * the form below the message.
-                                 */
+                                setTimeout(
+                                    () => {
 
-                                autoScrollToBottom(
-                                    1200
+                                        const history =
+                                            document
+                                                .getElementById(
+                                                    'chat-history'
+                                                );
+
+
+                                        if (
+                                            history
+                                        ) {
+
+                                            history.scrollTo({
+
+                                                top:
+                                                    history
+                                                        .scrollHeight,
+
+                                                behavior:
+                                                    'smooth'
+
+                                            });
+
+
+                                            window
+                                                .appBot
+                                                .updateScrollArrow();
+
+                                        }
+
+                                    },
+                                    1500
                                 );
+
                             },
 
 
-                        /* ==================================================
+                        /* ======================================
                            EMERGENCY
-                           ================================================== */
+                           ====================================== */
 
                         showEmergencyStep1:
                             async function () {
-                                chatHeaderTitle
-                                    .innerText =
+
+                                chatHeaderTitle.innerText =
                                     'Dental Emergency';
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 1 of 2';
 
 
@@ -4195,18 +5245,26 @@
                                 );
 
 
-                                await wait(400);
+                                await wait(
+                                    400
+                                );
 
 
                                 const options = [
+
                                     'Severe Pain',
+
                                     'Swelling / Infection',
+
                                     'Broken Tooth',
+
                                     'Other Urgent Issue'
+
                                 ];
 
 
                                 appendOptions(
+
                                     'emergency-opts-1',
 
                                     `
@@ -4261,19 +5319,15 @@
 
                                     `
                                 );
+
                             },
 
-
-                        /* ==================================================
-                           UPDATED:
-                           IF "OTHER URGENT ISSUE" IS CLICKED,
-                           ASK THEM TO TYPE WHAT IS HAPPENING
-                           ================================================== */
 
                         handleEmergencyStep:
                             async function (
                                 value
                             ) {
+
                                 const options =
                                     document
                                         .getElementById(
@@ -4284,6 +5338,7 @@
                                 if (
                                     options
                                 ) {
+
                                     options.remove();
                                 }
 
@@ -4293,13 +5348,16 @@
                                 );
 
 
-                                await wait(400);
+                                await wait(
+                                    400
+                                );
 
 
                                 if (
                                     value ===
                                     'Other Urgent Issue'
                                 ) {
+
                                     window
                                         .pdaBotState
                                         .emergency
@@ -4324,24 +5382,29 @@
 
                                 await this
                                     .showEmergencyContactForm();
+
                             },
 
 
+                        /* ======================================
+                           EMERGENCY OTHER INPUT
+                           ====================================== */
+
                         askForEmergencyOtherSymptom:
                             async function () {
+
                                 await appendBotMessageWithTyping(
                                     'Please briefly describe what is happening so our team knows how to best assist you.',
                                     1000
                                 );
 
 
-                                await wait(500);
+                                await wait(
+                                    500
+                                );
 
 
-                                appendOptions(
-                                    'emergency-other-container',
-
-                                    `
+                                const html = `
 
                                     <div
                                         class="
@@ -4362,10 +5425,12 @@
                                                 );
                                             "
                                             class="
-                                                relative
+                                                flex
+                                                gap-2
                                                 w-full
                                                 m-0
                                                 p-0
+                                                relative
                                             "
                                         >
 
@@ -4375,23 +5440,26 @@
                                                 placeholder="Tell us what is happening..."
                                                 required
                                                 autocomplete="off"
+                                                class="
+                                                    w-full
+                                                    bg-white
+                                                    border
+                                                    border-red-200
+                                                    text-[13.5px]
+                                                    rounded-full
+                                                    py-2.5
+                                                    pl-4
+                                                    pr-12
+                                                    text-slate-700
+                                                    shadow-sm
+                                                    m-0
+                                                "
                                                 style="
-                                                    display:block !important;
-
-                                                    width:100% !important;
-                                                    height:42px !important;
-
-                                                    margin:0 !important;
-
-                                                    padding:
-                                                    10px 48px
-                                                    10px 16px !important;
+                                                    height:
+                                                    42px !important;
 
                                                     background:
                                                     #ffffff !important;
-
-                                                    color:
-                                                    #334155 !important;
 
                                                     border:
                                                     1px solid
@@ -4399,22 +5467,6 @@
 
                                                     border-radius:
                                                     9999px !important;
-
-                                                    font-size:
-                                                    13.5px !important;
-
-                                                    line-height:
-                                                    20px !important;
-
-                                                    box-shadow:
-                                                    0 1px 2px
-                                                    rgba(
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        .05
-                                                    )
-                                                    !important;
                                                 "
                                             >
 
@@ -4425,12 +5477,14 @@
                                                     absolute
                                                     right-1
                                                     top-1
+                                                    bottom-1
                                                     bg-red-600
                                                     text-white
                                                     rounded-full
                                                     flex
                                                     items-center
                                                     justify-center
+                                                    m-0
                                                 "
                                                 style="
                                                     width:
@@ -4448,26 +5502,20 @@
                                                     padding:
                                                     8px !important;
 
-                                                    margin:
-                                                    0 !important;
-
                                                     border:
                                                     none !important;
 
-                                                    border-radius:
-                                                    9999px !important;
-
                                                     background:
                                                     #dc2626 !important;
-
-                                                    color:
-                                                    #ffffff !important;
                                                 "
                                             >
 
                                                 <i
                                                     data-lucide="arrow-right"
-                                                    class="w-3.5 h-3.5"
+                                                    class="
+                                                        w-3.5
+                                                        h-3.5
+                                                    "
                                                 ></i>
 
                                             </button>
@@ -4476,23 +5524,51 @@
 
                                     </div>
 
-                                    `
+                                `;
+
+
+                                appendOptions(
+                                    'emergency-other-container',
+                                    html
                                 );
 
 
-                                if (
-                                    typeof lucide !==
-                                        'undefined'
-                                    &&
-                                    lucide.createIcons
-                                ) {
-                                    lucide.createIcons();
-                                }
+                                setTimeout(
+                                    () => {
+
+                                        const history =
+                                            document
+                                                .getElementById(
+                                                    'chat-history'
+                                                );
 
 
-                                autoScrollToBottom(
+                                        if (
+                                            history
+                                        ) {
+
+                                            history.scrollTo({
+
+                                                top:
+                                                    history
+                                                        .scrollHeight,
+
+                                                behavior:
+                                                    'smooth'
+
+                                            });
+
+
+                                            window
+                                                .appBot
+                                                .updateScrollArrow();
+
+                                        }
+
+                                    },
                                     500
                                 );
+
                             },
 
 
@@ -4500,7 +5576,8 @@
                             async function (
                                 form
                             ) {
-                                const data =
+
+                                const formData =
                                     new FormData(
                                         form
                                     );
@@ -4508,29 +5585,28 @@
 
                                 const description =
                                     String(
-                                        data.get(
-                                            'emergency_other'
-                                        )
-                                        || ''
+                                        formData
+                                            .get(
+                                                'emergency_other'
+                                            )
+                                        ||
+                                        ''
                                     ).trim();
 
 
                                 if (
                                     !description
                                 ) {
+
                                     return;
                                 }
 
-
-                                /*
-                                 * Save the user's ACTUAL
-                                 * emergency description.
-                                 */
 
                                 window
                                     .pdaBotState
                                     .emergency
                                     .symptom =
+
                                     `Other Urgent Issue: ${description}`;
 
 
@@ -4544,6 +5620,7 @@
                                 if (
                                     container
                                 ) {
+
                                     container.remove();
                                 }
 
@@ -4553,18 +5630,21 @@
                                 );
 
 
-                                await wait(400);
+                                await wait(
+                                    400
+                                );
 
 
                                 await this
                                     .showEmergencyContactForm();
+
                             },
 
 
                         showEmergencyContactForm:
                             async function () {
-                                stepIndicator
-                                    .innerText =
+
+                                stepIndicator.innerText =
                                     'Step 2 of 2';
 
 
@@ -4574,7 +5654,9 @@
                                 );
 
 
-                                await wait(800);
+                                await wait(
+                                    800
+                                );
 
 
                                 chatHistory
@@ -4669,31 +5751,57 @@
                                 this.updateScrollArrow();
 
 
-                                /*
-                                 * Automatically reveal
-                                 * Emergency form after
-                                 * short pause as well.
-                                 */
+                                setTimeout(
+                                    () => {
 
-                                autoScrollToBottom(
-                                    1200
+                                        const history =
+                                            document
+                                                .getElementById(
+                                                    'chat-history'
+                                                );
+
+
+                                        if (
+                                            history
+                                        ) {
+
+                                            history.scrollTo({
+
+                                                top:
+                                                    history
+                                                        .scrollHeight,
+
+                                                behavior:
+                                                    'smooth'
+
+                                            });
+
+
+                                            window
+                                                .appBot
+                                                .updateScrollArrow();
+
+                                        }
+
+                                    },
+                                    1500
                                 );
+
                             },
 
 
-                        /* ==================================================
+                        /* ======================================
                            RESCHEDULE
-                           ================================================== */
+                           ====================================== */
 
                         showRescheduleFlow:
                             async function () {
-                                chatHeaderTitle
-                                    .innerText =
+
+                                chatHeaderTitle.innerText =
                                     'Reschedule';
 
 
-                                stepIndicator
-                                    .innerText =
+                                stepIndicator.innerText =
                                     'Step 1 of 1';
 
 
@@ -4703,7 +5811,9 @@
                                 );
 
 
-                                await wait(800);
+                                await wait(
+                                    800
+                                );
 
 
                                 chatHistory
@@ -4808,20 +5918,53 @@
                                 this.updateScrollArrow();
 
 
-                                autoScrollToBottom(
-                                    1200
+                                setTimeout(
+                                    () => {
+
+                                        const history =
+                                            document
+                                                .getElementById(
+                                                    'chat-history'
+                                                );
+
+
+                                        if (
+                                            history
+                                        ) {
+
+                                            history.scrollTo({
+
+                                                top:
+                                                    history
+                                                        .scrollHeight,
+
+                                                behavior:
+                                                    'smooth'
+
+                                            });
+
+
+                                            window
+                                                .appBot
+                                                .updateScrollArrow();
+
+                                        }
+
+                                    },
+                                    1500
                                 );
+
                             },
 
 
-                        /* ==================================================
+                        /* ======================================
                            CALL
-                           ================================================== */
+                           ====================================== */
 
                         showCallFlow:
                             async function () {
-                                chatHeaderTitle
-                                    .innerText =
+
+                                chatHeaderTitle.innerText =
                                     'Call Us';
 
 
@@ -4838,10 +5981,13 @@
                                 );
 
 
-                                await wait(500);
+                                await wait(
+                                    500
+                                );
 
 
                                 appendOptions(
+
                                     'call-opts',
 
                                     `
@@ -4872,7 +6018,10 @@
 
                                         <i
                                             data-lucide="phone"
-                                            class="w-4 h-4"
+                                            class="
+                                                w-4
+                                                h-4
+                                            "
                                         ></i>
 
                                         Call Office Now
@@ -4881,17 +6030,19 @@
 
                                     `
                                 );
+
                             },
 
 
-                        /* ==================================================
-                           LIVE CHAT
-                           ================================================== */
+                        /* ======================================
+                           QUESTIONS
+                           EXACT QUESTION WEBHOOK
+                           ====================================== */
 
                         showQuestionForm:
                             async function () {
-                                chatHeaderTitle
-                                    .innerText =
+
+                                chatHeaderTitle.innerText =
                                     'Live Chat';
 
 
@@ -4931,18 +6082,22 @@
 
                                 setTimeout(
                                     () =>
+
                                         document
                                             .getElementById(
                                                 'live-chat-input'
                                             )
                                             .focus(),
+
                                     100
                                 );
+
                             },
 
 
                         handleChatSend:
                             async function () {
+
                                 const input =
                                     document
                                         .getElementById(
@@ -4966,6 +6121,7 @@
                                 if (
                                     !message
                                 ) {
+
                                     return;
                                 }
 
@@ -4992,6 +6148,7 @@
 
 
                                 try {
+
                                     const controller =
                                         new AbortController();
 
@@ -4999,82 +6156,109 @@
                                     const timeoutId =
                                         setTimeout(
                                             () =>
-                                                controller.abort(),
+
+                                                controller
+                                                    .abort(),
+
                                             15000
                                         );
 
 
-                                    const context =
-                                        getHostPageContext();
+                                    const payload = {
+
+                                        message:
+                                            message,
+
+                                        name:
+
+                                            localStorage
+                                                .getItem(
+                                                    'pdaBotName'
+                                                )
+                                            || '',
+
+                                        phone:
+                                            '',
+
+                                        email:
+                                            '',
+
+                                        visitorId:
+
+                                            getChatVisitorId(),
+
+                                        sessionId:
+
+                                            getChatSessionId(),
+
+                                        eventId:
+
+                                            createTrackingId(
+                                                'question'
+                                            ),
+
+                                        source:
+
+                                            'Website Chatbot - Ask a Question',
+
+                                        pageUrl:
+
+                                            window
+                                                .location
+                                                .href,
+
+                                        pageTitle:
+
+                                            document
+                                                .title
+                                            || '',
+
+                                        referrer:
+
+                                            document
+                                                .referrer
+                                            || '',
+
+                                        userAgent:
+
+                                            navigator
+                                                .userAgent
+                                            || '',
+
+                                        timestamp:
+
+                                            new Date()
+                                                .toISOString()
+
+                                    };
 
 
                                     const response =
                                         await fetch(
                                             QUESTION_WEBHOOK_URL,
                                             {
+
                                                 method:
                                                     'POST',
 
                                                 headers: {
+
                                                     'Content-Type':
                                                         'application/json'
+
                                                 },
 
                                                 body:
-                                                    JSON.stringify({
-                                                        message:
-                                                            message,
 
-                                                        name:
-                                                            localStorage
-                                                                .getItem(
-                                                                    'pdaBotName'
-                                                                )
-                                                            || '',
-
-                                                        phone:
-                                                            '',
-
-                                                        email:
-                                                            '',
-
-                                                        visitorId:
-                                                            getChatVisitorId(),
-
-                                                        sessionId:
-                                                            getChatSessionId(),
-
-                                                        eventId:
-                                                            createTrackingId(
-                                                                'question'
-                                                            ),
-
-                                                        source:
-                                                            'Website Chatbot - Ask a Question',
-
-                                                        pageUrl:
-                                                            context
-                                                                .pageUrl,
-
-                                                        pageTitle:
-                                                            context
-                                                                .pageTitle,
-
-                                                        referrer:
-                                                            context
-                                                                .referrer,
-
-                                                        userAgent:
-                                                            context
-                                                                .userAgent,
-
-                                                        timestamp:
-                                                            new Date()
-                                                                .toISOString()
-                                                    }),
+                                                    JSON.stringify(
+                                                        payload
+                                                    ),
 
                                                 signal:
-                                                    controller.signal
+
+                                                    controller
+                                                        .signal
+
                                             }
                                         );
 
@@ -5087,31 +6271,59 @@
                                     if (
                                         !response.ok
                                     ) {
+
+                                        const errorText =
+                                            await response
+                                                .text();
+
+
+                                        console.error(
+
+                                            'Question webhook error:',
+
+                                            response.status,
+
+                                            errorText
+
+                                        );
+
+
                                         throw new Error(
-                                            'Network error'
+
+                                            'Question webhook returned '
+                                            +
+                                            response.status
+
                                         );
                                     }
 
 
                                     const rawText =
-                                        await response.text();
+                                        await response
+                                            .text();
 
 
                                     let data;
 
 
                                     try {
+
                                         data =
                                             JSON.parse(
                                                 rawText
                                             );
+
                                     } catch (
                                         error
                                     ) {
+
                                         data = {
+
                                             reply:
                                                 rawText
+
                                         };
+
                                     }
 
 
@@ -5120,17 +6332,20 @@
                                     );
 
 
-                                    let reply = '';
+                                    let botReply =
+                                        '';
 
 
                                     if (
                                         typeof data ===
                                         'string'
                                     ) {
-                                        reply = data;
-                                    }
 
-                                    else if (
+                                        botReply =
+                                            data;
+
+
+                                    } else if (
                                         Array.isArray(
                                             data
                                         )
@@ -5138,43 +6353,66 @@
                                         data.length >
                                         0
                                     ) {
-                                        reply =
-                                            data[0].reply
-                                            ||
-                                            data[0].message
-                                            ||
-                                            data[0].text
-                                            ||
-                                            data[0].output;
-                                    }
 
-                                    else if (
+                                        botReply =
+
+                                            data[0].reply
+
+                                            ||
+
+                                            data[0].message
+
+                                            ||
+
+                                            data[0].text
+
+                                            ||
+
+                                            data[0].output;
+
+
+                                    } else if (
                                         data
                                         &&
                                         typeof data ===
                                         'object'
                                     ) {
-                                        reply =
+
+                                        botReply =
+
                                             data.reply
+
                                             ||
+
                                             data.message
+
                                             ||
+
                                             data.text
+
                                             ||
+
                                             data.response
+
                                             ||
+
                                             data.output
+
                                             ||
+
                                             data.answer;
+
                                     }
 
 
                                     if (
-                                        reply
+                                        botReply
                                     ) {
+
                                         appendBotMessage(
+
                                             String(
-                                                reply
+                                                botReply
                                             )
 
                                                 .replace(
@@ -5186,30 +6424,53 @@
                                                     /\*\*(.*?)\*\*/g,
                                                     '<strong class="font-bold text-[#0f57bc]">$1</strong>'
                                                 )
+
                                         );
+
+
                                     } else {
-                                        appendBotMessage(
-                                            'I’m sorry — I wasn’t able to process that response. Please try again or contact the office directly.'
+
+                                        console.error(
+
+                                            'Unrecognized question webhook response:',
+
+                                            data
+
                                         );
+
+
+                                        appendBotMessage(
+                                            "I'm sorry — I wasn't able to process that response. Please try again."
+                                        );
+
                                     }
+
+
                                 } catch (
                                     error
                                 ) {
+
                                     removeTypingIndicator(
                                         typingId
                                     );
 
 
                                     console.error(
-                                        'Chatbot request failed:',
+
+                                        'Question webhook failed:',
+
                                         error
+
                                     );
 
 
                                     appendBotMessage(
-                                        'I’m sorry — I’m having trouble connecting right now. Please try again or contact the office directly.'
+                                        "I'm sorry — I'm having trouble connecting right now. Please try again or call the office at (718) 218-1060."
                                     );
+
+
                                 } finally {
+
                                     submit.disabled =
                                         false;
 
@@ -5227,20 +6488,23 @@
                                         &&
                                         lucide.createIcons
                                     ) {
+
                                         lucide.createIcons();
                                     }
+
                                 }
+
                             },
 
 
-                        /* ==================================================
+                        /* ======================================
                            REVIEWS
-                           ================================================== */
+                           ====================================== */
 
                         showReviewsFlow:
                             async function () {
-                                chatHeaderTitle
-                                    .innerText =
+
+                                chatHeaderTitle.innerText =
                                     'Patient Reviews';
 
 
@@ -5258,6 +6522,7 @@
 
 
                                 const reviews = [
+
                                     {
                                         name:
                                             'Raina Kavangal',
@@ -5301,6 +6566,7 @@
                                         text:
                                             'I had an excellent experience with Dr. Mehdi and his team for my dental cleaning. From the moment I walked in, the office was welcoming...'
                                     }
+
                                 ];
 
 
@@ -5343,9 +6609,11 @@
                                         "
                                         viewBox="0 0 20 20"
                                     >
+
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                                         ></path>
+
                                     </svg>
 
                                 `;
@@ -5373,99 +6641,103 @@
                                 `;
 
 
-                                reviews.forEach(
-                                    review => {
-                                        html += `
+                                reviews
+                                    .forEach(
+                                        review => {
 
-                                        <div
-                                            class="
-                                                snap-center
-                                                shrink-0
-                                                w-[260px]
-                                                bg-white
-                                                border
-                                                border-slate-200
-                                                shadow-sm
-                                                rounded-2xl
-                                                p-4
-                                                flex
-                                                flex-col
-                                            "
-                                        >
+                                            html += `
 
                                             <div
                                                 class="
+                                                    snap-center
+                                                    shrink-0
+                                                    w-[260px]
+                                                    bg-white
+                                                    border
+                                                    border-slate-200
+                                                    shadow-sm
+                                                    rounded-2xl
+                                                    p-4
                                                     flex
-                                                    justify-between
-                                                    items-start
-                                                    mb-1.5
+                                                    flex-col
                                                 "
                                             >
 
                                                 <div
                                                     class="
                                                         flex
-                                                        flex-col
+                                                        justify-between
+                                                        items-start
+                                                        mb-1.5
                                                     "
                                                 >
 
-                                                    <span
+                                                    <div
                                                         class="
-                                                            font-bold
-                                                            text-premium-900
-                                                            text-[13.5px]
+                                                            flex
+                                                            flex-col
                                                         "
                                                     >
-                                                        ${review.name}
-                                                    </span>
 
-                                                    <span
+                                                        <span
+                                                            class="
+                                                                font-bold
+                                                                text-premium-900
+                                                                text-[13.5px]
+                                                            "
+                                                        >
+                                                            ${review.name}
+                                                        </span>
+
+
+                                                        <span
+                                                            class="
+                                                                text-slate-400
+                                                                text-[10.5px]
+                                                            "
+                                                        >
+                                                            ${review.time}
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    <img
+                                                        src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                                                        alt="Google"
                                                         class="
-                                                            text-slate-400
-                                                            text-[10.5px]
+                                                            w-4
+                                                            h-4
+                                                            object-contain
+                                                            shrink-0
                                                         "
                                                     >
-                                                        ${review.time}
-                                                    </span>
 
                                                 </div>
 
 
-                                                <img
-                                                    src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-                                                    alt="Google"
+                                                ${stars}
+
+
+                                                <p
                                                     class="
-                                                        w-4
-                                                        h-4
-                                                        object-contain
-                                                        shrink-0
+                                                        text-[12.5px]
+                                                        text-slate-600
+                                                        leading-relaxed
+                                                        italic
+                                                        flex-1
+                                                        m-0
                                                     "
                                                 >
+                                                    "${review.text}"
+                                                </p>
 
                                             </div>
 
+                                            `;
 
-                                            ${stars}
-
-
-                                            <p
-                                                class="
-                                                    text-[12.5px]
-                                                    text-slate-600
-                                                    leading-relaxed
-                                                    italic
-                                                    flex-1
-                                                    m-0
-                                                "
-                                            >
-                                                "${review.text}"
-                                            </p>
-
-                                        </div>
-
-                                        `;
-                                    }
-                                );
+                                        }
+                                    );
 
 
                                 html += `
@@ -5484,10 +6756,13 @@
                                     );
 
 
-                                await wait(1500);
+                                await wait(
+                                    1500
+                                );
 
 
                                 appendOptions(
+
                                     'review-opts',
 
                                     `
@@ -5496,7 +6771,9 @@
                                         type="button"
                                         onclick="
                                             window.appBot
-                                            .startFlow('schedule')
+                                            .startFlow(
+                                                'schedule'
+                                            )
                                         "
                                         class="
                                             w-full
@@ -5518,22 +6795,21 @@
 
                                     `
                                 );
+
                             },
 
 
-                        /* ==================================================
+                        /* ======================================
                            PAYLOAD
-                           ================================================== */
+                           ====================================== */
 
                         getBasePayload:
                             function (
                                 source
                             ) {
-                                const context =
-                                    getHostPageContext();
-
 
                                 return {
+
                                     source:
                                         source,
 
@@ -5562,32 +6838,50 @@
                                         '',
 
                                     visitorId:
+
                                         getChatVisitorId(),
 
                                     sessionId:
+
                                         getChatSessionId(),
 
                                     submissionId:
+
                                         createTrackingId(
                                             'submission'
                                         ),
 
                                     pageUrl:
-                                        context.pageUrl,
+
+                                        window
+                                            .location
+                                            .href,
 
                                     pageTitle:
-                                        context.pageTitle,
+
+                                        document
+                                            .title
+                                        || '',
 
                                     referrer:
-                                        context.referrer,
+
+                                        document
+                                            .referrer
+                                        || '',
 
                                     userAgent:
-                                        context.userAgent,
+
+                                        navigator
+                                            .userAgent
+                                        || '',
 
                                     timestamp:
+
                                         new Date()
                                             .toISOString()
+
                                 };
+
                             },
 
 
@@ -5595,6 +6889,7 @@
                             async function (
                                 form
                             ) {
+
                                 const data =
                                     new FormData(
                                         form
@@ -5615,20 +6910,27 @@
 
 
                                 payload.patient_type =
-                                    state.patient_type;
+                                    state
+                                        .patient_type;
 
 
                                 payload.reason =
+
                                     state.reason ===
                                         'Other'
+
                                         ?
+
                                         `Other: ${state.other_reason}`
+
                                         :
+
                                         state.reason;
 
 
                                 payload.best_time =
-                                    state.best_time;
+                                    state
+                                        .best_time;
 
 
                                 payload.name =
@@ -5655,11 +6957,13 @@
                                 if (
                                     payload.name
                                 ) {
+
                                     localStorage
                                         .setItem(
                                             'pdaBotName',
                                             payload.name
                                         );
+
                                 }
 
 
@@ -5678,6 +6982,7 @@
                                         payload,
                                         'Schedule'
                                     );
+
                             },
 
 
@@ -5685,10 +6990,17 @@
                             async function (
                                 form
                             ) {
+
                                 const data =
                                     new FormData(
                                         form
                                     );
+
+
+                                const state =
+                                    window
+                                        .pdaBotState
+                                        .emergency;
 
 
                                 const payload =
@@ -5699,9 +7011,7 @@
 
 
                                 payload.emergency_symptom =
-                                    window
-                                        .pdaBotState
-                                        .emergency
+                                    state
                                         .symptom;
 
 
@@ -5722,11 +7032,13 @@
                                 if (
                                     payload.name
                                 ) {
+
                                     localStorage
                                         .setItem(
                                             'pdaBotName',
                                             payload.name
                                         );
+
                                 }
 
 
@@ -5745,6 +7057,7 @@
                                         payload,
                                         'Emergency'
                                     );
+
                             },
 
 
@@ -5752,6 +7065,7 @@
                             async function (
                                 form
                             ) {
+
                                 const data =
                                     new FormData(
                                         form
@@ -5789,11 +7103,13 @@
                                 if (
                                     payload.name
                                 ) {
+
                                     localStorage
                                         .setItem(
                                             'pdaBotName',
                                             payload.name
                                         );
+
                                 }
 
 
@@ -5812,16 +7128,21 @@
                                         payload,
                                         'Reschedule'
                                     );
+
                             },
 
+
+                        /* ======================================
+                           SUBMISSION WEBHOOK
+                           ====================================== */
 
                         processSubmission:
                             async function (
                                 payload,
                                 type
                             ) {
-                                stepIndicator
-                                    .innerText =
+
+                                stepIndicator.innerText =
                                     'Sending...';
 
 
@@ -5834,22 +7155,28 @@
 
 
                                 try {
+
                                     const response =
                                         await fetch(
                                             WEBHOOK_URL,
                                             {
+
                                                 method:
                                                     'POST',
 
                                                 headers: {
+
                                                     'Content-Type':
                                                         'application/json'
+
                                                 },
 
                                                 body:
+
                                                     JSON.stringify(
                                                         payload
                                                     )
+
                                             }
                                         );
 
@@ -5857,14 +7184,34 @@
                                     if (
                                         !response.ok
                                     ) {
+
+                                        const errorText =
+                                            await response
+                                                .text();
+
+
+                                        console.error(
+
+                                            'Submission webhook error:',
+
+                                            response.status,
+
+                                            errorText
+
+                                        );
+
+
                                         throw new Error(
-                                            'Network error'
+
+                                            'Submission webhook returned '
+                                            +
+                                            response.status
+
                                         );
                                     }
 
 
-                                    stepIndicator
-                                        .innerText =
+                                    stepIndicator.innerText =
                                         'Done';
 
 
@@ -5872,25 +7219,39 @@
                                         .showConfirmation(
                                             type
                                         );
+
+
                                 } catch (
                                     error
                                 ) {
+
                                     console.error(
-                                        'Webhook Fetch Error:',
+
+                                        'Submission webhook failed:',
+
                                         error
+
                                     );
 
 
-                                    stepIndicator
-                                        .innerText =
-                                        'Demo Mode';
+                                    stepIndicator.innerText =
+                                        'Error';
 
 
-                                    this
-                                        .showConfirmation(
-                                            type
+                                    navBackBtn
+                                        .classList
+                                        .remove(
+                                            'opacity-0',
+                                            'pointer-events-none'
                                         );
+
+
+                                    appendBotMessage(
+                                        "I'm sorry — we couldn't send your request right now. Please try again or call the office at (718) 218-1060."
+                                    );
+
                                 }
+
                             },
 
 
@@ -5898,9 +7259,12 @@
                             function (
                                 type
                             ) {
+
                                 setTimeout(
                                     () => {
-                                        let confirmation =
+
+                                        let confirmationText =
+
                                             'We received your request and just sent a text message to the phone number you provided. We will be in touch shortly!';
 
 
@@ -5908,8 +7272,11 @@
                                             type ===
                                             'Emergency'
                                         ) {
-                                            confirmation =
+
+                                            confirmationText =
+
                                                 'We received your urgent request. We will review it immediately and reach out to get you scheduled as soon as possible.';
+
                                         }
 
 
@@ -5926,10 +7293,12 @@
                                                         w-[95%]
                                                         animate-message
                                                         shrink-0
+                                                        m-0
                                                     "
                                                 >
 
                                                     ${getBotAvatarHTML()}
+
 
                                                     <div
                                                         class="
@@ -5941,6 +7310,7 @@
                                                             p-5
                                                             shadow-card
                                                             w-full
+                                                            m-0
                                                         "
                                                     >
 
@@ -5950,6 +7320,7 @@
                                                                 items-center
                                                                 gap-3
                                                                 mb-3
+                                                                m-0
                                                             "
                                                         >
 
@@ -5959,12 +7330,16 @@
                                                                     text-[#0f57bc]
                                                                     p-2
                                                                     rounded-full
+                                                                    m-0
                                                                 "
                                                             >
 
                                                                 <i
                                                                     data-lucide="check"
-                                                                    class="w-4 h-4"
+                                                                    class="
+                                                                        w-4
+                                                                        h-4
+                                                                    "
                                                                 ></i>
 
                                                             </div>
@@ -5991,16 +7366,18 @@
                                                                 leading-relaxed
                                                                 font-medium
                                                                 mb-4
+                                                                m-0
                                                             "
                                                         >
-                                                            ${confirmation}
+                                                            ${confirmationText}
                                                         </p>
 
 
                                                         <button
                                                             type="button"
                                                             onclick="
-                                                                window.appBot.goBack()
+                                                                window.appBot
+                                                                .goBack()
                                                             "
                                                             class="
                                                                 w-full
@@ -6027,20 +7404,39 @@
 
 
                                         window.pdaBotState = {
+
                                             schedule: {
-                                                patient_type: '',
-                                                reason: '',
-                                                other_reason: '',
-                                                best_time: ''
+
+                                                patient_type:
+                                                    '',
+
+                                                reason:
+                                                    '',
+
+                                                other_reason:
+                                                    '',
+
+                                                best_time:
+                                                    ''
+
                                             },
+
 
                                             emergency: {
-                                                symptom: ''
+
+                                                symptom:
+                                                    ''
+
                                             },
 
+
                                             reschedule: {
-                                                current_time: ''
+
+                                                current_time:
+                                                    ''
+
                                             }
+
                                         };
 
 
@@ -6050,16 +7446,38 @@
                                             &&
                                             lucide.createIcons
                                         ) {
+
                                             lucide.createIcons();
                                         }
 
 
-                                        autoScrollToBottom(
-                                            200
+                                        setTimeout(
+                                            () => {
+
+                                                chatHistory.scrollTo({
+
+                                                    top:
+                                                        chatHistory
+                                                            .scrollHeight,
+
+                                                    behavior:
+                                                        'smooth'
+
+                                                });
+
+
+                                                window
+                                                    .appBot
+                                                    .updateScrollArrow();
+
+                                            },
+                                            50
                                         );
+
                                     },
                                     500
                                 );
+
                             }
 
                     };
@@ -6071,30 +7489,53 @@
                     document.readyState ===
                     'loading'
                 ) {
+
                     document.addEventListener(
                         'DOMContentLoaded',
-                        initPDAWidget
+                        initArchieWidget
                     );
+
                 } else {
-                    initPDAWidget();
+
+                    initArchieWidget();
                 }
 
             })();
 
 
+            root.style.removeProperty(
+                'visibility'
+            );
+
+
         } catch (
             error
         ) {
+
             console.error(
                 'Plaza Dental Arts chatbot failed to initialize:',
                 error
             );
 
 
-            root.style.removeProperty(
-                'visibility'
-            );
+            const root =
+                document
+                    .getElementById(
+                        PDA_ROOT_ID
+                    );
+
+
+            if (
+                root
+            ) {
+
+                root.style.removeProperty(
+                    'visibility'
+                );
+            }
+
         }
+
     }
 
 
@@ -6102,15 +7543,19 @@
         document.readyState ===
         'loading'
     ) {
+
         document.addEventListener(
             'DOMContentLoaded',
-            bootPDAChatbot,
+            boot,
             {
-                once: true
+                once:
+                    true
             }
         );
+
     } else {
-        bootPDAChatbot();
+
+        boot();
     }
 
 })();

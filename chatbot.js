@@ -3644,57 +3644,40 @@ button.primary-cta-btn:hover {
                         () => `
 
                         <div
-                            class="
-                                pda-message-avatar
-                                w-7
-                                h-7
-                                rounded-full
-                                overflow-hidden
-                                shrink-0
-                                mt-1
-                                bg-white
-                            "
-                            style="
-                                background-color:
-                                white !important;
+        class="pda-message-avatar shrink-0 mt-1"
+        style="
+            width: 31px !important;
+            height: 31px !important;
+            min-width: 31px !important;
+            min-height: 31px !important;
 
-                                border:
-                                1.5px solid
-                                #ffffff !important;
+            padding: 1.5px !important;
 
-                                box-shadow:
-                                0 0 0 1.5px
-                                #ffffff !important;
-                            "
-                        >
+            background: #ffffff !important;
+            background-color: #ffffff !important;
 
-                            <img
-                                src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
-                                alt="Zoey"
-                                class="
-                                    w-full
-                                    h-full
-                                    object-cover
-                                "
-                                style="
-                                    display:
-                                    block !important;
+            border-radius: 50% !important;
 
-                                    width:
-                                    100% !important;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18) !important;
 
-                                    height:
-                                    100% !important;
+            overflow: hidden !important;
+        "
+    >
+        <img
+            src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
+            alt="Zoey"
+            style="
+                display: block !important;
 
-                                    object-fit:
-                                    cover !important;
+                width: 100% !important;
+                height: 100% !important;
 
-                                    border-radius:
-                                    50% !important;
-                                "
-                            >
+                object-fit: cover !important;
 
-                        </div>
+                border-radius: 50% !important;
+            "
+        >
+    </div>
 
                         `;
 

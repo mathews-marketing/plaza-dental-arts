@@ -4,9 +4,7 @@
  *
  * <script src="YOUR-PUBLIC-URL/chatbot.js" defer></script>
  *
- * This file injects the chatbot directly into the page (NO iframe).
- * The widget uses a unique root, unique IDs/classes, scoped Tailwind,
- * and high-specificity CSS overrides to protect it from the host website.
+ * NO iframe.
  */
 
 (function () {
@@ -18,8 +16,8 @@
     const PDA_TAILWIND_ID = 'pda-chatbot-tailwind';
     const PDA_LUCIDE_ID = 'pda-chatbot-lucide';
 
-    /* CHANGE THIS TO PLAZA DENTAL ARTS' REAL OFFICE NUMBER */
-    const PDA_OFFICE_PHONE = '+1234567890';
+    // PLAZA DENTAL ARTS PHONE
+    const PDA_OFFICE_PHONE = '7182181060';
 
     if (document.getElementById(PDA_ROOT_ID)) {
         return;
@@ -42,7 +40,11 @@
             const existing = document.getElementById(id);
 
             if (existing) {
-                if (existing.dataset.loaded === 'true') {
+                if (
+                    existing.dataset.loaded === 'true' ||
+                    (id === PDA_TAILWIND_ID && window.tailwind) ||
+                    (id === PDA_LUCIDE_ID && window.lucide)
+                ) {
                     resolve();
                 } else {
                     existing.addEventListener('load', resolve, {
@@ -93,16 +95,11 @@
     }
 
     function installProtectedStyles() {
-        if (
-            document.getElementById(
-                PDA_STYLE_ID
-            )
-        ) {
+        if (document.getElementById(PDA_STYLE_ID)) {
             return;
         }
 
-        const style =
-            document.createElement('style');
+        const style = document.createElement('style');
 
         style.id = PDA_STYLE_ID;
 
@@ -112,56 +109,29 @@
    PLAZA DENTAL ARTS — ZOEY CHATBOT
    ========================================================== */
 
-
-/* ==========================================================
-   ROOT
-   ========================================================== */
-
 #pda-chatbot-widget {
     position: fixed !important;
-
     right: 16px !important;
     bottom: 16px !important;
-
     z-index: 2147483647 !important;
-
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-end !important;
-
-    font-family:
-        "Plus Jakarta Sans",
-        Arial,
-        sans-serif !important;
-
+    font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
     font-size: 16px !important;
     line-height: normal !important;
-
     color: #304454 !important;
-
     text-align: left !important;
-
-    -webkit-font-smoothing:
-        antialiased !important;
-
-    -moz-osx-font-smoothing:
-        grayscale !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
 }
 
-
 @media (min-width: 640px) {
-
     #pda-chatbot-widget {
         right: 24px !important;
         bottom: 24px !important;
     }
-
 }
-
-
-/* ==========================================================
-   GLOBAL CHATBOT PROTECTION
-   ========================================================== */
 
 #pda-chatbot-widget,
 #pda-chatbot-widget *,
@@ -170,65 +140,36 @@
     box-sizing: border-box !important;
 }
 
-
 #pda-chatbot-widget button,
 #pda-chatbot-widget input,
 #pda-chatbot-widget textarea,
 #pda-chatbot-widget select,
 #pda-chatbot-widget a {
-
-    font-family:
-        "Plus Jakarta Sans",
-        Arial,
-        sans-serif !important;
-
+    font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
     text-transform: none !important;
-
     letter-spacing: normal !important;
 }
 
-
 #pda-chatbot-widget button {
-
-    -webkit-appearance:
-        none !important;
-
-    appearance:
-        none !important;
-
-    min-width:
-        0 !important;
-
-    min-height:
-        0 !important;
-
-    cursor:
-        pointer !important;
-
-    outline:
-        none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    cursor: pointer !important;
+    outline: none !important;
 }
-
 
 #pda-chatbot-widget input,
 #pda-chatbot-widget textarea,
 #pda-chatbot-widget select {
-
-    -webkit-appearance:
-        none !important;
-
-    appearance:
-        none !important;
-
-    outline:
-        none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
 }
-
 
 #pda-chatbot-widget a {
     text-decoration: none !important;
 }
-
 
 #pda-chatbot-widget h1,
 #pda-chatbot-widget h2,
@@ -237,11 +178,7 @@
 #pda-chatbot-widget h5,
 #pda-chatbot-widget h6,
 #pda-chatbot-widget p {
-
-    font-family:
-        "Plus Jakarta Sans",
-        Arial,
-        sans-serif !important;
+    font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
 }
 
 
@@ -249,101 +186,77 @@
    MAIN PANEL
    ========================================================== */
 
-#pda-chatbot-widget
-#pda-widget-panel {
-
-    background-color:
-        #ffffff !important;
-
-    color:
-        #304454 !important;
-
-    overflow:
-        hidden !important;
+#pda-chatbot-widget #pda-widget-panel {
+    background-color: #ffffff !important;
+    color: #304454 !important;
+    overflow: hidden !important;
 }
-
 
 @media (max-width: 639px) {
-
-    #pda-chatbot-widget
-    #pda-widget-panel {
-
-        position:
-            fixed !important;
-
-        inset:
-            0 !important;
-
-        width:
-            100% !important;
-
-        height:
-            100dvh !important;
-
-        border:
-            0 !important;
-
-        border-radius:
-            0 !important;
-
-        box-shadow:
-            none !important;
+    #pda-chatbot-widget #pda-widget-panel {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
-
 }
-
 
 @media (min-width: 640px) {
-
-    #pda-chatbot-widget
-    #pda-widget-panel {
-
-        position:
-            relative !important;
-
-        inset:
-            auto !important;
-
-        width:
-            360px !important;
-
-        height:
-            620px !important;
-
-        border:
-            1px solid #e2e8f0 !important;
-
-        border-radius:
-            24px !important;
+    #pda-chatbot-widget #pda-widget-panel {
+        position: relative !important;
+        inset: auto !important;
+        width: 360px !important;
+        height: 620px !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 24px !important;
 
         box-shadow:
-            0 30px 60px -15px rgba(0,0,0,.4),
-            0 10px 30px -5px rgba(0,0,0,.2)
-            !important;
+            0 30px 60px -15px rgba(0, 0, 0, 0.4),
+            0 10px 30px -5px rgba(0, 0, 0, 0.2) !important;
     }
+}
 
+#pda-chatbot-widget #pda-bento-view,
+#pda-chatbot-widget #pda-chat-view {
+    background-color: #ffffff !important;
+}
+
+#pda-chatbot-widget #pda-chat-history,
+#pda-chatbot-widget #pda-chat-nav {
+    background-color: #fafafa !important;
 }
 
 
-#pda-chatbot-widget
-#pda-bento-view,
+/* ==========================================================
+   HEADER AVATAR — 1.5PX WHITE BORDER
+   ========================================================== */
 
-#pda-chatbot-widget
-#pda-chat-view {
+#pda-chatbot-widget .pda-header-avatar {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
 
-    background-color:
-        #ffffff !important;
+    /* UPDATED */
+    border: 1.5px solid #ffffff !important;
+
+    box-shadow:
+        0 4px 6px -1px rgba(0,0,0,.1),
+        0 2px 4px -2px rgba(0,0,0,.1) !important;
 }
 
-
-#pda-chatbot-widget
-#pda-chat-history,
-
-#pda-chatbot-widget
-#pda-chat-nav {
-
-    background-color:
-        #fafafa !important;
+#pda-chatbot-widget .pda-header-avatar img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
 }
 
 
@@ -352,188 +265,104 @@
    ========================================================== */
 
 @keyframes pdaSmoothSpringUp {
-
     0% {
         opacity: 0;
-
-        transform:
-            translateY(20px)
-            scale(.98);
+        transform: translateY(20px) scale(0.98);
     }
 
     100% {
         opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform: translateY(0) scale(1);
     }
-
 }
-
 
 @keyframes pdaSmoothSpringDown {
-
     0% {
         opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform: translateY(0) scale(1);
     }
 
     100% {
         opacity: 0;
-
-        transform:
-            translateY(15px)
-            scale(.98);
-
-        visibility:
-            hidden;
+        transform: translateY(15px) scale(0.98);
+        visibility: hidden;
     }
-
 }
-
 
 @keyframes pdaSlideInUp {
-
     0% {
         opacity: 0;
-
-        transform:
-            translateY(10px);
+        transform: translateY(10px);
     }
 
     100% {
         opacity: 1;
-
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
-
 }
 
-
 @keyframes pdaPulseDot {
-
     0% {
         box-shadow:
-            0 0 0 0
-            rgba(
-                15,
-                87,
-                188,
-                .6
-            );
+            0 0 0 0 rgba(15, 87, 188, 0.6);
     }
 
     70% {
         box-shadow:
-            0 0 0 6px
-            rgba(
-                15,
-                87,
-                188,
-                0
-            );
+            0 0 0 6px rgba(15, 87, 188, 0);
     }
 
     100% {
         box-shadow:
-            0 0 0 0
-            rgba(
-                15,
-                87,
-                188,
-                0
-            );
+            0 0 0 0 rgba(15, 87, 188, 0);
     }
-
 }
-
 
 @keyframes pdaBounceAttention {
-
     0%,
     100% {
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 
     50% {
-        transform:
-            translateY(-12px);
+        transform: translateY(-12px);
     }
-
 }
-
 
 @keyframes pdaGentleBounce {
-
     0%,
     100% {
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 
     50% {
-        transform:
-            translateY(-4px);
+        transform: translateY(-4px);
     }
-
 }
 
-
 @keyframes pdaTypingBounce {
-
     0%,
     80%,
     100% {
-        transform:
-            scale(0);
+        transform: scale(0);
     }
 
     40% {
-        transform:
-            scale(1);
+        transform: scale(1);
     }
-
 }
 
-
-/* ==========================================================
-   TYPING DOTS
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-typing-dots {
-
-    display:
-        flex !important;
-
-    gap:
-        4px !important;
-
-    padding:
-        6px 4px !important;
+#pda-chatbot-widget .pda-typing-dots {
+    display: flex !important;
+    gap: 4px !important;
+    padding: 6px 4px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-typing-dots span {
-
-    width:
-        6px !important;
-
-    height:
-        6px !important;
-
-    background-color:
-        #94a3b8 !important;
-
-    border-radius:
-        50% !important;
+#pda-chatbot-widget .pda-typing-dots span {
+    width: 6px !important;
+    height: 6px !important;
+    background-color: #94a3b8 !important;
+    border-radius: 50% !important;
 
     animation:
         pdaTypingBounce
@@ -543,107 +372,58 @@
         both !important;
 }
 
-
-#pda-chatbot-widget
-.pda-typing-dots
-span:nth-child(1) {
-
-    animation-delay:
-        -.32s !important;
+#pda-chatbot-widget .pda-typing-dots span:nth-child(1) {
+    animation-delay: -0.32s !important;
 }
 
-
-#pda-chatbot-widget
-.pda-typing-dots
-span:nth-child(2) {
-
-    animation-delay:
-        -.16s !important;
+#pda-chatbot-widget .pda-typing-dots span:nth-child(2) {
+    animation-delay: -0.16s !important;
 }
 
-
-/* ==========================================================
-   WIDGET ANIMATIONS
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-widget-hidden {
-
-    pointer-events:
-        none !important;
+#pda-chatbot-widget .pda-widget-hidden {
+    pointer-events: none !important;
 
     animation:
         pdaSmoothSpringDown
-        .25s
-        cubic-bezier(
-            .4,
-            0,
-            1,
-            1
-        )
+        0.25s
+        cubic-bezier(0.4, 0, 1, 1)
         forwards !important;
 }
 
-
-#pda-chatbot-widget
-.pda-widget-visible {
-
-    pointer-events:
-        auto !important;
+#pda-chatbot-widget .pda-widget-visible {
+    pointer-events: auto !important;
 
     animation:
         pdaSmoothSpringUp
-        .5s
-        cubic-bezier(
-            .16,
-            1,
-            .3,
-            1
-        )
+        0.5s
+        cubic-bezier(0.16, 1, 0.3, 1)
         forwards !important;
 }
 
-
-#pda-chatbot-widget
-.pda-animate-message {
-
+#pda-chatbot-widget .pda-animate-message {
     animation:
         pdaSlideInUp
-        .35s
-        cubic-bezier(
-            .16,
-            1,
-            .3,
-            1
-        )
+        0.35s
+        cubic-bezier(0.16, 1, 0.3, 1)
         forwards !important;
 }
 
-
-#pda-chatbot-widget
-.pda-status-dot {
-
+#pda-chatbot-widget .pda-status-dot {
     animation:
         pdaPulseDot
         2s
         infinite !important;
 }
 
-
-#pda-chatbot-widget
-.pda-animate-attention {
-
+#pda-chatbot-widget .pda-animate-attention {
     animation:
         pdaBounceAttention
-        .4s
+        0.4s
         ease-in-out
         2 !important;
 }
 
-
-#pda-chatbot-widget
-.pda-animate-gentle-bounce {
-
+#pda-chatbot-widget .pda-animate-gentle-bounce {
     animation:
         pdaGentleBounce
         1.5s
@@ -656,271 +436,134 @@ span:nth-child(2) {
    SCROLLBARS
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-custom-scrollbar::-webkit-scrollbar {
-
-    width:
-        5px !important;
-
-    height:
-        5px !important;
+#pda-chatbot-widget .pda-custom-scrollbar::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-custom-scrollbar::-webkit-scrollbar-track {
-
-    background:
-        transparent !important;
+#pda-chatbot-widget .pda-custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent !important;
 }
 
-
-#pda-chatbot-widget
-.pda-custom-scrollbar::-webkit-scrollbar-thumb {
-
-    background:
-        #e2e8f0 !important;
-
-    border-radius:
-        10px !important;
+#pda-chatbot-widget .pda-custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0 !important;
+    border-radius: 10px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-custom-scrollbar::-webkit-scrollbar-thumb:hover {
-
-    background:
-        #cbd5e1 !important;
+#pda-chatbot-widget .pda-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1 !important;
 }
 
-
-#pda-chatbot-widget
-.pda-hide-scrollbar::-webkit-scrollbar {
-
-    display:
-        none !important;
+#pda-chatbot-widget .pda-hide-scrollbar::-webkit-scrollbar {
+    display: none !important;
 }
 
-
-#pda-chatbot-widget
-.pda-hide-scrollbar {
-
-    -ms-overflow-style:
-        none !important;
-
-    scrollbar-width:
-        none !important;
+#pda-chatbot-widget .pda-hide-scrollbar {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
 }
 
 
 /* ==========================================================
-   HEADER CLOSE BUTTONS
+   HEADER CLOSE
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-header-close {
+#pda-chatbot-widget .pda-header-close {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 8px !important;
 
-    width:
-        auto !important;
+    border: 0 !important;
+    border-radius: 9999px !important;
 
-    height:
-        auto !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
 
-    margin:
-        0 !important;
+    color: rgba(255,255,255,.70) !important;
 
-    padding:
-        8px !important;
+    box-shadow: none !important;
 
-    border:
-        0 !important;
-
-    border-radius:
-        9999px !important;
-
-    background:
-        transparent !important;
-
-    background-color:
-        transparent !important;
-
-    background-image:
-        none !important;
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            .70
-        ) !important;
-
-    box-shadow:
-        none !important;
-
-    line-height:
-        1 !important;
+    line-height: 1 !important;
 }
 
-
-#pda-chatbot-widget
-.pda-header-close-compact {
-
-    padding:
-        6px !important;
-
-    border-radius:
-        8px !important;
+#pda-chatbot-widget .pda-header-close-compact {
+    padding: 6px !important;
+    border-radius: 8px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-header-close:hover {
-
+#pda-chatbot-widget .pda-header-close:hover {
     background-color:
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        ) !important;
+        rgba(255,255,255,.10) !important;
 
-    color:
-        #ffffff !important;
+    color: #ffffff !important;
 }
 
 
 /* ==========================================================
-   MAIN SCHEDULE BUTTON
+   MAIN BUTTONS
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-main-schedule-btn {
+#pda-chatbot-widget .pda-main-schedule-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
 
-    display:
-        flex !important;
+    width: 100% !important;
+    height: auto !important;
 
-    align-items:
-        center !important;
+    margin: 0 !important;
+    padding: 14px !important;
 
-    justify-content:
-        space-between !important;
+    border: 0 !important;
+    border-radius: 14px !important;
 
-    width:
-        100% !important;
+    background: #0f57bc !important;
+    background-color: #0f57bc !important;
+    background-image: none !important;
 
-    height:
-        auto !important;
+    color: #ffffff !important;
 
-    margin:
-        0 !important;
+    text-align: left !important;
 
-    padding:
-        14px !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        14px !important;
-
-    background:
-        #0f57bc !important;
-
-    background-color:
-        #0f57bc !important;
-
-    background-image:
-        none !important;
-
-    color:
-        #ffffff !important;
-
-    text-align:
-        left !important;
-
-    box-shadow:
-        none !important;
+    box-shadow: none !important;
 }
 
-
-#pda-chatbot-widget
-.pda-main-schedule-btn:hover {
-
-    background:
-        #0d4a9f !important;
-
-    background-color:
-        #0d4a9f !important;
-
-    color:
-        #ffffff !important;
+#pda-chatbot-widget .pda-main-schedule-btn:hover {
+    background: #0d4a9f !important;
+    background-color: #0d4a9f !important;
+    color: #ffffff !important;
 }
 
+#pda-chatbot-widget .pda-main-emergency-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
 
-/* ==========================================================
-   EMERGENCY BUTTON
-   ========================================================== */
+    width: 100% !important;
+    height: auto !important;
 
-#pda-chatbot-widget
-.pda-main-emergency-btn {
+    margin: 4px 0 0 !important;
+    padding: 14px !important;
 
-    display:
-        flex !important;
+    border: 1px solid #ffdede !important;
+    border-radius: 14px !important;
 
-    align-items:
-        center !important;
+    background: #fff4f4 !important;
+    background-color: #fff4f4 !important;
+    background-image: none !important;
 
-    justify-content:
-        space-between !important;
+    color: #d92d20 !important;
 
-    width:
-        100% !important;
+    text-align: left !important;
 
-    height:
-        auto !important;
-
-    margin:
-        4px 0 0 !important;
-
-    padding:
-        14px !important;
-
-    border:
-        1px solid
-        #ffdede !important;
-
-    border-radius:
-        14px !important;
-
-    background:
-        #fff4f4 !important;
-
-    background-color:
-        #fff4f4 !important;
-
-    background-image:
-        none !important;
-
-    color:
-        #d92d20 !important;
-
-    text-align:
-        left !important;
-
-    box-shadow:
-        none !important;
+    box-shadow: none !important;
 }
 
-
-#pda-chatbot-widget
-.pda-main-emergency-btn:hover {
-
-    background:
-        #ffeaea !important;
-
-    background-color:
-        #ffeaea !important;
+#pda-chatbot-widget .pda-main-emergency-btn:hover {
+    background: #ffeaea !important;
+    background-color: #ffeaea !important;
 }
 
 
@@ -928,82 +571,39 @@ span:nth-child(2) {
    GRID BUTTONS
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-grid-btn {
+#pda-chatbot-widget .pda-grid-btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
 
-    display:
-        flex !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
 
-    align-items:
-        center !important;
+    margin: 0 !important;
+    padding: 14px 12px !important;
 
-    gap:
-        8px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
 
-    width:
-        100% !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
 
-    height:
-        auto !important;
+    color: #334155 !important;
 
-    min-height:
-        0 !important;
-
-    margin:
-        0 !important;
-
-    padding:
-        14px 12px !important;
-
-    border:
-        1px solid
-        #e2e8f0 !important;
-
-    border-radius:
-        12px !important;
-
-    background:
-        #ffffff !important;
-
-    background-color:
-        #ffffff !important;
-
-    background-image:
-        none !important;
-
-    color:
-        #334155 !important;
-
-    text-align:
-        left !important;
+    text-align: left !important;
 
     box-shadow:
-        0 1px 2px
-        rgba(
-            0,
-            0,
-            0,
-            .05
-        ) !important;
+        0 1px 2px rgba(0,0,0,.05) !important;
 }
 
-
-#pda-chatbot-widget
-.pda-grid-btn:hover {
-
-    background:
-        #f8fafc !important;
-
-    background-color:
-        #f8fafc !important;
+#pda-chatbot-widget .pda-grid-btn:hover {
+    background: #f8fafc !important;
+    background-color: #f8fafc !important;
 
     border-color:
-        rgba(
-            15,
-            87,
-            188,
-            .30
-        ) !important;
+        rgba(15,87,188,.30) !important;
 }
 
 
@@ -1011,107 +611,54 @@ span:nth-child(2) {
    BACK BUTTON
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-back-btn {
+#pda-chatbot-widget .pda-back-btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
 
-    display:
-        flex !important;
+    width: auto !important;
+    height: auto !important;
 
-    align-items:
-        center !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
 
-    gap:
-        6px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 
-    width:
-        auto !important;
+    border: 0 !important;
+    border-radius: 0 !important;
 
-    height:
-        auto !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
 
-    min-width:
-        0 !important;
+    color: #64748b !important;
 
-    min-height:
-        0 !important;
+    box-shadow: none !important;
 
-    margin:
-        0 !important;
-
-    padding:
-        0 !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        0 !important;
-
-    background:
-        transparent !important;
-
-    background-color:
-        transparent !important;
-
-    background-image:
-        none !important;
-
-    color:
-        #64748b !important;
-
-    box-shadow:
-        none !important;
-
-    font-size:
-        13px !important;
-
-    font-weight:
-        700 !important;
-
-    line-height:
-        20px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
 }
 
+#pda-chatbot-widget .pda-back-btn svg {
+    width: 16px !important;
+    height: 16px !important;
 
-#pda-chatbot-widget
-.pda-back-btn svg {
-
-    width:
-        16px !important;
-
-    height:
-        16px !important;
-
-    color:
-        #64748b !important;
-
-    stroke:
-        #64748b !important;
+    color: #64748b !important;
+    stroke: #64748b !important;
 }
 
+#pda-chatbot-widget .pda-back-btn:hover {
+    background: transparent !important;
+    background-color: transparent !important;
 
-#pda-chatbot-widget
-.pda-back-btn:hover {
-
-    background:
-        transparent !important;
-
-    background-color:
-        transparent !important;
-
-    color:
-        #0f57bc !important;
+    color: #0f57bc !important;
 }
 
-
-#pda-chatbot-widget
-.pda-back-btn:hover svg {
-
-    color:
-        #0f57bc !important;
-
-    stroke:
-        #0f57bc !important;
+#pda-chatbot-widget .pda-back-btn:hover svg {
+    color: #0f57bc !important;
+    stroke: #0f57bc !important;
 }
 
 
@@ -1119,921 +666,430 @@ span:nth-child(2) {
    OPTION BUTTONS
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-option-btn {
+#pda-chatbot-widget .pda-option-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    display:
-        inline-flex !important;
+    width: auto !important;
+    max-width: 100% !important;
 
-    align-items:
-        center !important;
+    height: auto !important;
 
-    justify-content:
-        center !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
 
-    width:
-        auto !important;
+    margin: 0 !important;
+    padding: 6px 16px !important;
 
-    max-width:
-        100% !important;
+    border-radius: 9999px !important;
 
-    height:
-        auto !important;
-
-    min-width:
-        0 !important;
-
-    min-height:
-        0 !important;
-
-    margin:
-        0 !important;
-
-    padding:
-        6px 16px !important;
-
-    border-radius:
-        9999px !important;
-
-    background:
-        #ffffff !important;
-
-    background-color:
-        #ffffff !important;
-
-    background-image:
-        none !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
 
     box-shadow:
-        0 1px 2px
-        rgba(
-            0,
-            0,
-            0,
-            .05
-        ) !important;
+        0 1px 2px rgba(0,0,0,.05) !important;
 
-    font-size:
-        13px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
 
-    font-weight:
-        500 !important;
-
-    line-height:
-        20px !important;
-
-    white-space:
-        normal !important;
-
-    text-align:
-        center !important;
+    white-space: normal !important;
+    text-align: center !important;
 }
 
-
-#pda-chatbot-widget
-.pda-option-blue {
-
+#pda-chatbot-widget .pda-option-blue {
     border:
-        1px solid
-        rgba(
-            15,
-            87,
-            188,
-            .30
-        ) !important;
+        1px solid rgba(15,87,188,.30) !important;
 
-    color:
-        #0f57bc !important;
+    color: #0f57bc !important;
 }
 
-
-#pda-chatbot-widget
-.pda-option-blue:hover {
-
-    background:
-        #f8fafc !important;
-
-    color:
-        #0f57bc !important;
+#pda-chatbot-widget .pda-option-blue:hover {
+    background: #f8fafc !important;
+    color: #0f57bc !important;
 }
 
-
-#pda-chatbot-widget
-.pda-option-red {
-
-    border:
-        1px solid
-        #fecaca !important;
-
-    color:
-        #b91c1c !important;
+#pda-chatbot-widget .pda-option-red {
+    border: 1px solid #fecaca !important;
+    color: #b91c1c !important;
 }
 
-
-#pda-chatbot-widget
-.pda-option-red:hover {
-
-    background:
-        #fef2f2 !important;
-
-    color:
-        #b91c1c !important;
+#pda-chatbot-widget .pda-option-red:hover {
+    background: #fef2f2 !important;
+    color: #b91c1c !important;
 }
 
 
 /* ==========================================================
-   STANDARD INPUTS
+   INPUTS
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-chat-input-field {
+#pda-chatbot-widget .pda-chat-input-field {
+    display: block !important;
 
-    display:
-        block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
 
-    width:
-        100% !important;
+    height: auto !important;
+    min-height: 0 !important;
 
-    max-width:
-        100% !important;
+    margin: 0 0 12px !important;
+    padding: 12px 16px !important;
 
-    min-width:
-        0 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
 
-    height:
-        auto !important;
+    background: #f8fafc !important;
+    background-color: #f8fafc !important;
+    background-image: none !important;
 
-    min-height:
-        0 !important;
+    color: #304454 !important;
 
-    margin:
-        0 0 12px !important;
+    box-shadow: none !important;
 
-    padding:
-        12px 16px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 20px !important;
 
-    border:
-        1px solid
-        #e2e8f0 !important;
-
-    border-radius:
-        10px !important;
-
-    background:
-        #f8fafc !important;
-
-    background-color:
-        #f8fafc !important;
-
-    background-image:
-        none !important;
-
-    color:
-        #304454 !important;
-
-    box-shadow:
-        none !important;
-
-    font-size:
-        14px !important;
-
-    font-weight:
-        400 !important;
-
-    line-height:
-        20px !important;
-
-    transition:
-        all .2s ease !important;
+    transition: all .2s ease !important;
 }
 
-
-#pda-chatbot-widget
-textarea.pda-chat-input-field {
-
-    height:
-        80px !important;
-
-    resize:
-        none !important;
+#pda-chatbot-widget textarea.pda-chat-input-field {
+    height: 80px !important;
+    resize: none !important;
 }
 
-
-#pda-chatbot-widget
-.pda-chat-input-field::placeholder {
-
-    color:
-        #94a3b8 !important;
-
-    opacity:
-        1 !important;
+#pda-chatbot-widget .pda-chat-input-field::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
 }
 
+#pda-chatbot-widget .pda-chat-input-field:focus {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
 
-#pda-chatbot-widget
-.pda-chat-input-field:focus {
-
-    background:
-        #ffffff !important;
-
-    background-color:
-        #ffffff !important;
-
-    border-color:
-        #0f57bc !important;
+    border-color: #0f57bc !important;
 
     box-shadow:
         0 0 0 3px
-        rgba(
-            15,
-            87,
-            188,
-            .15
-        ) !important;
+        rgba(15,87,188,.15) !important;
 }
 
-
-#pda-chatbot-widget
-input[type="email"]
-.pda-chat-input-field {
-
-    margin-bottom:
-        8px !important;
+#pda-chatbot-widget input[type="email"].pda-chat-input-field {
+    margin-bottom: 8px !important;
 }
 
+#pda-chatbot-widget .pda-inline-input {
+    display: block !important;
 
-/* ==========================================================
-   INLINE INPUT
-   ========================================================== */
+    width: 100% !important;
+    height: 42px !important;
 
-#pda-chatbot-widget
-.pda-inline-input {
-
-    display:
-        block !important;
-
-    width:
-        100% !important;
-
-    height:
-        42px !important;
-
-    margin:
-        0 !important;
+    margin: 0 !important;
 
     padding:
         10px 48px 10px 16px !important;
 
     border:
-        1px solid
-        rgba(
-            15,
-            87,
-            188,
-            .30
-        ) !important;
+        1px solid rgba(15,87,188,.30) !important;
 
-    border-radius:
-        9999px !important;
+    border-radius: 9999px !important;
 
-    background:
-        #ffffff !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
 
-    background-color:
-        #ffffff !important;
-
-    color:
-        #334155 !important;
+    color: #334155 !important;
 
     box-shadow:
-        0 1px 2px
-        rgba(
-            0,
-            0,
-            0,
-            .05
-        ) !important;
+        0 1px 2px rgba(0,0,0,.05) !important;
 
-    font-size:
-        13.5px !important;
-
-    line-height:
-        20px !important;
+    font-size: 13.5px !important;
+    line-height: 20px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-inline-input:focus {
-
-    border-color:
-        #0f57bc !important;
+#pda-chatbot-widget .pda-inline-input:focus {
+    border-color: #0f57bc !important;
 
     box-shadow:
         0 0 0 2px
-        rgba(
-            15,
-            87,
-            188,
-            .10
-        ) !important;
+        rgba(15,87,188,.10) !important;
 }
 
+#pda-chatbot-widget .pda-live-input {
+    display: block !important;
 
-/* ==========================================================
-   LIVE CHAT INPUT
-   ========================================================== */
+    width: 100% !important;
+    height: 44px !important;
 
-#pda-chatbot-widget
-.pda-live-input {
-
-    display:
-        block !important;
-
-    width:
-        100% !important;
-
-    height:
-        44px !important;
-
-    margin:
-        0 !important;
+    margin: 0 !important;
 
     padding:
         12px 48px 12px 16px !important;
 
-    border:
-        1px solid
-        #e2e8f0 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 9999px !important;
 
-    border-radius:
-        9999px !important;
+    background: #f8fafc !important;
+    background-color: #f8fafc !important;
+    background-image: none !important;
 
-    background:
-        #f8fafc !important;
+    color: #334155 !important;
 
-    background-color:
-        #f8fafc !important;
+    box-shadow: none !important;
 
-    background-image:
-        none !important;
-
-    color:
-        #334155 !important;
-
-    box-shadow:
-        none !important;
-
-    font-size:
-        14px !important;
-
-    line-height:
-        20px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-live-input::placeholder {
-
-    color:
-        #94a3b8 !important;
-
-    opacity:
-        1 !important;
+#pda-chatbot-widget .pda-live-input::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
 }
 
-
-#pda-chatbot-widget
-.pda-live-input:focus {
-
+#pda-chatbot-widget .pda-live-input:focus {
     border-color:
-        rgba(
-            15,
-            87,
-            188,
-            .50
-        ) !important;
+        rgba(15,87,188,.50) !important;
 
     box-shadow:
         0 0 0 2px
-        rgba(
-            15,
-            87,
-            188,
-            .10
-        ) !important;
+        rgba(15,87,188,.10) !important;
 }
 
 
 /* ==========================================================
-   FORM SUBMIT BUTTONS
+   SUBMIT BUTTONS
    ========================================================== */
 
-#pda-chatbot-widget
-.pda-form-submit-btn {
+#pda-chatbot-widget .pda-form-submit-btn {
+    display: block !important;
 
-    display:
-        block !important;
+    width: 100% !important;
+    height: auto !important;
 
-    width:
-        100% !important;
+    margin: 0 !important;
+    padding: 14px 16px !important;
 
-    height:
-        auto !important;
+    border: 0 !important;
+    border-radius: 12px !important;
 
-    margin:
-        0 !important;
+    background-image: none !important;
 
-    padding:
-        14px 16px !important;
+    color: #ffffff !important;
 
-    border:
-        0 !important;
+    box-shadow: none !important;
 
-    border-radius:
-        12px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
 
-    background-image:
-        none !important;
+    text-align: center !important;
+}
 
-    color:
-        #ffffff !important;
+#pda-chatbot-widget .pda-form-submit-blue {
+    background: #0f57bc !important;
+    background-color: #0f57bc !important;
+}
+
+#pda-chatbot-widget .pda-form-submit-blue:hover {
+    background: #0d4a9f !important;
+    background-color: #0d4a9f !important;
+}
+
+#pda-chatbot-widget #pda-reschedule-form .pda-form-submit-blue {
+    margin-top: 8px !important;
+}
+
+#pda-chatbot-widget .pda-form-submit-red {
+    margin-top: 8px !important;
+
+    background: #dc2626 !important;
+    background-color: #dc2626 !important;
+}
+
+#pda-chatbot-widget .pda-form-submit-red:hover {
+    background: #b91c1c !important;
+    background-color: #b91c1c !important;
+}
+
+#pda-chatbot-widget .pda-inline-submit-btn {
+    position: absolute !important;
+
+    right: 4px !important;
+    top: 4px !important;
+    bottom: 4px !important;
+
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+
+    padding: 8px !important;
+    margin: 0 !important;
+
+    border: 0 !important;
+    border-radius: 9999px !important;
+
+    background: #0f57bc !important;
+    background-color: #0f57bc !important;
+
+    color: #ffffff !important;
 
     box-shadow:
-        none !important;
-
-    font-size:
-        14px !important;
-
-    font-weight:
-        700 !important;
-
-    line-height:
-        20px !important;
-
-    text-align:
-        center !important;
+        0 1px 2px rgba(0,0,0,.05) !important;
 }
 
-
-#pda-chatbot-widget
-.pda-form-submit-blue {
-
-    background:
-        #0f57bc !important;
-
-    background-color:
-        #0f57bc !important;
+#pda-chatbot-widget .pda-inline-submit-btn:hover {
+    background: #0d4a9f !important;
+    background-color: #0d4a9f !important;
 }
 
+#pda-chatbot-widget .pda-chat-submit-btn {
+    position: absolute !important;
+    right: 6px !important;
 
-#pda-chatbot-widget
-.pda-form-submit-blue:hover {
+    width: 32px !important;
+    min-width: 32px !important;
 
-    background:
-        #0d4a9f !important;
+    height: 32px !important;
+    min-height: 32px !important;
 
-    background-color:
-        #0d4a9f !important;
-}
+    padding: 8px !important;
+    margin: 0 !important;
 
+    border: 0 !important;
+    border-radius: 9999px !important;
 
-#pda-chatbot-widget
-#pda-reschedule-form
-.pda-form-submit-blue {
+    background: #0f57bc !important;
+    background-color: #0f57bc !important;
 
-    margin-top:
-        8px !important;
-}
-
-
-#pda-chatbot-widget
-.pda-form-submit-red {
-
-    margin-top:
-        8px !important;
-
-    background:
-        #dc2626 !important;
-
-    background-color:
-        #dc2626 !important;
-}
-
-
-#pda-chatbot-widget
-.pda-form-submit-red:hover {
-
-    background:
-        #b91c1c !important;
-
-    background-color:
-        #b91c1c !important;
-}
-
-
-/* ==========================================================
-   INLINE SUBMIT
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-inline-submit-btn {
-
-    position:
-        absolute !important;
-
-    right:
-        4px !important;
-
-    top:
-        4px !important;
-
-    bottom:
-        4px !important;
-
-    width:
-        34px !important;
-
-    min-width:
-        34px !important;
-
-    height:
-        34px !important;
-
-    padding:
-        8px !important;
-
-    margin:
-        0 !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        9999px !important;
-
-    background:
-        #0f57bc !important;
-
-    background-color:
-        #0f57bc !important;
-
-    color:
-        #ffffff !important;
+    color: #ffffff !important;
 
     box-shadow:
-        0 1px 2px
-        rgba(
-            0,
-            0,
-            0,
-            .05
-        ) !important;
+        0 1px 2px rgba(0,0,0,.05) !important;
 }
 
-
-#pda-chatbot-widget
-.pda-inline-submit-btn:hover {
-
-    background:
-        #0d4a9f !important;
-
-    background-color:
-        #0d4a9f !important;
+#pda-chatbot-widget .pda-chat-submit-btn:hover {
+    background: #0d4a9f !important;
+    background-color: #0d4a9f !important;
+    color: #ffffff !important;
 }
 
+#pda-chatbot-widget .pda-chat-schedule-btn,
+#pda-chatbot-widget .pda-review-cta,
+#pda-chatbot-widget .pda-call-cta {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
 
-/* ==========================================================
-   CHAT SEND BUTTON
-   ========================================================== */
+    width: 100% !important;
+    height: auto !important;
 
-#pda-chatbot-widget
-.pda-chat-submit-btn {
+    margin: 0 !important;
+    padding: 12px 16px !important;
 
-    position:
-        absolute !important;
+    border: 0 !important;
+    border-radius: 12px !important;
 
-    right:
-        6px !important;
+    background: #0f57bc !important;
+    background-color: #0f57bc !important;
+    background-image: none !important;
 
-    width:
-        32px !important;
-
-    min-width:
-        32px !important;
-
-    height:
-        32px !important;
-
-    min-height:
-        32px !important;
-
-    padding:
-        8px !important;
-
-    margin:
-        0 !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        9999px !important;
-
-    background:
-        #0f57bc !important;
-
-    background-color:
-        #0f57bc !important;
-
-    color:
-        #ffffff !important;
+    color: #ffffff !important;
 
     box-shadow:
-        0 1px 2px
-        rgba(
-            0,
-            0,
-            0,
-            .05
-        ) !important;
+        0 1px 2px rgba(0,0,0,.05) !important;
+
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
+
+    text-align: center !important;
 }
 
-
-#pda-chatbot-widget
-.pda-chat-submit-btn:hover {
-
-    background:
-        #0d4a9f !important;
-
-    background-color:
-        #0d4a9f !important;
-
-    color:
-        #ffffff !important;
+#pda-chatbot-widget .pda-chat-schedule-btn:hover,
+#pda-chatbot-widget .pda-review-cta:hover,
+#pda-chatbot-widget .pda-call-cta:hover {
+    background: #0d4a9f !important;
+    background-color: #0d4a9f !important;
 }
 
-
-/* ==========================================================
-   BLUE CTA BUTTONS
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-chat-schedule-btn,
-
-#pda-chatbot-widget
-.pda-review-cta,
-
-#pda-chatbot-widget
-.pda-call-cta {
-
-    display:
-        flex !important;
-
-    align-items:
-        center !important;
-
-    justify-content:
-        center !important;
-
-    gap:
-        8px !important;
-
-    width:
-        100% !important;
-
-    height:
-        auto !important;
-
-    margin:
-        0 !important;
-
-    padding:
-        12px 16px !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        12px !important;
-
-    background:
-        #0f57bc !important;
-
-    background-color:
-        #0f57bc !important;
-
-    background-image:
-        none !important;
-
-    color:
-        #ffffff !important;
-
-    box-shadow:
-        0 1px 2px
-        rgba(
-            0,
-            0,
-            0,
-            .05
-        ) !important;
-
-    font-size:
-        13.5px !important;
-
-    font-weight:
-        700 !important;
-
-    line-height:
-        20px !important;
-
-    text-align:
-        center !important;
+#pda-chatbot-widget .pda-review-cta,
+#pda-chatbot-widget .pda-call-cta {
+    padding: 14px 16px !important;
+    margin-bottom: 10px !important;
 }
 
+#pda-chatbot-widget .pda-success-back-btn {
+    display: block !important;
 
-#pda-chatbot-widget
-.pda-chat-schedule-btn:hover,
+    width: 100% !important;
+    height: auto !important;
 
-#pda-chatbot-widget
-.pda-review-cta:hover,
+    margin: 0 !important;
+    padding: 12px 16px !important;
 
-#pda-chatbot-widget
-.pda-call-cta:hover {
+    border: 0 !important;
+    border-radius: 12px !important;
 
-    background:
-        #0d4a9f !important;
+    background: #f1f5f9 !important;
+    background-color: #f1f5f9 !important;
 
-    background-color:
-        #0d4a9f !important;
+    color: #334155 !important;
+
+    box-shadow: none !important;
+
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
 }
 
-
-#pda-chatbot-widget
-.pda-review-cta,
-
-#pda-chatbot-widget
-.pda-call-cta {
-
-    padding:
-        14px 16px !important;
-
-    margin-bottom:
-        10px !important;
+#pda-chatbot-widget .pda-success-back-btn:hover {
+    background: #e2e8f0 !important;
+    background-color: #e2e8f0 !important;
 }
 
+#pda-chatbot-widget .pda-scroll-btn {
+    width: 32px !important;
+    min-width: 32px !important;
 
-/* ==========================================================
-   SUCCESS BACK BUTTON
-   ========================================================== */
+    height: 32px !important;
+    min-height: 32px !important;
 
-#pda-chatbot-widget
-.pda-success-back-btn {
+    padding: 0 !important;
+    margin: 0 !important;
 
-    display:
-        block !important;
+    border: 0 !important;
+    border-radius: 9999px !important;
 
-    width:
-        100% !important;
+    background: #0f57bc !important;
+    background-color: #0f57bc !important;
 
-    height:
-        auto !important;
-
-    margin:
-        0 !important;
-
-    padding:
-        12px 16px !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        12px !important;
-
-    background:
-        #f1f5f9 !important;
-
-    background-color:
-        #f1f5f9 !important;
-
-    color:
-        #334155 !important;
-
-    box-shadow:
-        none !important;
-
-    font-size:
-        13px !important;
-
-    font-weight:
-        700 !important;
-
-    line-height:
-        20px !important;
+    color: #ffffff !important;
 }
 
+#pda-chatbot-widget .pda-trigger-btn {
+    width: 54px !important;
+    min-width: 54px !important;
 
-#pda-chatbot-widget
-.pda-success-back-btn:hover {
+    height: 54px !important;
+    min-height: 54px !important;
 
-    background:
-        #e2e8f0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 
-    background-color:
-        #e2e8f0 !important;
-}
+    border: 0 !important;
+    border-radius: 50% !important;
 
-
-/* ==========================================================
-   SCROLL BUTTON
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-scroll-btn {
-
-    width:
-        32px !important;
-
-    min-width:
-        32px !important;
-
-    height:
-        32px !important;
-
-    min-height:
-        32px !important;
-
-    padding:
-        0 !important;
-
-    margin:
-        0 !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        9999px !important;
-
-    background:
-        #0f57bc !important;
-
-    background-color:
-        #0f57bc !important;
-
-    color:
-        #ffffff !important;
-}
-
-
-/* ==========================================================
-   TRIGGER BUTTON
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-trigger-btn {
-
-    width:
-        54px !important;
-
-    min-width:
-        54px !important;
-
-    height:
-        54px !important;
-
-    min-height:
-        54px !important;
-
-    margin:
-        0 !important;
-
-    padding:
-        0 !important;
-
-    border:
-        0 !important;
-
-    border-radius:
-        50% !important;
-
-    background:
-        transparent !important;
-
-    background-color:
-        transparent !important;
-
-    background-image:
-        none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
 
     box-shadow:
         0 15px 35px -5px
-        rgba(
-            15,
-            87,
-            188,
-            .25
-        ) !important;
+        rgba(15,87,188,.25) !important;
 }
 
 
@@ -2041,102 +1097,45 @@ input[type="email"]
    FORM CARDS
    ========================================================== */
 
-#pda-chatbot-widget
-#pda-schedule-form-4 form,
+#pda-chatbot-widget #pda-schedule-form-4 form,
+#pda-chatbot-widget #pda-reschedule-form form {
+    width: 100% !important;
 
-#pda-chatbot-widget
-#pda-reschedule-form form {
+    margin: 0 !important;
+    padding: 16px !important;
 
-    width:
-        100% !important;
+    border: 1px solid #f1f5f9 !important;
+    border-radius: 16px !important;
 
-    margin:
-        0 !important;
-
-    padding:
-        16px !important;
-
-    border:
-        1px solid
-        #f1f5f9 !important;
-
-    border-radius:
-        16px !important;
-
-    background:
-        #ffffff !important;
-
-    background-color:
-        #ffffff !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
 }
 
+#pda-chatbot-widget #pda-emergency-form-2 form {
+    width: 100% !important;
 
-#pda-chatbot-widget
-#pda-emergency-form-2 form {
+    margin: 0 !important;
+    padding: 16px !important;
 
-    width:
-        100% !important;
+    border: 1px solid #fee2e2 !important;
+    border-radius: 16px !important;
 
-    margin:
-        0 !important;
-
-    padding:
-        16px !important;
-
-    border:
-        1px solid
-        #fee2e2 !important;
-
-    border-radius:
-        16px !important;
-
-    background:
-        #fef2f2 !important;
-
-    background-color:
-        #fef2f2 !important;
-}
-
-
-/* ==========================================================
-   CHIP PROTECTION
-   ========================================================== */
-
-#pda-chatbot-widget
-.pda-chip-input:checked
-+
-.pda-chip-label {
-
-    background-color:
-        #0f57bc !important;
-
-    color:
-        #ffffff !important;
-
-    border-color:
-        #0f57bc !important;
+    background: #fef2f2 !important;
+    background-color: #fef2f2 !important;
 }
 
         `;
 
-        document.head.appendChild(
-            style
-        );
+        document.head.appendChild(style);
     }
 
 
     function createWidgetMarkup() {
-
         const root =
-            document.createElement(
-                'div'
-            );
+            document.createElement('div');
 
-        root.id =
-            PDA_ROOT_ID;
-
-        root.className =
-            'pda-chatbot-root';
+        root.id = PDA_ROOT_ID;
+        root.className = 'pda-chatbot-root';
 
         root.style.setProperty(
             'visibility',
@@ -2144,18 +1143,12 @@ input[type="email"]
             'important'
         );
 
-
         root.innerHTML = String.raw`
-
-<!-- ========================================================
-     CHATBOT PANEL
-     ======================================================== -->
 
 <div
     id="pda-widget-panel"
     class="
-        fixed
-        inset-0
+        fixed inset-0
         sm:relative
         sm:inset-auto
         w-full
@@ -2178,32 +1171,22 @@ input[type="email"]
     style="display:none;"
 >
 
-
-    <!-- ====================================================
-         VIEW 1 — MAIN MENU
-         ==================================================== -->
-
+    <!-- MAIN MENU -->
     <div
         id="pda-bento-view"
         class="
-            absolute
-            inset-0
-            flex
-            flex-col
-            w-full
-            h-full
+            absolute inset-0
+            flex flex-col
+            w-full h-full
             transition-all
             duration-300
-            ease-[cubic-bezier(0.25,1,0.5,1)]
             opacity-100
             translate-x-0
             bg-white
         "
     >
 
-
-        <!-- HEADER -->
-
+        <!-- MAIN HEADER -->
         <div
             class="
                 h-[72px]
@@ -2229,42 +1212,17 @@ input[type="email"]
                 "
             >
 
-                <div
-                    class="
-                        relative
-                        shrink-0
-                    "
-                >
+                <div class="relative shrink-0">
 
-                    <div
-                        class="
-                            w-14
-                            h-14
-                            rounded-full
-                            overflow-hidden
-                            border-2
-                            border-white
-                            shadow-md
-                            bg-white
-                        "
-                        style="
-                            background-color:
-                            white !important;
-                        "
-                    >
+                    <!-- UPDATED 1.5PX WHITE BORDER -->
+                    <div class="pda-header-avatar">
 
                         <img
                             src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
                             alt="Zoey - AI Assistant"
-                            class="
-                                w-full
-                                h-full
-                                object-cover
-                            "
                         >
 
                     </div>
-
 
                     <span
                         class="
@@ -2283,7 +1241,6 @@ input[type="email"]
 
                 </div>
 
-
                 <div>
 
                     <h3
@@ -2299,7 +1256,6 @@ input[type="email"]
                     >
                         Plaza Dental Arts
                     </h3>
-
 
                     <p
                         class="
@@ -2317,40 +1273,19 @@ input[type="email"]
 
             </div>
 
-
             <button
                 type="button"
                 onclick="window.pdaToggleWidget()"
                 class="
                     pda-header-close
-                    text-white/70
-                    hover:text-white
                     transition-colors
-                    hover:bg-white/10
-                    rounded-full
-                    p-2
-                    shrink-0
                     active:scale-95
-                    border-none
-                    outline-none
-                    focus:outline-none
-                    ring-0
-                    bg-transparent
-                    m-0
-                    cursor-pointer
-                "
-                style="
-                    border:
-                    none !important;
                 "
             >
 
                 <i
                     data-lucide="x"
-                    class="
-                        w-5
-                        h-5
-                    "
+                    class="w-5 h-5"
                 ></i>
 
             </button>
@@ -2359,7 +1294,6 @@ input[type="email"]
 
 
         <!-- CONTENT -->
-
         <div
             class="
                 p-5
@@ -2372,9 +1306,6 @@ input[type="email"]
                 pda-custom-scrollbar
             "
         >
-
-
-            <!-- WELCOME -->
 
             <div
                 id="pda-welcome-bubble"
@@ -2402,7 +1333,6 @@ input[type="email"]
 
 
             <!-- SCHEDULE -->
-
             <button
                 type="button"
                 onclick="
@@ -2411,27 +1341,10 @@ input[type="email"]
                 "
                 class="
                     pda-main-schedule-btn
-                    w-full
-                    bg-[#0f57bc]
-                    text-white
-                    py-[14px]
-                    px-3.5
-                    rounded-[14px]
-                    flex
-                    items-center
-                    justify-between
                     transition-all
                     duration-200
                     group
                     active:scale-[0.98]
-                    shadow-none
-                    m-0
-                    text-left
-                    cursor-pointer
-                "
-                style="
-                    border:
-                    none !important;
                 "
             >
 
@@ -2454,8 +1367,6 @@ input[type="email"]
                             h-[42px]
                             rounded-[10px]
                             shrink-0
-                            transition-colors
-                            duration-300
                             flex
                             items-center
                             justify-center
@@ -2471,7 +1382,6 @@ input[type="email"]
                         ></i>
 
                     </div>
-
 
                     <div
                         class="
@@ -2489,7 +1399,6 @@ input[type="email"]
                                 block
                                 font-bold
                                 text-[14.5px]
-                                mb-0
                                 tracking-tight
                                 text-white
                                 leading-none
@@ -2498,7 +1407,6 @@ input[type="email"]
                         >
                             Schedule Appointment
                         </span>
-
 
                         <span
                             class="
@@ -2520,7 +1428,6 @@ input[type="email"]
 
                 </div>
 
-
                 <div
                     class="
                         bg-white/20
@@ -2531,8 +1438,6 @@ input[type="email"]
                         flex
                         items-center
                         justify-center
-                        group-hover:bg-white/30
-                        transition-colors
                     "
                 >
 
@@ -2542,7 +1447,6 @@ input[type="email"]
                             w-3.5
                             h-3.5
                             text-white
-                            ml-0.5
                         "
                     ></i>
 
@@ -2552,7 +1456,6 @@ input[type="email"]
 
 
             <!-- EMERGENCY -->
-
             <button
                 type="button"
                 onclick="
@@ -2561,30 +1464,10 @@ input[type="email"]
                 "
                 class="
                     pda-main-emergency-btn
-                    w-full
-                    bg-[#fff4f4]
-                    text-[#d92d20]
-                    py-[14px]
-                    px-3.5
-                    rounded-[14px]
-                    flex
-                    items-center
-                    justify-between
-                    hover:bg-[#ffeaea]
                     transition-all
                     duration-200
                     group
                     active:scale-[0.98]
-                    shadow-none
-                    m-0
-                    text-left
-                    cursor-pointer
-                    mt-1
-                "
-                style="
-                    border:
-                    1px solid
-                    #ffdede !important;
                 "
             >
 
@@ -2607,13 +1490,10 @@ input[type="email"]
                             h-[42px]
                             rounded-[10px]
                             shrink-0
-                            transition-colors
                             flex
                             items-center
                             justify-center
                             shadow-sm
-                            border
-                            border-red-100/50
                         "
                     >
 
@@ -2626,7 +1506,6 @@ input[type="email"]
                         ></i>
 
                     </div>
-
 
                     <div
                         class="
@@ -2644,7 +1523,6 @@ input[type="email"]
                                 block
                                 font-bold
                                 text-[14.5px]
-                                mb-0
                                 tracking-tight
                                 text-[#d92d20]
                                 leading-none
@@ -2653,7 +1531,6 @@ input[type="email"]
                         >
                             Dental Emergency
                         </span>
-
 
                         <span
                             class="
@@ -2675,17 +1552,12 @@ input[type="email"]
 
                 </div>
 
-
                 <div
                     class="
                         w-2
                         h-2
                         bg-[#f04438]
                         rounded-full
-                        shrink-0
-                        opacity-80
-                        group-hover:opacity-100
-                        transition-opacity
                     "
                 ></div>
 
@@ -2693,17 +1565,14 @@ input[type="email"]
 
 
             <!-- GRID -->
-
             <div
                 class="
                     grid
                     grid-cols-2
                     gap-2
                     mt-1
-                    m-0
                 "
             >
-
 
                 <button
                     type="button"
@@ -2711,39 +1580,14 @@ input[type="email"]
                         window.pdaAppBot
                         .startFlow('reschedule')
                     "
-                    class="
-                        pda-grid-btn
-                        flex
-                        items-center
-                        gap-2
-                        py-3.5
-                        px-3
-                        rounded-xl
-                        border
-                        border-slate-200
-                        bg-white
-                        shadow-sm
-                        hover:shadow-md
-                        hover:bg-slate-50
-                        transition-all
-                        duration-200
-                        group
-                        active:scale-95
-                        m-0
-                        cursor-pointer
-                        text-left
-                    "
+                    class="pda-grid-btn group"
                 >
 
                     <i
                         data-lucide="calendar-clock"
                         class="
-                            w-[16px]
-                            h-[16px]
+                            w-4 h-4
                             text-slate-400
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            shrink-0
                         "
                     ></i>
 
@@ -2752,11 +1596,6 @@ input[type="email"]
                             text-[11.5px]
                             font-semibold
                             text-slate-700
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            leading-tight
-                            tracking-tight
-                            block
                         "
                     >
                         Reschedule
@@ -2771,39 +1610,14 @@ input[type="email"]
                         window.pdaAppBot
                         .startFlow('question')
                     "
-                    class="
-                        pda-grid-btn
-                        flex
-                        items-center
-                        gap-2
-                        py-3.5
-                        px-3
-                        rounded-xl
-                        border
-                        border-slate-200
-                        bg-white
-                        shadow-sm
-                        hover:shadow-md
-                        hover:bg-slate-50
-                        transition-all
-                        duration-200
-                        group
-                        active:scale-95
-                        m-0
-                        cursor-pointer
-                        text-left
-                    "
+                    class="pda-grid-btn group"
                 >
 
                     <i
                         data-lucide="message-circle"
                         class="
-                            w-[16px]
-                            h-[16px]
+                            w-4 h-4
                             text-slate-400
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            shrink-0
                         "
                     ></i>
 
@@ -2812,11 +1626,6 @@ input[type="email"]
                             text-[11.5px]
                             font-semibold
                             text-slate-700
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            leading-tight
-                            tracking-tight
-                            block
                         "
                     >
                         Ask Question
@@ -2831,39 +1640,14 @@ input[type="email"]
                         window.pdaAppBot
                         .startFlow('call')
                     "
-                    class="
-                        pda-grid-btn
-                        flex
-                        items-center
-                        gap-2
-                        py-3.5
-                        px-3
-                        rounded-xl
-                        border
-                        border-slate-200
-                        bg-white
-                        shadow-sm
-                        hover:shadow-md
-                        hover:bg-slate-50
-                        transition-all
-                        duration-200
-                        group
-                        active:scale-95
-                        m-0
-                        cursor-pointer
-                        text-left
-                    "
+                    class="pda-grid-btn group"
                 >
 
                     <i
                         data-lucide="phone"
                         class="
-                            w-[16px]
-                            h-[16px]
+                            w-4 h-4
                             text-slate-400
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            shrink-0
                         "
                     ></i>
 
@@ -2872,11 +1656,6 @@ input[type="email"]
                             text-[11.5px]
                             font-semibold
                             text-slate-700
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            leading-tight
-                            tracking-tight
-                            block
                         "
                     >
                         Call Us
@@ -2891,39 +1670,14 @@ input[type="email"]
                         window.pdaAppBot
                         .startFlow('reviews')
                     "
-                    class="
-                        pda-grid-btn
-                        flex
-                        items-center
-                        gap-2
-                        py-3.5
-                        px-3
-                        rounded-xl
-                        border
-                        border-slate-200
-                        bg-white
-                        shadow-sm
-                        hover:shadow-md
-                        hover:bg-slate-50
-                        transition-all
-                        duration-200
-                        group
-                        active:scale-95
-                        m-0
-                        cursor-pointer
-                        text-left
-                    "
+                    class="pda-grid-btn group"
                 >
 
                     <i
                         data-lucide="star"
                         class="
-                            w-[16px]
-                            h-[16px]
+                            w-4 h-4
                             text-slate-400
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            shrink-0
                         "
                     ></i>
 
@@ -2932,11 +1686,6 @@ input[type="email"]
                             text-[11.5px]
                             font-semibold
                             text-slate-700
-                            group-hover:text-[#0f57bc]
-                            transition-colors
-                            leading-tight
-                            tracking-tight
-                            block
                         "
                     >
                         Reviews
@@ -2950,7 +1699,6 @@ input[type="email"]
 
 
         <!-- FOOTER -->
-
         <div
             class="
                 bg-white
@@ -2962,15 +1710,13 @@ input[type="email"]
                 justify-center
                 gap-2
                 shrink-0
-                m-0
             "
         >
 
             <i
                 data-lucide="smile"
                 class="
-                    w-4
-                    h-4
+                    w-4 h-4
                     text-accent-500
                 "
             ></i>
@@ -2993,7 +1739,7 @@ input[type="email"]
 
 
     <!-- ====================================================
-         VIEW 2 — CHAT
+         CHAT VIEW
          ==================================================== -->
 
     <div
@@ -3007,7 +1753,6 @@ input[type="email"]
             h-full
             transition-all
             duration-300
-            ease-[cubic-bezier(0.25,1,0.5,1)]
             opacity-0
             translate-x-full
             pointer-events-none
@@ -3016,9 +1761,7 @@ input[type="email"]
         "
     >
 
-
         <!-- CHAT HEADER -->
-
         <div
             class="
                 h-[72px]
@@ -3031,7 +1774,6 @@ input[type="email"]
                 z-10
                 overflow-hidden
                 shrink-0
-                m-0
             "
         >
 
@@ -3045,42 +1787,17 @@ input[type="email"]
                 "
             >
 
-                <div
-                    class="
-                        relative
-                        shrink-0
-                    "
-                >
+                <div class="relative shrink-0">
 
-                    <div
-                        class="
-                            w-14
-                            h-14
-                            rounded-full
-                            overflow-hidden
-                            border-2
-                            border-white
-                            shadow-md
-                            bg-white
-                        "
-                        style="
-                            background-color:
-                            white !important;
-                        "
-                    >
+                    <!-- UPDATED 1.5PX WHITE BORDER -->
+                    <div class="pda-header-avatar">
 
                         <img
                             src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
                             alt="Zoey"
-                            class="
-                                w-full
-                                h-full
-                                object-cover
-                            "
                         >
 
                     </div>
-
 
                     <span
                         class="
@@ -3099,7 +1816,6 @@ input[type="email"]
 
                 </div>
 
-
                 <div>
 
                     <h4
@@ -3115,7 +1831,6 @@ input[type="email"]
                     >
                         Plaza Dental Arts
                     </h4>
-
 
                     <span
                         class="
@@ -3133,44 +1848,18 @@ input[type="email"]
 
             </div>
 
-
             <button
                 type="button"
-                onclick="
-                    window.pdaToggleWidget()
-                "
+                onclick="window.pdaToggleWidget()"
                 class="
                     pda-header-close
                     pda-header-close-compact
-                    text-white/70
-                    hover:text-white
-                    transition-colors
-                    p-1.5
-                    rounded-lg
-                    hover:bg-white/10
-                    active:scale-90
-                    relative
-                    z-10
-                    border-none
-                    outline-none
-                    focus:outline-none
-                    ring-0
-                    bg-transparent
-                    m-0
-                    cursor-pointer
-                "
-                style="
-                    border:
-                    none !important;
                 "
             >
 
                 <i
                     data-lucide="x"
-                    class="
-                        w-5
-                        h-5
-                    "
+                    class="w-5 h-5"
                 ></i>
 
             </button>
@@ -3179,21 +1868,18 @@ input[type="email"]
 
 
         <!-- NAV -->
-
         <div
             id="pda-chat-nav"
             class="
                 px-5
                 pt-4
                 pb-2
-                bg-[#FAFAFA]
                 flex
                 justify-between
                 items-center
                 shrink-0
                 border-b
                 border-slate-100/50
-                m-0
             "
         >
 
@@ -3204,45 +1890,16 @@ input[type="email"]
                     window.pdaAppBot
                     .goBack()
                 "
-                class="
-                    pda-back-btn
-                    flex
-                    items-center
-                    gap-1.5
-                    text-[13px]
-                    font-bold
-                    text-slate-500
-                    hover:text-accent-500
-                    transition-colors
-                    active:scale-95
-                    border-none
-                    outline-none
-                    focus:outline-none
-                    ring-0
-                    m-0
-                    cursor-pointer
-                "
-                style="
-                    border:
-                    none !important;
-
-                    background:
-                    transparent !important;
-                "
+                class="pda-back-btn"
             >
 
                 <i
                     data-lucide="arrow-left"
-                    class="
-                        w-4
-                        h-4
-                    "
                 ></i>
 
                 Back
 
             </button>
-
 
             <span
                 id="pda-step-indicator"
@@ -3264,8 +1921,7 @@ input[type="email"]
         </div>
 
 
-        <!-- CHAT HISTORY -->
-
+        <!-- HISTORY -->
         <div
             id="pda-chat-history"
             class="
@@ -3277,16 +1933,12 @@ input[type="email"]
                 flex
                 flex-col
                 gap-4
-                bg-[#FAFAFA]
                 pda-custom-scrollbar
                 pb-6
                 relative
-                m-0
             "
         ></div>
 
-
-        <!-- SCROLL DOWN -->
 
         <button
             id="pda-scroll-down-btn"
@@ -3298,14 +1950,14 @@ input[type="email"]
                 )
                 .scrollTo({
                     top:
-                    document
-                    .getElementById(
-                        'pda-chat-history'
-                    )
-                    .scrollHeight,
+                        document
+                        .getElementById(
+                            'pda-chat-history'
+                        )
+                        .scrollHeight,
 
                     behavior:
-                    'smooth'
+                        'smooth'
                 })
             "
             class="
@@ -3313,46 +1965,28 @@ input[type="email"]
                 absolute
                 bottom-[90px]
                 left-2
-                bg-accent-500
-                text-white
-                rounded-full
-                w-8
-                h-8
                 shadow-md
-                hover:bg-accent-600
-                transition-all
                 z-20
                 pda-animate-gentle-bounce
                 flex
                 items-center
                 justify-center
-                active:scale-95
-                cursor-pointer
-                hover:shadow-lg
-                m-0
             "
             style="
                 display:
-                none !important;
-
-                border:
-                none !important;
+                    none !important;
             "
         >
 
             <i
                 data-lucide="arrow-down"
-                class="
-                    w-4
-                    h-4
-                "
+                class="w-4 h-4"
             ></i>
 
         </button>
 
 
-        <!-- CHAT INPUT AREA -->
-
+        <!-- CHAT INPUT -->
         <div
             id="pda-chat-input-area"
             class="
@@ -3363,56 +1997,30 @@ input[type="email"]
                 shrink-0
                 flex-col
                 gap-2
-                m-0
             "
             style="
                 display:
-                none !important;
+                    none !important;
             "
         >
-
 
             <button
                 type="button"
                 onclick="
                     window.pdaAppBot
-                    .startFlow(
-                        'schedule'
-                    )
+                    .startFlow('schedule')
                 "
-                class="
-                    pda-chat-schedule-btn
-                    w-full
-                    bg-[#0f57bc]
-                    text-white
-                    py-2.5
-                    rounded-xl
-                    text-[13px]
-                    font-bold
-                    transition-all
-                    shadow-sm
-                    active:scale-95
-                    flex
-                    items-center
-                    justify-center
-                    gap-2
-                    m-0
-                    cursor-pointer
-                "
+                class="pda-chat-schedule-btn"
             >
 
                 <i
                     data-lucide="calendar-plus"
-                    class="
-                        w-4
-                        h-4
-                    "
+                    class="w-4 h-4"
                 ></i>
 
                 Schedule Appointment
 
             </button>
-
 
             <form
                 onsubmit="
@@ -3425,8 +2033,6 @@ input[type="email"]
                     relative
                     flex
                     items-center
-                    m-0
-                    p-0
                     mt-1
                 "
             >
@@ -3436,54 +2042,23 @@ input[type="email"]
                     id="pda-live-chat-input"
                     placeholder="Type your message..."
                     autocomplete="off"
-                    class="
-                        pda-live-input
-                        w-full
-                        bg-slate-50
-                        border
-                        border-slate-200
-                        text-[14px]
-                        rounded-full
-                        py-3
-                        pl-4
-                        pr-12
-                        text-slate-700
-                    "
+                    class="pda-live-input"
                 >
-
 
                 <button
                     id="pda-live-chat-submit"
                     type="submit"
                     class="
                         pda-chat-submit-btn
-                        absolute
-                        right-1.5
-                        p-2
-                        bg-accent-500
-                        text-white
-                        rounded-full
-                        shadow-sm
                         flex
                         items-center
                         justify-center
-                        m-0
-                        cursor-pointer
-                    "
-                    style="
-                        border:
-                        none !important;
                     "
                 >
 
                     <i
                         data-lucide="send"
-                        class="
-                            w-4
-                            h-4
-                            ml-0.5
-                            mt-0.5
-                        "
+                        class="w-4 h-4"
                     ></i>
 
                 </button>
@@ -3493,8 +2068,7 @@ input[type="email"]
         </div>
 
 
-        <!-- HIPAA FOOTER -->
-
+        <!-- HIPAA -->
         <div
             id="pda-hipaa-footer"
             class="
@@ -3504,7 +2078,6 @@ input[type="email"]
                 border-slate-100
                 text-center
                 shrink-0
-                m-0
             "
         >
 
@@ -3525,10 +2098,7 @@ input[type="email"]
 
                 <i
                     data-lucide="lock"
-                    class="
-                        w-3
-                        h-3
-                    "
+                    class="w-3 h-3"
                 ></i>
 
                 HIPAA Compliant Portal
@@ -3543,7 +2113,7 @@ input[type="email"]
 
 
 <!-- ========================================================
-     FLOATING TRIGGER
+     TRIGGER
      ======================================================== -->
 
 <div
@@ -3557,13 +2127,8 @@ input[type="email"]
 
     <div
         id="pda-trigger-bubble"
-        onclick="
-            window.pdaToggleWidget()
-        "
-        style="
-            display:
-            none;
-        "
+        onclick="window.pdaToggleWidget()"
+        style="display:none;"
         class="
             opacity-0
             scale-95
@@ -3594,7 +2159,6 @@ input[type="email"]
                 tracking-tight
                 leading-snug
                 block
-                m-0
             "
         >
             Have questions?
@@ -3607,85 +2171,27 @@ input[type="email"]
     <button
         id="pda-trigger-btn"
         type="button"
-        onclick="
-            window.pdaToggleWidget()
-        "
+        onclick="window.pdaToggleWidget()"
         class="
             pda-trigger-btn
             transition-all
             duration-300
-            m-0
-            p-0
-        "
-        style="
-            width:
-            54px;
-
-            height:
-            54px;
-
-            border-radius:
-            50%;
-
-            border:
-            none !important;
-
-            background:
-            transparent !important;
-
-            position:
-            relative;
-
-            cursor:
-            pointer;
-
-            flex-shrink:
-            0;
-
-            box-shadow:
-            0 15px 35px -5px
-            rgba(
-                15,
-                87,
-                188,
-                .25
-            );
         "
     >
-
 
         <div
             id="pda-icon-default"
             style="
-                width:
-                54px;
-
-                height:
-                54px;
-
-                border-radius:
-                50%;
-
-                overflow:
-                hidden;
-
-                border:
-                3px solid white;
-
-                background-color:
-                white;
-
-                position:
-                absolute;
-
-                top:
-                0;
-
-                left:
-                0;
-
-                display:
-                block;
+                width:54px;
+                height:54px;
+                border-radius:50%;
+                overflow:hidden;
+                border:3px solid white;
+                background-color:white;
+                position:absolute;
+                top:0;
+                left:0;
+                display:block;
             "
         >
 
@@ -3693,80 +2199,43 @@ input[type="email"]
                 src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
                 alt="Chat with us"
                 style="
-                    width:
-                    100%;
-
-                    height:
-                    100%;
-
-                    object-fit:
-                    cover;
-
-                    display:
-                    block;
-
-                    border-radius:
-                    50%;
+                    width:100%;
+                    height:100%;
+                    object-fit:cover;
+                    display:block;
+                    border-radius:50%;
                 "
             >
 
         </div>
 
-
         <div
             id="pda-icon-active"
             style="
-                display:
-                none;
-
-                width:
-                54px;
-
-                height:
-                54px;
-
-                border-radius:
-                50%;
-
-                background-color:
-                #0f57bc !important;
-
-                position:
-                absolute;
-
-                top:
-                0;
-
-                left:
-                0;
-
-                align-items:
-                center;
-
-                justify-content:
-                center;
-
-                border:
-                2px solid #0f57bc;
+                display:none;
+                width:54px;
+                height:54px;
+                border-radius:50%;
+                background-color:#0f57bc !important;
+                position:absolute;
+                top:0;
+                left:0;
+                align-items:center;
+                justify-content:center;
+                border:2px solid #0f57bc;
             "
         >
 
             <i
                 data-lucide="x"
                 style="
-                    width:
-                    24px;
-
-                    height:
-                    24px;
-
-                    color:
-                    white;
+                    width:24px;
+                    height:24px;
+                    color:white;
                 "
             ></i>
 
         </div>
-
 
         <span
             id="pda-trigger-dot"
@@ -3785,13 +2254,9 @@ input[type="email"]
             "
         ></span>
 
-
         <span
             id="pda-notification-badge"
-            style="
-                display:
-                none;
-            "
+            style="display:none;"
             class="
                 absolute
                 -top-1
@@ -3824,10 +2289,7 @@ input[type="email"]
 
         `;
 
-
-        document.body.appendChild(
-            root
-        );
+        document.body.appendChild(root);
 
         return root;
     }
@@ -3836,7 +2298,6 @@ input[type="email"]
     async function bootPDAChatbot() {
 
         if (!document.body) {
-
             requestAnimationFrame(
                 bootPDAChatbot
             );
@@ -3844,13 +2305,10 @@ input[type="email"]
             return;
         }
 
-
         addFont();
-
 
         const root =
             createWidgetMarkup();
-
 
         try {
 
@@ -3858,7 +2316,6 @@ input[type="email"]
                 PDA_TAILWIND_ID,
                 'https://cdn.tailwindcss.com'
             );
-
 
             if (window.tailwind) {
 
@@ -3868,8 +2325,7 @@ input[type="email"]
                         '#pda-chatbot-widget',
 
                     corePlugins: {
-                        preflight:
-                            false
+                        preflight: false
                     },
 
                     theme: {
@@ -3877,56 +2333,31 @@ input[type="email"]
                         extend: {
 
                             fontFamily: {
-
                                 sans: [
                                     '"Plus Jakarta Sans"',
                                     'Arial',
                                     'sans-serif'
                                 ]
-
                             },
-
 
                             colors: {
 
                                 premium: {
-
-                                    50:
-                                        '#f8fafc',
-
-                                    100:
-                                        '#f1f5f9',
-
-                                    200:
-                                        '#e2e8f0',
-
-                                    800:
-                                        '#23323e',
-
-                                    900:
-                                        '#304454',
-
-                                    950:
-                                        '#1b2731'
-
+                                    50: '#f8fafc',
+                                    100: '#f1f5f9',
+                                    200: '#e2e8f0',
+                                    800: '#23323e',
+                                    900: '#304454',
+                                    950: '#1b2731'
                                 },
 
-
                                 accent: {
-
-                                    400:
-                                        '#3273d1',
-
-                                    500:
-                                        '#0f57bc',
-
-                                    600:
-                                        '#0d4a9f'
-
+                                    400: '#3273d1',
+                                    500: '#0f57bc',
+                                    600: '#0d4a9f'
                                 }
 
                             },
-
 
                             boxShadow: {
 
@@ -3976,15 +2407,10 @@ input[type="email"]
 
 
             /* ==================================================
-               CHATBOT FUNCTIONALITY
+               CHATBOT
                ================================================== */
 
             (function () {
-
-
-                /* ==============================================
-                   STATE
-                   ============================================== */
 
                 window.pdaBotState = {
 
@@ -4005,10 +2431,6 @@ input[type="email"]
 
                 };
 
-
-                /* ==============================================
-                   WEBHOOKS + ASSETS
-                   ============================================== */
 
                 const WEBHOOK_URL =
                     'https://api.mikemathewscmo.com/webhook/pda-website-chatbot';
@@ -4037,20 +2459,10 @@ input[type="email"]
                         );
 
 
-                let isWidgetOpen =
-                    false;
-
-                let hasInteracted =
-                    false;
-
-                let hasPlayedSound =
-                    false;
-
-                let badgeVisible =
-                    false;
-
-                let audioUnlocked =
-                    false;
+                let isWidgetOpen = false;
+                let hasPlayedSound = false;
+                let badgeVisible = false;
+                let audioUnlocked = false;
 
 
                 const dingAudio =
@@ -4064,10 +2476,6 @@ input[type="email"]
                         MESSAGE_SOUND_URL
                     );
 
-
-                /* ==============================================
-                   TRACKING
-                   ============================================== */
 
                 function createTrackingId(
                     prefix
@@ -4087,10 +2495,7 @@ input[type="email"]
                                 '-' +
                                 Math.random()
                                     .toString(36)
-                                    .substr(
-                                        2,
-                                        9
-                                    )
+                                    .substr(2,9)
                         )
                     );
 
@@ -4167,8 +2572,7 @@ input[type="email"]
 
 
                     const first =
-                        name
-                            .split(' ')[0];
+                        name.split(' ')[0];
 
 
                     return (
@@ -4181,12 +2585,7 @@ input[type="email"]
                 }
 
 
-                /* ==============================================
-                   INITIALIZATION
-                   ============================================== */
-
                 function initPDAWidget() {
-
 
                     if (
                         typeof lucide !==
@@ -4294,15 +2693,15 @@ input[type="email"]
                         }
 
 
-                        const welcomeBubble =
+                        const welcome =
                             document.getElementById(
                                 'pda-welcome-bubble'
                             );
 
 
-                        if (welcomeBubble) {
+                        if (welcome) {
 
-                            welcomeBubble.innerHTML =
+                            welcome.innerHTML =
                                 `Welcome back, ${savedName}! Welcome to Plaza Dental Arts. I'm here to help you get scheduled, answer questions, or connect you with our team.`;
 
                         }
@@ -4310,18 +2709,13 @@ input[type="email"]
                     }
 
 
-                    /* ==========================================
-                       SOUNDS
-                       ========================================== */
-
                     function playMessageSound() {
 
                         const sound =
                             msgAudio.cloneNode();
 
 
-                        sound.volume =
-                            .4;
+                        sound.volume = .4;
 
 
                         sound
@@ -4334,23 +2728,21 @@ input[type="email"]
 
                     function attemptDing() {
 
-                        if (
-                            hasPlayedSound
-                        ) {
+                        if (hasPlayedSound) {
                             return;
                         }
 
 
-                        const playPromise =
+                        const promise =
                             dingAudio.play();
 
 
                         if (
-                            playPromise !==
+                            promise !==
                             undefined
                         ) {
 
-                            playPromise
+                            promise
                                 .then(
                                     () => {
                                         hasPlayedSound =
@@ -4375,17 +2767,12 @@ input[type="email"]
                         }
 
 
-                        badgeVisible =
-                            true;
+                        badgeVisible = true;
 
 
-                        if (
-                            notificationBadge
-                        ) {
+                        if (notificationBadge) {
 
-                            notificationBadge
-                                .style
-                                .display =
+                            notificationBadge.style.display =
                                 'flex';
 
 
@@ -4414,13 +2801,9 @@ input[type="email"]
                         }
 
 
-                        if (
-                            triggerBubble
-                        ) {
+                        if (triggerBubble) {
 
-                            triggerBubble
-                                .style
-                                .display =
+                            triggerBubble.style.display =
                                 'block';
 
 
@@ -4471,16 +2854,10 @@ input[type="email"]
                     );
 
 
-                    /* ==========================================
-                       AUDIO UNLOCK
-                       ========================================== */
-
                     const unlockAudio =
                         () => {
 
-                            if (
-                                audioUnlocked
-                            ) {
+                            if (audioUnlocked) {
                                 return;
                             }
 
@@ -4495,41 +2872,6 @@ input[type="email"]
                             ) {
 
                                 attemptDing();
-
-                            } else {
-
-                                dingAudio
-                                    .play()
-                                    .then(
-                                        () => {
-
-                                            dingAudio.pause();
-
-                                            dingAudio.currentTime =
-                                                0;
-
-                                        }
-                                    )
-                                    .catch(
-                                        () => {}
-                                    );
-
-
-                                msgAudio
-                                    .play()
-                                    .then(
-                                        () => {
-
-                                            msgAudio.pause();
-
-                                            msgAudio.currentTime =
-                                                0;
-
-                                        }
-                                    )
-                                    .catch(
-                                        () => {}
-                                    );
 
                             }
 
@@ -4567,27 +2909,17 @@ input[type="email"]
                                     evt,
                                     unlockAudio,
                                     {
-                                        passive:
-                                            true
+                                        passive: true
                                     }
                                 )
                     );
 
 
-                    /* ==========================================
-                       OPEN / CLOSE
-                       ========================================== */
-
                     window.pdaToggleWidget =
                         function () {
 
-
                             isWidgetOpen =
                                 !isWidgetOpen;
-
-
-                            hasInteracted =
-                                true;
 
 
                             if (
@@ -4599,10 +2931,7 @@ input[type="email"]
                             }
 
 
-                            if (
-                                isWidgetOpen
-                            ) {
-
+                            if (isWidgetOpen) {
 
                                 panel.style.display =
                                     'flex';
@@ -4641,87 +2970,56 @@ input[type="email"]
                                     'none';
 
 
-                                notificationBadge
-                                    .classList
-                                    .add(
-                                        'opacity-0',
-                                        'scale-0'
-                                    );
-
-
-                                notificationBadge
-                                    .classList
-                                    .remove(
-                                        'opacity-100',
-                                        'scale-100'
-                                    );
-
-
                             } else {
 
-
-                                panel
-                                    .classList
-                                    .remove(
-                                        'pda-widget-visible'
-                                    );
+                                panel.classList.remove(
+                                    'pda-widget-visible'
+                                );
 
 
-                                panel
-                                    .classList
-                                    .add(
-                                        'pda-widget-hidden'
-                                    );
+                                panel.classList.add(
+                                    'pda-widget-hidden'
+                                );
 
 
                                 setTimeout(
                                     () => {
 
-
                                         panel.style.display =
                                             'none';
 
 
-                                        chatView
-                                            .classList
-                                            .add(
-                                                'opacity-0',
-                                                'translate-x-full',
-                                                'pointer-events-none'
-                                            );
+                                        chatView.classList.add(
+                                            'opacity-0',
+                                            'translate-x-full',
+                                            'pointer-events-none'
+                                        );
 
 
-                                        chatView
-                                            .classList
-                                            .remove(
-                                                'opacity-100',
-                                                'translate-x-0'
-                                            );
+                                        chatView.classList.remove(
+                                            'opacity-100',
+                                            'translate-x-0'
+                                        );
 
 
-                                        bentoView
-                                            .classList
-                                            .add(
-                                                'opacity-100',
-                                                'translate-x-0'
-                                            );
+                                        bentoView.classList.add(
+                                            'opacity-100',
+                                            'translate-x-0'
+                                        );
 
 
-                                        bentoView
-                                            .classList
-                                            .remove(
-                                                'opacity-0',
-                                                '-translate-x-10',
-                                                'pointer-events-none'
-                                            );
+                                        bentoView.classList.remove(
+                                            'opacity-0',
+                                            '-translate-x-10',
+                                            'pointer-events-none'
+                                        );
 
 
                                         document
                                             .getElementById(
                                                 'pda-hipaa-footer'
                                             )
-                                            .style
-                                            .display =
+                                            .style.display =
                                             '';
 
 
@@ -4736,7 +3034,6 @@ input[type="email"]
                                                 'important'
                                             );
 
-
                                     },
                                     250
                                 );
@@ -4744,16 +3041,6 @@ input[type="email"]
 
                                 triggerBubble.style.display =
                                     'block';
-
-
-                                triggerBubble
-                                    .classList
-                                    .remove(
-                                        'opacity-0',
-                                        'scale-95',
-                                        'translate-y-3',
-                                        'pointer-events-none'
-                                    );
 
 
                                 triggerText.innerHTML =
@@ -4780,43 +3067,35 @@ input[type="email"]
                         };
 
 
-                    /* ==========================================
-                       CHAT UI
-                       ========================================== */
-
                     const getBotAvatarHTML =
                         () => `
 
-                            <div
+                        <div
+                            class="
+                                w-7
+                                h-7
+                                rounded-full
+                                overflow-hidden
+                                shrink-0
+                                mt-1
+                                shadow-sm
+                                bg-white
+                                border
+                                border-slate-100
+                            "
+                        >
+
+                            <img
+                                src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
+                                alt="Zoey"
                                 class="
-                                    w-7
-                                    h-7
-                                    rounded-full
-                                    overflow-hidden
-                                    shrink-0
-                                    mt-1
-                                    shadow-sm
-                                    bg-white
-                                    border
-                                    border-slate-100
-                                "
-                                style="
-                                    background-color:
-                                    white !important;
+                                    w-full
+                                    h-full
+                                    object-cover
                                 "
                             >
 
-                                <img
-                                    src="https://assets.cdn.filesafe.space/jwSB6dgnvqYwCtaIHqjF/media/6a70e1c1a1aa89ccfe046ba2.png"
-                                    alt="Zoey"
-                                    class="
-                                        w-full
-                                        h-full
-                                        object-cover
-                                    "
-                                >
-
-                            </div>
+                        </div>
 
                         `;
 
@@ -4825,11 +3104,7 @@ input[type="email"]
                         text
                     ) {
 
-
-                        if (
-                            isWidgetOpen
-                        ) {
-
+                        if (isWidgetOpen) {
                             playMessageSound();
                         }
 
@@ -4888,7 +3163,8 @@ input[type="email"]
                                 });
 
 
-                                window.pdaAppBot
+                                window
+                                    .pdaAppBot
                                     .updateScrollArrow();
 
                             },
@@ -4901,7 +3177,6 @@ input[type="email"]
                     function appendUserMessage(
                         text
                     ) {
-
 
                         chatHistory
                             .insertAdjacentHTML(
@@ -4955,7 +3230,8 @@ input[type="email"]
                                 });
 
 
-                                window.pdaAppBot
+                                window
+                                    .pdaAppBot
                                     .updateScrollArrow();
 
                             },
@@ -4966,7 +3242,6 @@ input[type="email"]
 
 
                     function showTypingIndicator() {
-
 
                         const typingId =
                             'pda-typing-' +
@@ -4992,7 +3267,6 @@ input[type="email"]
 
                                     ${getBotAvatarHTML()}
 
-
                                     <div
                                         class="
                                             bg-white
@@ -5009,15 +3283,11 @@ input[type="email"]
                                     >
 
                                         <div
-                                            class="
-                                                pda-typing-dots
-                                            "
+                                            class="pda-typing-dots"
                                         >
-
                                             <span></span>
                                             <span></span>
                                             <span></span>
-
                                         </div>
 
                                     </div>
@@ -5026,26 +3296,6 @@ input[type="email"]
 
                                 `
                             );
-
-
-                        setTimeout(
-                            () => {
-
-                                chatHistory.scrollTo({
-                                    top:
-                                        chatHistory.scrollHeight,
-
-                                    behavior:
-                                        'smooth'
-                                });
-
-
-                                window.pdaAppBot
-                                    .updateScrollArrow();
-
-                            },
-                            150
-                        );
 
 
                         return typingId;
@@ -5057,9 +3307,8 @@ input[type="email"]
                     ) {
 
                         const element =
-                            document.getElementById(
-                                id
-                            );
+                            document
+                                .getElementById(id);
 
 
                         if (element) {
@@ -5071,7 +3320,7 @@ input[type="email"]
 
                     async function appendBotMessageWithTyping(
                         text,
-                        delayMs = 1200
+                        delay = 1200
                     ) {
 
                         const typingId =
@@ -5097,7 +3346,7 @@ input[type="email"]
                                         resolve();
 
                                     },
-                                    delayMs
+                                    delay
                                 );
 
                             }
@@ -5110,7 +3359,6 @@ input[type="email"]
                         id,
                         html
                     ) {
-
 
                         chatHistory
                             .insertAdjacentHTML(
@@ -5129,9 +3377,7 @@ input[type="email"]
                                         shrink-0
                                     "
                                 >
-
                                     ${html}
-
                                 </div>
 
                                 `
@@ -5147,62 +3393,38 @@ input[type="email"]
                             lucide.createIcons();
                         }
 
-
-                        setTimeout(
-                            () => {
-
-                                chatHistory.scrollTo({
-                                    top:
-                                        chatHistory.scrollHeight,
-
-                                    behavior:
-                                        'smooth'
-                                });
-
-
-                                window.pdaAppBot
-                                    .updateScrollArrow();
-
-                            },
-                            150
-                        );
-
                     }
 
 
                     chatHistory.addEventListener(
                         'scroll',
                         () =>
-                            window.pdaAppBot
+                            window
+                                .pdaAppBot
                                 .updateScrollArrow()
                     );
 
 
-                    /* ==========================================
-                       MAIN APP
-                       ========================================== */
-
                     window.pdaAppBot = {
 
-
-                        currentFlow:
-                            null,
+                        currentFlow: null,
 
 
                         updateScrollArrow:
                             function () {
 
-
                                 const button =
-                                    document.getElementById(
-                                        'pda-scroll-down-btn'
-                                    );
+                                    document
+                                        .getElementById(
+                                            'pda-scroll-down-btn'
+                                        );
 
 
                                 const history =
-                                    document.getElementById(
-                                        'pda-chat-history'
-                                    );
+                                    document
+                                        .getElementById(
+                                            'pda-chat-history'
+                                        );
 
 
                                 if (
@@ -5213,41 +3435,28 @@ input[type="email"]
                                 }
 
 
-                                const awayFromBottom =
+                                const show =
+                                    history.scrollHeight >
+                                        history.clientHeight
+                                    &&
                                     Math.ceil(
                                         history.scrollHeight -
                                         history.scrollTop
                                     )
                                     >
                                     history.clientHeight +
-                                    15;
+                                        15;
 
 
-                                if (
-                                    history.scrollHeight >
-                                        history.clientHeight &&
-                                    awayFromBottom
-                                ) {
-
-                                    button
-                                        .style
-                                        .setProperty(
-                                            'display',
-                                            'flex',
-                                            'important'
-                                        );
-
-                                } else {
-
-                                    button
-                                        .style
-                                        .setProperty(
-                                            'display',
-                                            'none',
-                                            'important'
-                                        );
-
-                                }
+                                button.style.setProperty(
+                                    'display',
+                                    show
+                                        ?
+                                        'flex'
+                                        :
+                                        'none',
+                                    'important'
+                                );
 
                             },
 
@@ -5255,13 +3464,11 @@ input[type="email"]
                         goBack:
                             function () {
 
-
                                 document
                                     .getElementById(
                                         'pda-hipaa-footer'
                                     )
-                                    .style
-                                    .display =
+                                    .style.display =
                                     '';
 
 
@@ -5277,38 +3484,30 @@ input[type="email"]
                                     );
 
 
-                                chatView
-                                    .classList
-                                    .remove(
-                                        'opacity-100',
-                                        'translate-x-0'
-                                    );
+                                chatView.classList.remove(
+                                    'opacity-100',
+                                    'translate-x-0'
+                                );
 
 
-                                chatView
-                                    .classList
-                                    .add(
-                                        'opacity-0',
-                                        'translate-x-full',
-                                        'pointer-events-none'
-                                    );
+                                chatView.classList.add(
+                                    'opacity-0',
+                                    'translate-x-full',
+                                    'pointer-events-none'
+                                );
 
 
-                                bentoView
-                                    .classList
-                                    .remove(
-                                        'opacity-0',
-                                        '-translate-x-10',
-                                        'pointer-events-none'
-                                    );
+                                bentoView.classList.remove(
+                                    'opacity-0',
+                                    '-translate-x-10',
+                                    'pointer-events-none'
+                                );
 
 
-                                bentoView
-                                    .classList
-                                    .add(
-                                        'opacity-100',
-                                        'translate-x-0'
-                                    );
+                                bentoView.classList.add(
+                                    'opacity-100',
+                                    'translate-x-0'
+                                );
 
                             },
 
@@ -5318,7 +3517,6 @@ input[type="email"]
                                 flowType
                             ) {
 
-
                                 document
                                     .getElementById(
                                         'pda-chat-input-area'
@@ -5335,55 +3533,34 @@ input[type="email"]
                                     .getElementById(
                                         'pda-hipaa-footer'
                                     )
-                                    .style
-                                    .display =
+                                    .style.display =
                                     '';
 
 
-                                document
-                                    .getElementById(
-                                        'pda-scroll-down-btn'
-                                    )
-                                    .style
-                                    .setProperty(
-                                        'display',
-                                        'none',
-                                        'important'
-                                    );
+                                bentoView.classList.remove(
+                                    'opacity-100',
+                                    'translate-x-0'
+                                );
 
 
-                                bentoView
-                                    .classList
-                                    .remove(
-                                        'opacity-100',
-                                        'translate-x-0'
-                                    );
+                                bentoView.classList.add(
+                                    'opacity-0',
+                                    '-translate-x-10',
+                                    'pointer-events-none'
+                                );
 
 
-                                bentoView
-                                    .classList
-                                    .add(
-                                        'opacity-0',
-                                        '-translate-x-10',
-                                        'pointer-events-none'
-                                    );
+                                chatView.classList.remove(
+                                    'opacity-0',
+                                    'translate-x-full',
+                                    'pointer-events-none'
+                                );
 
 
-                                chatView
-                                    .classList
-                                    .remove(
-                                        'opacity-0',
-                                        'translate-x-full',
-                                        'pointer-events-none'
-                                    );
-
-
-                                chatView
-                                    .classList
-                                    .add(
-                                        'opacity-100',
-                                        'translate-x-0'
-                                    );
+                                chatView.classList.add(
+                                    'opacity-100',
+                                    'translate-x-0'
+                                );
 
 
                                 chatHistory.innerHTML =
@@ -5402,13 +3579,6 @@ input[type="email"]
                                     .remove(
                                         'opacity-0',
                                         'pointer-events-none'
-                                    );
-
-
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
                                     );
 
 
@@ -5470,13 +3640,11 @@ input[type="email"]
 
 
                         /* ======================================
-                           SCHEDULE
+                           SCHEDULE STEP 1
                            ====================================== */
-
 
                         showScheduleStep1:
                             async function () {
-
 
                                 chatHeaderTitle.innerText =
                                     'Schedule Appointment';
@@ -5486,22 +3654,13 @@ input[type="email"]
                                     'Step 1 of 4';
 
 
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
-
-
                                 await appendBotMessageWithTyping(
                                     'Great! I can help you request an appointment. Are you a new or returning patient?',
                                     1200
                                 );
 
 
-                                await wait(
-                                    400
-                                );
+                                await wait(400);
 
 
                                 const options = [
@@ -5567,7 +3726,6 @@ input[type="email"]
                                 value
                             ) {
 
-
                                 window
                                     .pdaBotState
                                     .schedule[field] =
@@ -5575,30 +3733,27 @@ input[type="email"]
 
 
                                 const containerId =
-
                                     field ===
                                         'patient_type'
                                         ?
                                         'pda-schedule-opts-1'
                                         :
-
                                     field ===
                                         'reason'
                                         ?
                                         'pda-schedule-opts-2'
                                         :
-
                                         'pda-schedule-opts-3';
 
 
                                 const container =
-                                    document.getElementById(
-                                        containerId
-                                    );
+                                    document
+                                        .getElementById(
+                                            containerId
+                                        );
 
 
                                 if (container) {
-
                                     container.remove();
                                 }
 
@@ -5608,9 +3763,7 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    400
-                                );
+                                await wait(400);
 
 
                                 if (
@@ -5626,7 +3779,6 @@ input[type="email"]
                                     'reason'
                                 ) {
 
-
                                     if (
                                         value ===
                                         'Other'
@@ -5641,7 +3793,6 @@ input[type="email"]
                                             .showScheduleStep3();
 
                                     }
-
 
                                 } else if (
                                     field ===
@@ -5659,16 +3810,8 @@ input[type="email"]
                         showScheduleStep2:
                             async function () {
 
-
                                 stepIndicator.innerText =
                                     'Step 2 of 4';
-
-
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
 
 
                                 await appendBotMessageWithTyping(
@@ -5677,25 +3820,16 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    600
-                                );
+                                await wait(600);
 
 
                                 const procedures = [
-
                                     'Checkup & Cleaning',
-
                                     'Tooth Pain / Emergency',
-
                                     'Teeth Whitening',
-
                                     'Invisalign',
-
                                     'Cosmetic Consultation',
-
                                     'Other'
-
                                 ];
 
 
@@ -5717,7 +3851,6 @@ input[type="email"]
 
                                 procedures.forEach(
                                     option => {
-
 
                                         html += `
 
@@ -5760,27 +3893,25 @@ input[type="email"]
                         askForOtherReason:
                             async function () {
 
-
                                 await appendBotMessageWithTyping(
                                     'Could you briefly describe the reason for your visit?',
                                     1000
                                 );
 
 
-                                await wait(
-                                    600
-                                );
+                                await wait(600);
 
 
-                                const html = `
+                                appendOptions(
+                                    'pda-schedule-opts-other-container',
+
+                                    `
 
                                     <div
-                                        id="pda-schedule-opts-other"
                                         class="
                                             w-[90%]
                                             pl-[38px]
                                             mt-1
-                                            shrink-0
                                         "
                                     >
 
@@ -5794,12 +3925,8 @@ input[type="email"]
                                                 );
                                             "
                                             class="
-                                                flex
-                                                gap-2
-                                                w-full
-                                                m-0
-                                                p-0
                                                 relative
+                                                w-full
                                             "
                                         >
 
@@ -5809,11 +3936,8 @@ input[type="email"]
                                                 placeholder="Type your reason..."
                                                 required
                                                 autocomplete="off"
-                                                class="
-                                                    pda-inline-input
-                                                "
+                                                class="pda-inline-input"
                                             >
-
 
                                             <button
                                                 type="submit"
@@ -5823,18 +3947,11 @@ input[type="email"]
                                                     items-center
                                                     justify-center
                                                 "
-                                                style="
-                                                    border:
-                                                    none !important;
-                                                "
                                             >
 
                                                 <i
                                                     data-lucide="arrow-right"
-                                                    class="
-                                                        w-3.5
-                                                        h-3.5
-                                                    "
+                                                    class="w-3.5 h-3.5"
                                                 ></i>
 
                                             </button>
@@ -5843,12 +3960,7 @@ input[type="email"]
 
                                     </div>
 
-                                `;
-
-
-                                appendOptions(
-                                    'pda-schedule-opts-other-container',
-                                    html
+                                    `
                                 );
 
                             },
@@ -5859,15 +3971,12 @@ input[type="email"]
                                 form
                             ) {
 
-
-                                const formData =
-                                    new FormData(
-                                        form
-                                    );
+                                const data =
+                                    new FormData(form);
 
 
                                 const reason =
-                                    formData.get(
+                                    data.get(
                                         'other_reason'
                                     );
 
@@ -5877,13 +3986,15 @@ input[type="email"]
                                 }
 
 
-                                window.pdaBotState
+                                window
+                                    .pdaBotState
                                     .schedule
                                     .reason =
                                     'Other';
 
 
-                                window.pdaBotState
+                                window
+                                    .pdaBotState
                                     .schedule
                                     .other_reason =
                                     reason;
@@ -5896,10 +4007,7 @@ input[type="email"]
                                         );
 
 
-                                if (
-                                    container
-                                ) {
-
+                                if (container) {
                                     container.remove();
                                 }
 
@@ -5909,9 +4017,7 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    400
-                                );
+                                await wait(400);
 
 
                                 await this
@@ -5923,16 +4029,8 @@ input[type="email"]
                         showScheduleStep3:
                             async function () {
 
-
                                 stepIndicator.innerText =
                                     'Step 3 of 4';
-
-
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
 
 
                                 await appendBotMessageWithTyping(
@@ -5941,9 +4039,7 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    600
-                                );
+                                await wait(600);
 
 
                                 const options = [
@@ -6007,16 +4103,8 @@ input[type="email"]
                         showScheduleStep4:
                             async function () {
 
-
                                 stepIndicator.innerText =
                                     'Step 4 of 4';
-
-
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
 
 
                                 await appendBotMessageWithTyping(
@@ -6025,9 +4113,7 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    800
-                                );
+                                await wait(800);
 
 
                                 chatHistory
@@ -6058,16 +4144,6 @@ input[type="email"]
                                                         this
                                                     );
                                                 "
-                                                class="
-                                                    w-full
-                                                    bg-white
-                                                    border
-                                                    border-slate-100
-                                                    p-4
-                                                    rounded-2xl
-                                                    shadow-card
-                                                    m-0
-                                                "
                                             >
 
                                                 <input
@@ -6075,33 +4151,24 @@ input[type="email"]
                                                     name="name"
                                                     placeholder="Full Name"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                     value="${savedName || ''}"
                                                 >
-
 
                                                 <input
                                                     type="tel"
                                                     name="phone"
                                                     placeholder="Phone Number"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                 >
-
 
                                                 <input
                                                     type="email"
                                                     name="email"
                                                     placeholder="Email Address (Optional)"
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                 >
-
 
                                                 <button
                                                     type="submit"
@@ -6121,48 +4188,7 @@ input[type="email"]
                                     );
 
 
-                                if (
-                                    typeof lucide !==
-                                        'undefined' &&
-                                    lucide.createIcons
-                                ) {
-
-                                    lucide.createIcons();
-                                }
-
-
                                 this.updateScrollArrow();
-
-
-                                setTimeout(
-                                    () => {
-
-                                        const history =
-                                            document
-                                                .getElementById(
-                                                    'pda-chat-history'
-                                                );
-
-
-                                        if (history) {
-
-                                            history.scrollTo({
-                                                top:
-                                                    history.scrollHeight,
-
-                                                behavior:
-                                                    'smooth'
-                                            });
-
-
-                                            window.pdaAppBot
-                                                .updateScrollArrow();
-
-                                        }
-
-                                    },
-                                    1500
-                                );
 
                             },
 
@@ -6171,10 +4197,8 @@ input[type="email"]
                            EMERGENCY
                            ====================================== */
 
-
                         showEmergencyStep1:
                             async function () {
-
 
                                 chatHeaderTitle.innerText =
                                     'Dental Emergency';
@@ -6184,34 +4208,20 @@ input[type="email"]
                                     'Step 1 of 2';
 
 
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
-
-
                                 await appendBotMessageWithTyping(
                                     "I'm sorry to hear you're experiencing a dental emergency. What are your main symptoms?",
                                     1200
                                 );
 
 
-                                await wait(
-                                    400
-                                );
+                                await wait(400);
 
 
                                 const options = [
-
                                     'Severe Pain',
-
                                     'Swelling / Infection',
-
                                     'Broken Tooth',
-
                                     'Other Urgent Issue'
-
                                 ];
 
 
@@ -6270,8 +4280,8 @@ input[type="email"]
                                 value
                             ) {
 
-
-                                window.pdaBotState
+                                window
+                                    .pdaBotState
                                     .emergency
                                     .symptom =
                                     value;
@@ -6294,20 +4304,11 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    400
-                                );
+                                await wait(400);
 
 
                                 stepIndicator.innerText =
                                     'Step 2 of 2';
-
-
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
 
 
                                 await appendBotMessageWithTyping(
@@ -6316,9 +4317,7 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    800
-                                );
+                                await wait(800);
 
 
                                 chatHistory
@@ -6349,16 +4348,6 @@ input[type="email"]
                                                         this
                                                     );
                                                 "
-                                                class="
-                                                    w-full
-                                                    bg-red-50
-                                                    border
-                                                    border-red-100
-                                                    p-4
-                                                    rounded-2xl
-                                                    shadow-card
-                                                    m-0
-                                                "
                                             >
 
                                                 <input
@@ -6366,23 +4355,17 @@ input[type="email"]
                                                     name="name"
                                                     placeholder="Full Name"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                     value="${savedName || ''}"
                                                 >
-
 
                                                 <input
                                                     type="tel"
                                                     name="phone"
                                                     placeholder="Phone Number"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                 >
-
 
                                                 <button
                                                     type="submit"
@@ -6404,37 +4387,6 @@ input[type="email"]
 
                                 this.updateScrollArrow();
 
-
-                                setTimeout(
-                                    () => {
-
-                                        const history =
-                                            document
-                                                .getElementById(
-                                                    'pda-chat-history'
-                                                );
-
-
-                                        if (history) {
-
-                                            history.scrollTo({
-                                                top:
-                                                    history.scrollHeight,
-
-                                                behavior:
-                                                    'smooth'
-                                            });
-
-
-                                            window.pdaAppBot
-                                                .updateScrollArrow();
-
-                                        }
-
-                                    },
-                                    1500
-                                );
-
                             },
 
 
@@ -6442,10 +4394,8 @@ input[type="email"]
                            RESCHEDULE
                            ====================================== */
 
-
                         showRescheduleFlow:
                             async function () {
-
 
                                 chatHeaderTitle.innerText =
                                     'Reschedule';
@@ -6455,22 +4405,13 @@ input[type="email"]
                                     'Step 1 of 1';
 
 
-                                navBackBtn
-                                    .setAttribute(
-                                        'onclick',
-                                        'window.pdaAppBot.goBack()'
-                                    );
-
-
                                 await appendBotMessageWithTyping(
                                     "We can help you reschedule. Please provide your details and when you'd like to move your appointment to.",
                                     1200
                                 );
 
 
-                                await wait(
-                                    800
-                                );
+                                await wait(800);
 
 
                                 chatHistory
@@ -6501,16 +4442,6 @@ input[type="email"]
                                                         this
                                                     );
                                                 "
-                                                class="
-                                                    w-full
-                                                    bg-white
-                                                    border
-                                                    border-slate-100
-                                                    p-4
-                                                    rounded-2xl
-                                                    shadow-card
-                                                    m-0
-                                                "
                                             >
 
                                                 <input
@@ -6518,33 +4449,24 @@ input[type="email"]
                                                     name="name"
                                                     placeholder="Full Name"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                     value="${savedName || ''}"
                                                 >
-
 
                                                 <input
                                                     type="tel"
                                                     name="phone"
                                                     placeholder="Phone Number"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                 >
-
 
                                                 <textarea
                                                     name="requested_time"
                                                     placeholder="Requested new date & time"
                                                     required
-                                                    class="
-                                                        pda-chat-input-field
-                                                    "
+                                                    class="pda-chat-input-field"
                                                 ></textarea>
-
 
                                                 <button
                                                     type="submit"
@@ -6566,37 +4488,6 @@ input[type="email"]
 
                                 this.updateScrollArrow();
 
-
-                                setTimeout(
-                                    () => {
-
-                                        const history =
-                                            document
-                                                .getElementById(
-                                                    'pda-chat-history'
-                                                );
-
-
-                                        if (history) {
-
-                                            history.scrollTo({
-                                                top:
-                                                    history.scrollHeight,
-
-                                                behavior:
-                                                    'smooth'
-                                            });
-
-
-                                            window.pdaAppBot
-                                                .updateScrollArrow();
-
-                                        }
-
-                                    },
-                                    1500
-                                );
-
                             },
 
 
@@ -6604,10 +4495,8 @@ input[type="email"]
                            CALL
                            ====================================== */
 
-
                         showCallFlow:
                             async function () {
-
 
                                 chatHeaderTitle.innerText =
                                     'Call Us';
@@ -6626,11 +4515,11 @@ input[type="email"]
                                 );
 
 
-                                await wait(
-                                    500
-                                );
+                                await wait(500);
 
 
+                                // UPDATED PHONE:
+                                // (718) 218-1060
                                 appendOptions(
                                     'pda-call-opts',
 
@@ -6638,17 +4527,12 @@ input[type="email"]
 
                                     <a
                                         href="tel:${PDA_OFFICE_PHONE}"
-                                        class="
-                                            pda-call-cta
-                                        "
+                                        class="pda-call-cta"
                                     >
 
                                         <i
                                             data-lucide="phone"
-                                            class="
-                                                w-4
-                                                h-4
-                                            "
+                                            class="w-4 h-4"
                                         ></i>
 
                                         Call Office Now
@@ -6662,13 +4546,11 @@ input[type="email"]
 
 
                         /* ======================================
-                           LIVE CHAT
+                           ASK A QUESTION
                            ====================================== */
-
 
                         showQuestionForm:
                             async function () {
-
 
                                 chatHeaderTitle.innerText =
                                     'Live Chat';
@@ -6685,8 +4567,7 @@ input[type="email"]
                                     .getElementById(
                                         'pda-hipaa-footer'
                                     )
-                                    .style
-                                    .display =
+                                    .style.display =
                                     'none';
 
 
@@ -6727,15 +4608,14 @@ input[type="email"]
                         handleChatSend:
                             async function () {
 
-
-                                const inputElement =
+                                const input =
                                     document
                                         .getElementById(
                                             'pda-live-chat-input'
                                         );
 
 
-                                const submitButton =
+                                const submit =
                                     document
                                         .getElementById(
                                             'pda-live-chat-submit'
@@ -6743,9 +4623,7 @@ input[type="email"]
 
 
                                 const message =
-                                    inputElement
-                                        .value
-                                        .trim();
+                                    input.value.trim();
 
 
                                 if (!message) {
@@ -6753,16 +4631,9 @@ input[type="email"]
                                 }
 
 
-                                inputElement.value =
-                                    '';
-
-
-                                submitButton.disabled =
-                                    true;
-
-
-                                inputElement.disabled =
-                                    true;
+                                input.value = '';
+                                submit.disabled = true;
+                                input.disabled = true;
 
 
                                 appendUserMessage(
@@ -6775,7 +4646,6 @@ input[type="email"]
 
 
                                 try {
-
 
                                     const controller =
                                         new AbortController();
@@ -6794,21 +4664,17 @@ input[type="email"]
                                             QUESTION_WEBHOOK_URL,
                                             {
 
-                                                method:
-                                                    'POST',
-
+                                                method: 'POST',
 
                                                 headers: {
                                                     'Content-Type':
                                                         'application/json'
                                                 },
 
-
                                                 body:
                                                     JSON.stringify({
 
-                                                        message:
-                                                            message,
+                                                        message,
 
                                                         name:
                                                             localStorage
@@ -6817,11 +4683,8 @@ input[type="email"]
                                                                 )
                                                             || '',
 
-                                                        phone:
-                                                            '',
-
-                                                        email:
-                                                            '',
+                                                        phone: '',
+                                                        email: '',
 
                                                         visitorId:
                                                             getChatVisitorId(),
@@ -6863,10 +4726,8 @@ input[type="email"]
 
                                                     }),
 
-
                                                 signal:
-                                                    controller
-                                                        .signal
+                                                    controller.signal
 
                                             }
                                         );
@@ -6877,19 +4738,15 @@ input[type="email"]
                                     );
 
 
-                                    if (
-                                        !response.ok
-                                    ) {
-
+                                    if (!response.ok) {
                                         throw new Error(
                                             'Network error'
                                         );
                                     }
 
 
-                                    const rawText =
-                                        await response
-                                            .text();
+                                    const raw =
+                                        await response.text();
 
 
                                     let data;
@@ -6898,17 +4755,12 @@ input[type="email"]
                                     try {
 
                                         data =
-                                            JSON.parse(
-                                                rawText
-                                            );
+                                            JSON.parse(raw);
 
-                                    } catch (
-                                        error
-                                    ) {
+                                    } catch {
 
                                         data = {
-                                            reply:
-                                                rawText
+                                            reply: raw
                                         };
 
                                     }
@@ -6919,8 +4771,7 @@ input[type="email"]
                                     );
 
 
-                                    let botReply =
-                                        '';
+                                    let reply = '';
 
 
                                     if (
@@ -6928,18 +4779,16 @@ input[type="email"]
                                         'string'
                                     ) {
 
-                                        botReply =
-                                            data;
+                                        reply = data;
 
                                     } else if (
                                         Array.isArray(
                                             data
                                         ) &&
-                                        data.length >
-                                            0
+                                        data.length
                                     ) {
 
-                                        botReply =
+                                        reply =
                                             data[0].reply
                                             ||
                                             data[0].message
@@ -6949,11 +4798,12 @@ input[type="email"]
                                             data[0].output;
 
                                     } else if (
+                                        data &&
                                         typeof data ===
                                         'object'
                                     ) {
 
-                                        botReply =
+                                        reply =
                                             data.reply
                                             ||
                                             data.message
@@ -6969,16 +4819,10 @@ input[type="email"]
                                     }
 
 
-                                    if (
-                                        botReply
-                                    ) {
-
+                                    if (reply) {
 
                                         appendBotMessage(
-
-                                            String(
-                                                botReply
-                                            )
+                                            String(reply)
 
                                                 .replace(
                                                     /\n/g,
@@ -6989,18 +4833,9 @@ input[type="email"]
                                                     /\*\*(.*?)\*\*/g,
                                                     '<strong class="font-bold text-[#0f57bc]">$1</strong>'
                                                 )
-
                                         );
-
 
                                     } else {
-
-
-                                        console.error(
-                                            'Unrecognized n8n response format:',
-                                            data
-                                        );
-
 
                                         appendBotMessage(
                                             'I’m sorry — I wasn’t able to process that response. Please try again or contact the office directly.'
@@ -7009,10 +4844,7 @@ input[type="email"]
                                     }
 
 
-                                } catch (
-                                    error
-                                ) {
-
+                                } catch (error) {
 
                                     removeTypingIndicator(
                                         typingId
@@ -7029,19 +4861,17 @@ input[type="email"]
                                         'I’m sorry — I’m having trouble connecting right now. Please try again or contact the office directly.'
                                     );
 
-
                                 } finally {
 
-
-                                    submitButton.disabled =
+                                    submit.disabled =
                                         false;
 
 
-                                    inputElement.disabled =
+                                    input.disabled =
                                         false;
 
 
-                                    inputElement.focus();
+                                    input.focus();
 
 
                                     if (
@@ -7062,10 +4892,8 @@ input[type="email"]
                            REVIEWS
                            ====================================== */
 
-
                         showReviewsFlow:
                             async function () {
-
 
                                 chatHeaderTitle.innerText =
                                     'Patient Reviews';
@@ -7084,7 +4912,7 @@ input[type="email"]
                                 );
 
 
-                                const reviewData = [
+                                const reviews = [
 
                                     {
                                         name:
@@ -7097,7 +4925,6 @@ input[type="email"]
                                             'Had a really positive experience with Dr. Aryan. He is super nice, very knowledgeable, and you can tell he genuinely cares. He takes the time to explain everything...'
                                     },
 
-
                                     {
                                         name:
                                             'Fiona Hannan',
@@ -7109,7 +4936,6 @@ input[type="email"]
                                             "Dr. Aryan's office was a lighthouse amongst the many negative experiences I have had at doctor's offices. The environment was welcoming..."
                                     },
 
-
                                     {
                                         name:
                                             'Jake Stout',
@@ -7120,7 +4946,6 @@ input[type="email"]
                                         text:
                                             'Dr aryan is amazing! Very laidback and shares lots of knowledge about your particular situation... Made me feel heard and like I was in good hands.'
                                     },
-
 
                                     {
                                         name:
@@ -7145,14 +4970,10 @@ input[type="email"]
                                             -ml-5
                                             px-5
                                             mt-2
-                                            shrink-0
-                                            group
-                                            m-0
                                         "
                                     >
 
                                         <div
-                                            id="pda-reviews-scroll-wrapper"
                                             class="
                                                 flex
                                                 overflow-x-auto
@@ -7168,7 +4989,7 @@ input[type="email"]
                                 `;
 
 
-                                const starSVG = `
+                                const star = `
 
                                     <svg
                                         class="
@@ -7199,20 +5020,19 @@ input[type="email"]
                                         "
                                     >
 
-                                        ${starSVG}
-                                        ${starSVG}
-                                        ${starSVG}
-                                        ${starSVG}
-                                        ${starSVG}
+                                        ${star}
+                                        ${star}
+                                        ${star}
+                                        ${star}
+                                        ${star}
 
                                     </div>
 
                                 `;
 
 
-                                reviewData.forEach(
+                                reviews.forEach(
                                     review => {
-
 
                                         html += `
 
@@ -7229,7 +5049,6 @@ input[type="email"]
                                                     p-4
                                                     flex
                                                     flex-col
-                                                    m-0
                                                 "
                                             >
 
@@ -7254,20 +5073,15 @@ input[type="email"]
                                                                 font-bold
                                                                 text-premium-900
                                                                 text-[13.5px]
-                                                                m-0
-                                                                leading-tight
                                                             "
                                                         >
                                                             ${review.name}
                                                         </span>
 
-
                                                         <span
                                                             class="
                                                                 text-slate-400
                                                                 text-[10.5px]
-                                                                m-0
-                                                                mt-0.5
                                                             "
                                                         >
                                                             ${review.time}
@@ -7275,23 +5089,9 @@ input[type="email"]
 
                                                     </div>
 
-
-                                                    <img
-                                                        src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-                                                        alt="Google"
-                                                        class="
-                                                            w-4
-                                                            h-4
-                                                            object-contain
-                                                            shrink-0
-                                                        "
-                                                    >
-
                                                 </div>
 
-
                                                 ${stars}
-
 
                                                 <p
                                                     class="
@@ -7327,9 +5127,7 @@ input[type="email"]
                                     );
 
 
-                                await wait(
-                                    1500
-                                );
+                                await wait(1500);
 
 
                                 appendOptions(
@@ -7345,9 +5143,7 @@ input[type="email"]
                                                 'schedule'
                                             )
                                         "
-                                        class="
-                                            pda-review-cta
-                                        "
+                                        class="pda-review-cta"
                                     >
                                         Schedule An Appointment
                                     </button>
@@ -7362,88 +5158,56 @@ input[type="email"]
                            PAYLOAD
                            ====================================== */
 
-
                         getBasePayload:
                             function (
                                 source
                             ) {
 
-
                                 return {
 
-                                    source:
-                                        source,
+                                    source,
 
+                                    name: '',
+                                    phone: '',
+                                    email: '',
 
-                                    name:
-                                        '',
+                                    patient_type: '',
+                                    reason: '',
+                                    best_time: '',
 
-
-                                    phone:
-                                        '',
-
-
-                                    email:
-                                        '',
-
-
-                                    patient_type:
-                                        '',
-
-
-                                    reason:
-                                        '',
-
-
-                                    best_time:
-                                        '',
-
-
-                                    emergency_symptom:
-                                        '',
-
-
-                                    requested_time:
-                                        '',
-
+                                    emergency_symptom: '',
+                                    requested_time: '',
 
                                     visitorId:
                                         getChatVisitorId(),
 
-
                                     sessionId:
                                         getChatSessionId(),
-
 
                                     submissionId:
                                         createTrackingId(
                                             'submission'
                                         ),
 
-
                                     pageUrl:
                                         window
                                             .location
                                             .href,
-
 
                                     pageTitle:
                                         document
                                             .title
                                         || '',
 
-
                                     referrer:
                                         document
                                             .referrer
                                         || '',
 
-
                                     userAgent:
                                         navigator
                                             .userAgent
                                         || '',
-
 
                                     timestamp:
                                         new Date()
@@ -7454,21 +5218,13 @@ input[type="email"]
                             },
 
 
-                        /* ======================================
-                           SCHEDULE SUBMIT
-                           ====================================== */
-
-
                         submitSchedule:
                             async function (
                                 form
                             ) {
 
-
-                                const formData =
-                                    new FormData(
-                                        form
-                                    );
+                                const data =
+                                    new FormData(form);
 
 
                                 const state =
@@ -7501,29 +5257,21 @@ input[type="email"]
 
 
                                 payload.name =
-                                    formData.get(
-                                        'name'
-                                    )
+                                    data.get('name')
                                     || '';
 
 
                                 payload.phone =
-                                    formData.get(
-                                        'phone'
-                                    )
+                                    data.get('phone')
                                     || '';
 
 
                                 payload.email =
-                                    formData.get(
-                                        'email'
-                                    )
+                                    data.get('email')
                                     || '';
 
 
-                                if (
-                                    payload.name
-                                ) {
+                                if (payload.name) {
 
                                     localStorage
                                         .setItem(
@@ -7553,27 +5301,13 @@ input[type="email"]
                             },
 
 
-                        /* ======================================
-                           EMERGENCY SUBMIT
-                           ====================================== */
-
-
                         submitEmergency:
                             async function (
                                 form
                             ) {
 
-
-                                const formData =
-                                    new FormData(
-                                        form
-                                    );
-
-
-                                const state =
-                                    window
-                                        .pdaBotState
-                                        .emergency;
+                                const data =
+                                    new FormData(form);
 
 
                                 const payload =
@@ -7583,26 +5317,23 @@ input[type="email"]
 
 
                                 payload.emergency_symptom =
-                                    state.symptom;
+                                    window
+                                        .pdaBotState
+                                        .emergency
+                                        .symptom;
 
 
                                 payload.name =
-                                    formData.get(
-                                        'name'
-                                    )
+                                    data.get('name')
                                     || '';
 
 
                                 payload.phone =
-                                    formData.get(
-                                        'phone'
-                                    )
+                                    data.get('phone')
                                     || '';
 
 
-                                if (
-                                    payload.name
-                                ) {
+                                if (payload.name) {
 
                                     localStorage
                                         .setItem(
@@ -7632,21 +5363,13 @@ input[type="email"]
                             },
 
 
-                        /* ======================================
-                           RESCHEDULE SUBMIT
-                           ====================================== */
-
-
                         submitReschedule:
                             async function (
                                 form
                             ) {
 
-
-                                const formData =
-                                    new FormData(
-                                        form
-                                    );
+                                const data =
+                                    new FormData(form);
 
 
                                 const payload =
@@ -7656,29 +5379,23 @@ input[type="email"]
 
 
                                 payload.requested_time =
-                                    formData.get(
+                                    data.get(
                                         'requested_time'
                                     )
                                     || '';
 
 
                                 payload.name =
-                                    formData.get(
-                                        'name'
-                                    )
+                                    data.get('name')
                                     || '';
 
 
                                 payload.phone =
-                                    formData.get(
-                                        'phone'
-                                    )
+                                    data.get('phone')
                                     || '';
 
 
-                                if (
-                                    payload.name
-                                ) {
+                                if (payload.name) {
 
                                     localStorage
                                         .setItem(
@@ -7708,17 +5425,11 @@ input[type="email"]
                             },
 
 
-                        /* ======================================
-                           PROCESS SUBMISSION
-                           ====================================== */
-
-
                         processSubmission:
                             async function (
                                 payload,
                                 type
                             ) {
-
 
                                 stepIndicator.innerText =
                                     'Sending...';
@@ -7734,7 +5445,6 @@ input[type="email"]
 
                                 try {
 
-
                                     const response =
                                         await fetch(
                                             WEBHOOK_URL,
@@ -7743,12 +5453,10 @@ input[type="email"]
                                                 method:
                                                     'POST',
 
-
                                                 headers: {
                                                     'Content-Type':
                                                         'application/json'
                                                 },
-
 
                                                 body:
                                                     JSON.stringify(
@@ -7759,14 +5467,11 @@ input[type="email"]
                                         );
 
 
-                                    if (
-                                        !response.ok
-                                    ) {
+                                    if (!response.ok) {
 
                                         throw new Error(
                                             'Network error'
                                         );
-
                                     }
 
 
@@ -7779,10 +5484,7 @@ input[type="email"]
                                     );
 
 
-                                } catch (
-                                    error
-                                ) {
-
+                                } catch (error) {
 
                                     console.error(
                                         'Webhook Fetch Error:',
@@ -7803,23 +5505,15 @@ input[type="email"]
                             },
 
 
-                        /* ======================================
-                           CONFIRMATION
-                           ====================================== */
-
-
                         showConfirmation:
                             function (
                                 type
                             ) {
 
-
                                 setTimeout(
                                     () => {
 
-
-                                        let confirmText =
-
+                                        let text =
                                             'We received your request and just sent a text message to the phone number you provided. We will be in touch shortly!';
 
 
@@ -7828,8 +5522,7 @@ input[type="email"]
                                             'Emergency'
                                         ) {
 
-                                            confirmText =
-
+                                            text =
                                                 'We received your urgent request. We will review it immediately and reach out to get you scheduled as soon as possible.';
 
                                         }
@@ -7848,12 +5541,10 @@ input[type="email"]
                                                         w-[95%]
                                                         pda-animate-message
                                                         shrink-0
-                                                        m-0
                                                     "
                                                 >
 
                                                     ${getBotAvatarHTML()}
-
 
                                                     <div
                                                         class="
@@ -7865,7 +5556,6 @@ input[type="email"]
                                                             p-5
                                                             shadow-card
                                                             w-full
-                                                            m-0
                                                         "
                                                     >
 
@@ -7875,7 +5565,6 @@ input[type="email"]
                                                                 items-center
                                                                 gap-3
                                                                 mb-3
-                                                                m-0
                                                             "
                                                         >
 
@@ -7885,20 +5574,15 @@ input[type="email"]
                                                                     text-[#0f57bc]
                                                                     p-2
                                                                     rounded-full
-                                                                    m-0
                                                                 "
                                                             >
 
                                                                 <i
                                                                     data-lucide="check"
-                                                                    class="
-                                                                        w-4
-                                                                        h-4
-                                                                    "
+                                                                    class="w-4 h-4"
                                                                 ></i>
 
                                                             </div>
-
 
                                                             <h4
                                                                 class="
@@ -7913,7 +5597,6 @@ input[type="email"]
 
                                                         </div>
 
-
                                                         <p
                                                             class="
                                                                 text-[13px]
@@ -7921,12 +5604,10 @@ input[type="email"]
                                                                 leading-relaxed
                                                                 font-medium
                                                                 mb-4
-                                                                m-0
                                                             "
                                                         >
-                                                            ${confirmText}
+                                                            ${text}
                                                         </p>
-
 
                                                         <button
                                                             type="button"
@@ -7934,9 +5615,7 @@ input[type="email"]
                                                                 window.pdaAppBot
                                                                 .goBack()
                                                             "
-                                                            class="
-                                                                pda-success-back-btn
-                                                            "
+                                                            class="pda-success-back-btn"
                                                         >
                                                             Back to Main Menu
                                                         </button>
@@ -7952,27 +5631,18 @@ input[type="email"]
                                         window.pdaBotState = {
 
                                             schedule: {
-                                                patient_type:
-                                                    '',
-
-                                                reason:
-                                                    '',
-
-                                                other_reason:
-                                                    '',
-
-                                                best_time:
-                                                    ''
+                                                patient_type: '',
+                                                reason: '',
+                                                other_reason: '',
+                                                best_time: ''
                                             },
 
                                             emergency: {
-                                                symptom:
-                                                    ''
+                                                symptom: ''
                                             },
 
                                             reschedule: {
-                                                current_time:
-                                                    ''
+                                                current_time: ''
                                             }
 
                                         };
@@ -7991,22 +5661,26 @@ input[type="email"]
                                         setTimeout(
                                             () => {
 
-                                                chatHistory.scrollTo({
-                                                    top:
-                                                        chatHistory.scrollHeight,
+                                                chatHistory
+                                                    .scrollTo({
 
-                                                    behavior:
-                                                        'smooth'
-                                                });
+                                                        top:
+                                                            chatHistory
+                                                                .scrollHeight,
+
+                                                        behavior:
+                                                            'smooth'
+
+                                                    });
 
 
-                                                window.pdaAppBot
+                                                window
+                                                    .pdaAppBot
                                                     .updateScrollArrow();
 
                                             },
                                             50
                                         );
-
 
                                     },
                                     500
